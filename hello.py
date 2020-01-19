@@ -20,12 +20,6 @@ class User(db.Model):
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
-    @property
-    def password(self):
-        raise AttributeError('password is not a readable attribute')
-
-    def __unicode__(self):
-        return self.id
 
 class Role(db.Model):
     __tablename__ = 'roles'
