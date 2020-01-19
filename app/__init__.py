@@ -15,6 +15,8 @@ def create_app(config_name='development'):
     app.config.from_object(config[config_name])
     db.init_app(app)
     login_manager.init_app(app)
+    with app.test_request_context():
+        db.create_all()
 
     @app.errorhandler(404)
     def page_not_found(e):

@@ -1,7 +1,8 @@
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from app import db
 from . import login_manager
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 @login_manager.user_loader
@@ -13,8 +14,9 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
-    username = db.Column(db.String(64), unique=True, index=True)
+    username = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(128))
+    head_img = db.Column(db.String(64), unique=True)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
     @property
@@ -28,7 +30,6 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-
     def __unicode__(self):
         return self.id
 
@@ -41,3 +42,17 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
+
+
+# class LAND_SELL_INFO(db.Model):
+#     __tablename__ = 'LAND_SELL_INFO'
+#     FID = db.Column(db.String(50), primary_key=True, comment='随机UUID')
+#     NOTICE_NUM = db.Column(db.String(50), unique=True, nullable=False, comment='公告编号')
+#     LAND_LOCATION = db.Column(db.String(255), nullable=False, comment='位置')
+#     TOTAL_AREA = db.Column(db.Float, nullable=False, comment='总面积（平方米）')
+#     CONSTRUCTION_AREA = db.Column(db.Float, nullable=True, comment='建设用地面积（平方米）')
+#     PLAN_BUILD_AREA = db.Column(db.Float, nullable=False, comment='规划建筑面积（平方米）')
+#     PLAN_USE = db.Column(db.String(100), nullable=False, comment='规划用途')
+#     PLAN_USE_CUSTOM = db.Column(db.String(100), nullable=False, comment='自定义用途')
+#
+

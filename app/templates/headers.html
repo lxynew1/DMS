@@ -55,7 +55,7 @@
                                          src="{{ url_for('static',filename='img/liuyuan.jpg') }}" alt="user avatar">
                 </div>
                 <div class="media-body">
-                    <h6 class="side-user-name">@{{ name }}</h6>
+                    <h6 class="side-user-name">@{{ current_user.username }}</h6>
                 </div>
             </div>
             <div id="user-dropdown" class="collapse">
@@ -386,7 +386,7 @@
                                                                  src="{{ url_for('static',filename='assets/images/avatars/avatar-8.png') }}"
                                                                  alt="user avatar"></div>
                                         <div class="media-body">
-                                            <h6 class="mt-0 msg-title">Katrina Mccoy</h6>
+                                            <h6 class="mt-0 msg-title">@{{ current_user.username }}</h6>
                                             <p class="msg-info">Lorem ipsum dolor sit amet.</p>
                                             <small>1/11/2018, 2:50 PM</small>
                                         </div>
@@ -469,8 +469,8 @@
                                                              src="{{ url_for('static',filename='img/liuyuan.jpg') }}"
                                                              alt="user avatar"></div>
                                     <div class="media-body">
-                                        <h6 class="mt-2 user-title">Sarajhon Mccoy</h6>
-                                        <p class="user-subtitle">mccoy@example.com</p>
+                                        <h6 class="mt-2 user-title">{{ current_user.username }}</h6>
+                                        <p class="user-subtitle">{{ current_user.email }}</p>
                                     </div>
                                 </div>
                             </a>
