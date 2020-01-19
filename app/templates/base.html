@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block head %}
+        <title>{% block title %}{% endblock %}</title>
+    {% endblock %}
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap.min.css">
+</head>
+<body>
+    {% block body %}
+    <ul class="nav navbar-nav navbar-right">
+        {% if current_user.is_authenticated %}
+        <li><a href=" {{ url_for('auth.logout') }} ">Sign out</a></li>
+        {% else %}
+        <li><a href="{{ url_for('auth.login') }}">sign in</a></li>
+        {% endif %}
+    </ul>
+    {% endblock %}
+</body>
+</html>
