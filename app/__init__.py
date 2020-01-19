@@ -32,4 +32,7 @@ def create_app(config_name='development'):
     from .admin import admin as task_blueprint
     app.register_blueprint(task_blueprint, url_prefix='/admin')
 
+    from .dataManage import datamanage as task_blueprint
+    app.register_blueprint(task_blueprint, url_prefix='/datamanage')
+
     return app
