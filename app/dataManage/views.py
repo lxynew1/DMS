@@ -6,6 +6,6 @@ from . import datamanage
 from ..models import User
 
 
-@datamanage.route('/datamanage')
+@datamanage.route('/land_sell_adder')
 def landSellAdder():
     return render_template('dataManage/land_sell_adder.html')
