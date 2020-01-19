@@ -1,0 +1,88 @@
+{% extends 'headers.html' %}
+{% block detail %}
+    <div class="clearfix"></div>
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumb-->
+            <div class="row pt-2 pb-2">
+                <div class="col-sm-9">
+                    <h4 class="page-title">土拍数据录入</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javaScript:void();">数据管理平台</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">土拍录入</li>
+                    </ol>
+                </div>
+
+            </div>
+            <!-- End Breadcrumb-->
+
+
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">公告信息</div>
+                            <hr>
+                            <form>
+                                <div class="form-group row">
+                                    <label for="input-21" class="col-sm-2 col-form-label">公告编号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input-21"
+                                               placeholder="请输入由字母或数字组成的公告编号">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="input-22" class="col-sm-2 col-form-label">土地坐落</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input-22"
+                                               placeholder="请输入公告详情中的土地坐落">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="input-23" class="col-sm-2 col-form-label">规划用途</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input-23"
+                                               placeholder="请输入公告详情中的规划用途">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="input-24" class="col-sm-2 col-form-label">自定义用途分类</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input-24"
+                                               placeholder="请选择自定义土地一级分类">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="input-25" class="col-sm-2 col-form-label">出让方式</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input-25"
+                                               placeholder="请选择出让方式">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label"></label>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary px-5">
+                                            提交
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div><!--End Row-->
+
+        </div>
+        <!-- End container-fluid-->
+
+    </div><!--End content-wrapper-->
+    <!--Start Back To Top Button-->
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+    <!--End Back To Top Button-->
+{% endblock %}

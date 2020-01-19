@@ -25,8 +25,7 @@ def create_app(config_name='development'):
     from .admin import admin as task_blueprint
     app.register_blueprint(task_blueprint, url_prefix='/admin')
 
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint, url_prefix='/main')
-
+    from .dataManage import datamanage as task_blueprint
+    app.register_blueprint(task_blueprint, url_prefix='/datamanage')
 
     return app

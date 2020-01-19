@@ -186,7 +186,7 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="sidebar-submenu">
-                    <li><a href="form-inputs.html"><i class="zmdi zmdi-long-arrow-right"></i> Basic Inputs</a></li>
+                    <li><a href="{{ url_for('datamanage.landSellAdder') }}"><i class="zmdi zmdi-long-arrow-right"></i> 土地数据录入 </a></li>
                     <li><a href="form-input-group.html"><i class="zmdi zmdi-long-arrow-right"></i> Input Groups</a></li>
                     <li><a href="form-layouts.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Layouts</a></li>
                     <li><a href="form-advanced.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Advanced</a></li>
@@ -469,7 +469,7 @@
                                                              src="{{ url_for('static',filename='img/liuyuan.jpg') }}"
                                                              alt="user avatar"></div>
                                     <div class="media-body">
-                                        <h6 class="mt-2 user-title">{{ current_user.username }}</h6>
+                                        <h6 class="mt-2 user-title">@{{ current_user.username }}</h6>
                                         <p class="user-subtitle">{{ current_user.email }}</p>
                                     </div>
                                 </div>
@@ -498,7 +498,7 @@
     <footer class="footer">
         <div class="container">
             <div class="text-center">
-                Copyright © 2018 <a href="http://www.17sucai.com">Fobia</a> Admin
+                Copyright © 2020 DMS</a>  All rights reserved.
             </div>
         </div>
     </footer>
