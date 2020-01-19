@@ -22,6 +22,7 @@
     <!-- Custom Style-->
     <link href="{{ url_for('static',filename='assets/css/app-style.css') }}" rel="stylesheet"/>
 
+
 </head>
 
 <body>
@@ -52,7 +53,8 @@
             <div class="media align-items-center user-pointer collapsed" data-toggle="collapse"
                  data-target="#user-dropdown">
                 <div class="avatar"><img class="mr-3 side-user-img"
-                                         src="{{ url_for('static',filename='assets/img/liuyuan.jpg') }}" alt="user avatar">
+                                         src="{{ url_for('static',filename='assets/img/liuyuan.jpg') }}"
+                                         alt="user avatar">
                 </div>
                 <div class="media-body">
                     <h6 class="side-user-name">@{{ current_user.username }}</h6>
@@ -62,7 +64,7 @@
                 <ul class="user-setting-menu">
                     <li><a href="javaScript:void();"><i class="icon-user"></i> 我的 </a></li>
                     <li><a href="javaScript:void();"><i class="icon-settings"></i> 设置 </a></li>
-                    <li><a href="javaScript:void();"><i class="icon-power"></i> 登出 </a></li>
+                    <li><a href="{{ url_for('auth.logout') }}"><i class="icon-power"></i> 登出 </a></li>
                 </ul>
             </div>
         </div>
@@ -186,7 +188,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="sidebar-submenu">
-                    <li><a href="{{ url_for('datamanage.landSellAdder') }}"><i class="zmdi zmdi-long-arrow-right"></i> 土地数据录入 </a></li>
+                    <li><a href="{{ url_for('datamanage.landSellAdder') }}"><i class="zmdi zmdi-long-arrow-right"></i>
+                        土地数据录入 </a></li>
                     <li><a href="form-input-group.html"><i class="zmdi zmdi-long-arrow-right"></i> Input Groups</a></li>
                     <li><a href="form-layouts.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Layouts</a></li>
                     <li><a href="form-advanced.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Advanced</a></li>
@@ -198,35 +201,35 @@
                 </ul>
             </li>
 
-{#            <li>#}
-{#                <a href="javaScript:void();" class="waves-effect">#}
-{#                    <i class="zmdi zmdi-lock"></i> <span>Authentication</span>#}
-{#                    <i class="fa fa-angle-left float-right"></i>#}
-{#                </a>#}
-{#                <ul class="sidebar-submenu">#}
-{#                    <li><a href="authentication-signin.html"><i class="zmdi zmdi-long-arrow-right"></i> SignIn 1</a>#}
-{#                    </li>#}
-{#                    <li><a href="authentication-signup.html"><i class="zmdi zmdi-long-arrow-right"></i> SignUp 1</a>#}
-{#                    </li>#}
-{#                    <li><a href="authentication-signin2.html"><i class="zmdi zmdi-long-arrow-right"></i> SignIn 2</a>#}
-{#                    </li>#}
-{#                    <li><a href="authentication-signup2.html"><i class="zmdi zmdi-long-arrow-right"></i> SignUp 2</a>#}
-{#                    </li>#}
-{#                    <li><a href="authentication-lock-screen.html"><i class="zmdi zmdi-long-arrow-right"></i> Lock Screen</a>#}
-{#                    </li>#}
-{#                    <li><a href="authentication-reset-password.html"><i class="zmdi zmdi-long-arrow-right"></i> Reset#}
-{#                        Password 1</a></li>#}
-{#                    <li><a href="authentication-reset-password2.html"><i class="zmdi zmdi-long-arrow-right"></i> Reset#}
-{#                        Password 2</a></li>#}
-{#                </ul>#}
-{#            </li>#}
+            {#            <li>#}
+            {#                <a href="javaScript:void();" class="waves-effect">#}
+            {#                    <i class="zmdi zmdi-lock"></i> <span>Authentication</span>#}
+            {#                    <i class="fa fa-angle-left float-right"></i>#}
+            {#                </a>#}
+            {#                <ul class="sidebar-submenu">#}
+            {#                    <li><a href="authentication-signin.html"><i class="zmdi zmdi-long-arrow-right"></i> SignIn 1</a>#}
+            {#                    </li>#}
+            {#                    <li><a href="authentication-signup.html"><i class="zmdi zmdi-long-arrow-right"></i> SignUp 1</a>#}
+            {#                    </li>#}
+            {#                    <li><a href="authentication-signin2.html"><i class="zmdi zmdi-long-arrow-right"></i> SignIn 2</a>#}
+            {#                    </li>#}
+            {#                    <li><a href="authentication-signup2.html"><i class="zmdi zmdi-long-arrow-right"></i> SignUp 2</a>#}
+            {#                    </li>#}
+            {#                    <li><a href="authentication-lock-screen.html"><i class="zmdi zmdi-long-arrow-right"></i> Lock Screen</a>#}
+            {#                    </li>#}
+            {#                    <li><a href="authentication-reset-password.html"><i class="zmdi zmdi-long-arrow-right"></i> Reset#}
+            {#                        Password 1</a></li>#}
+            {#                    <li><a href="authentication-reset-password2.html"><i class="zmdi zmdi-long-arrow-right"></i> Reset#}
+            {#                        Password 2</a></li>#}
+            {#                </ul>#}
+            {#            </li>#}
 
-{#            <li>#}
-{#                <a href="widgets.html" class="waves-effect">#}
-{#                    <i class="zmdi zmdi-widgets"></i> <span>Widgets</span>#}
-{#                    <small class="badge float-right badge-danger">10</small>#}
-{#                </a>#}
-{#            </li>#}
+            {#            <li>#}
+            {#                <a href="widgets.html" class="waves-effect">#}
+            {#                    <i class="zmdi zmdi-widgets"></i> <span>Widgets</span>#}
+            {#                    <small class="badge float-right badge-danger">10</small>#}
+            {#                </a>#}
+            {#            </li>#}
 
             <li>
                 <a href="javaScript:void();" class="waves-effect">
@@ -251,58 +254,59 @@
                 </ul>
             </li>
 
-{#            <li>#}
-{#                <a href="javaScript:void();" class="waves-effect">#}
-{#                    <i class="zmdi zmdi-collection-folder-image"></i> <span>Sample Pages</span>#}
-{#                    <i class="fa fa-angle-left float-right"></i>#}
-{#                </a>#}
-{#                <ul class="sidebar-submenu">#}
-{#                    <li><a href="pages-invoice.html"><i class="zmdi zmdi-long-arrow-right"></i> Invoice</a></li>#}
-{#                    <li><a href="pages-user-profile.html"><i class="zmdi zmdi-long-arrow-right"></i> User Profile</a>#}
-{#                    </li>#}
-{#                    <li><a href="pages-blank-page.html"><i class="zmdi zmdi-long-arrow-right"></i> Blank Page</a></li>#}
-{#                    <li><a href="pages-coming-soon.html"><i class="zmdi zmdi-long-arrow-right"></i> Coming Soon</a></li>#}
-{#                    <li><a href="pages-403.html"><i class="zmdi zmdi-long-arrow-right"></i> 403 Error</a></li>#}
-{#                    <li><a href="pages-404.html"><i class="zmdi zmdi-long-arrow-right"></i> 404 Error</a></li>#}
-{#                    <li><a href="pages-500.html"><i class="zmdi zmdi-long-arrow-right"></i> 500 Error</a></li>#}
-{#                </ul>#}
-{#            </li>#}
+            {#            <li>#}
+            {#                <a href="javaScript:void();" class="waves-effect">#}
+            {#                    <i class="zmdi zmdi-collection-folder-image"></i> <span>Sample Pages</span>#}
+            {#                    <i class="fa fa-angle-left float-right"></i>#}
+            {#                </a>#}
+            {#                <ul class="sidebar-submenu">#}
+            {#                    <li><a href="pages-invoice.html"><i class="zmdi zmdi-long-arrow-right"></i> Invoice</a></li>#}
+            {#                    <li><a href="pages-user-profile.html"><i class="zmdi zmdi-long-arrow-right"></i> User Profile</a>#}
+            {#                    </li>#}
+            {#                    <li><a href="pages-blank-page.html"><i class="zmdi zmdi-long-arrow-right"></i> Blank Page</a></li>#}
+            {#                    <li><a href="pages-coming-soon.html"><i class="zmdi zmdi-long-arrow-right"></i> Coming Soon</a></li>#}
+            {#                    <li><a href="pages-403.html"><i class="zmdi zmdi-long-arrow-right"></i> 403 Error</a></li>#}
+            {#                    <li><a href="pages-404.html"><i class="zmdi zmdi-long-arrow-right"></i> 404 Error</a></li>#}
+            {#                    <li><a href="pages-500.html"><i class="zmdi zmdi-long-arrow-right"></i> 500 Error</a></li>#}
+            {#                </ul>#}
+            {#            </li>#}
 
-{#            <li>#}
-{#                <a href="javaScript:void();" class="waves-effect">#}
-{#                    <i class="fa fa-share"></i> <span>Multilevel</span>#}
-{#                    <i class="fa fa-angle-left pull-right"></i>#}
-{#                </a>#}
-{#                <ul class="sidebar-submenu">#}
-{#                    <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level One</a></li>#}
-{#                    <li>#}
-{#                        <a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level One <i#}
-{#                                class="fa fa-angle-left pull-right"></i></a>#}
-{#                        <ul class="sidebar-submenu">#}
-{#                            <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level Two</a>#}
-{#                            </li>#}
-{#                            <li>#}
-{#                                <a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level Two <i#}
-{#                                        class="fa fa-angle-left pull-right"></i></a>#}
-{#                                <ul class="sidebar-submenu">#}
-{#                                    <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level#}
-{#                                        Three</a></li>#}
-{#                                    <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level#}
-{#                                        Three</a></li>#}
-{#                                </ul>#}
-{#                            </li>#}
-{#                        </ul>#}
-{#                    </li>#}
-{#                    <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-long-arrow-right"></i>#}
-{#                        Level One</a></li>#}
-{#                </ul>#}
-{#            </li>#}
+            {#            <li>#}
+            {#                <a href="javaScript:void();" class="waves-effect">#}
+            {#                    <i class="fa fa-share"></i> <span>Multilevel</span>#}
+            {#                    <i class="fa fa-angle-left pull-right"></i>#}
+            {#                </a>#}
+            {#                <ul class="sidebar-submenu">#}
+            {#                    <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level One</a></li>#}
+            {#                    <li>#}
+            {#                        <a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level One <i#}
+            {#                                class="fa fa-angle-left pull-right"></i></a>#}
+            {#                        <ul class="sidebar-submenu">#}
+            {#                            <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level Two</a>#}
+            {#                            </li>#}
+            {#                            <li>#}
+            {#                                <a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level Two <i#}
+            {#                                        class="fa fa-angle-left pull-right"></i></a>#}
+            {#                                <ul class="sidebar-submenu">#}
+            {#                                    <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level#}
+            {#                                        Three</a></li>#}
+            {#                                    <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level#}
+            {#                                        Three</a></li>#}
+            {#                                </ul>#}
+            {#                            </li>#}
+            {#                        </ul>#}
+            {#                    </li>#}
+            {#                    <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-long-arrow-right"></i>#}
+            {#                        Level One</a></li>#}
+            {#                </ul>#}
+            {#            </li>#}
             <li class="sidebar-header">标签</li>
             <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>重要事件</span></a>
             </li>
             <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-chart-donut text-success"></i>
                 <span>提示</span></a></li>
-            <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-share text-info"></i> <span>分享</span></a>
+            <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-share text-info"></i>
+                <span>分享</span></a>
             </li>
         </ul>
 
@@ -482,7 +486,8 @@
                         <li class="dropdown-divider"></li>
                         <li class="dropdown-item"><i class="icon-settings mr-2"></i> Setting</li>
                         <li class="dropdown-divider"></li>
-                        <li class="dropdown-item"><i class="icon-power mr-2"></i> Logout</li>
+                        <li class="dropdown-item" href="{{ url_for('auth.logout') }}"><i class="icon-power mr-2"></i> 登出
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -507,28 +512,29 @@
 
 </div><!--End wrapper-->
 
+{% block script %}
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
 
-<!-- Bootstrap core JavaScript-->
-<script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
-<script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
-<script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+    <!-- simplebar js -->
+    <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
+    <!-- sidebar-menu js -->
+    <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
 
-<!-- simplebar js -->
-<script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
-<!-- sidebar-menu js -->
-<script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
+    <!-- Custom scripts -->
+    <script src="{{ url_for('static',filename='assets/js/app-script.js') }}"></script>
 
-<!-- Custom scripts -->
-<script src="{{ url_for('static',filename='assets/js/app-script.js') }}"></script>
+    <!-- Chart js -->
+    <script src="{{ url_for('static',filename='assets/plugins/Chart.js/Chart.min.js') }}"></script>
+    <!-- Easy Pie Chart JS -->
+    <script src="{{ url_for('static',filename='assets/plugins/jquery.easy-pie-chart/jquery.easypiechart.min.js') }}"></script>
+    <!-- Knob Chart -->
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-knob/excanvas.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-knob/jquery.knob.js') }}"></script>
 
-<!-- Chart js -->
-<script src="{{ url_for('static',filename='assets/plugins/Chart.js/Chart.min.js') }}"></script>
-<!-- Easy Pie Chart JS -->
-<script src="{{ url_for('static',filename='assets/plugins/jquery.easy-pie-chart/jquery.easypiechart.min.js') }}"></script>
-<!-- Knob Chart -->
-<script src="{{ url_for('static',filename='assets/plugins/jquery-knob/excanvas.js') }}"></script>
-<script src="{{ url_for('static',filename='assets/plugins/jquery-knob/jquery.knob.js') }}"></script>
-
+{% endblock %}
 <script>
     $(function () {
         $(".knob").knob();

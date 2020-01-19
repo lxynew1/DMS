@@ -7,5 +7,6 @@ from ..models import User
 
 
 @datamanage.route('/land_sell_adder')
+@login_required
 def landSellAdder():
     return render_template('dataManage/land_sell_adder.html')

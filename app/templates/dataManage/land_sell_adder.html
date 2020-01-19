@@ -1,5 +1,11 @@
 {% extends 'headers.html' %}
 {% block detail %}
+    <link href="{{ url_for('static',filename='assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static',filename='assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}"
+          rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename='assets/plugins/jquery-multi-select/multi-select.css') }}" rel="stylesheet"
+          type="text/css">
+
     <div class="clearfix"></div>
 
     <div class="content-wrapper">
@@ -34,6 +40,21 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="input-21" class="col-sm-2 col-form-label">行政区</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control single-select">
+                                            <option>——请选择——</option>
+                                            <option>渝中区</option>
+                                            <option>江北区</option>
+                                            <option>沙坪坝区</option>
+                                            <option>九龙坡区</option>
+                                            <option>大渡口区</option>
+                                            <option>南岸区</option>
+                                            <option>渝北区</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="input-22" class="col-sm-2 col-form-label">土地坐落</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="input-22"
@@ -41,13 +62,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="input-23" class="col-sm-2 col-form-label">规划用途</label>
+                                    <label for="input-23" class="col-sm-2 col-form-label">公告时间</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="start"/>
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">to</span>
+                                        <div id="dateragne-picker">
+                                            <div class="input-daterange input-group">
+                                                <input type="text" class="form-control" name="start"
+                                                       placeholder="请选择起始时间"/>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">至</span>
+                                                </div>
+                                                <input type="text" class="form-control" name="end"
+                                                       placeholder="请选择结束时间"/>
+                                            </div>
                                         </div>
-                                        <input type="text" class="form-control" name="end"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="input-25" class="col-sm-2 col-form-label">出让方式</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input-25"
+                                               placeholder="请选择出让方式">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -58,21 +93,33 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="input-25" class="col-sm-2 col-form-label">出让方式</label>
+                                    <label for="input-25" class="col-sm-2 col-form-label">公告用途</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="input-25"
-                                               placeholder="请选择出让方式">
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label"></label>
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary px-5">
-                                            提交
-                                        </button>
-                                    </div>
-                                </div>
+                                        <div class="card">
+                                            <div class="card-header text-uppercase">多选用途</div>
+                                            <div class="card-body">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <select name="country" class="multi-select" multiple="multiple"
+                                                                id="my_multi_select3">
+                                                            <option value="AF">二类居住用地</option>
+                                                            <option value="AL">商业用地</option>
+                                                            <option value="DZ">工业用地</option>
+                                                            <option value="AS">物流仓储用地</option>
+                                                            <option value="AD">道路用地</option>
+                                                            <option value="AO">其他用地</option>
+                                                        </select>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-10">
+                                                <button type="submit" class="btn btn-primary px-5">
+                                                    提交
+                                                </button>
+                                            </div>
+                                        </div>
                             </form>
                         </div>
                     </div>
@@ -88,7 +135,30 @@
     <!--Start Back To Top Button-->
     <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
     <!--End Back To Top Button-->
-    <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+{% endblock %}
+{% block script %}
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
+    {#    <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>#}
+    <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+
+    <!-- simplebar js -->
+    <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
+    <!-- sidebar-menu js -->
+    <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
+
+    <!-- Custom scripts -->
+    <script src="{{ url_for('static',filename='assets/js/app-script.js') }}"></script>
+
+    <!--Bootstrap Touchspin Js-->
+    <script src="{{ url_for('static',filename='assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/bootstrap-touchspin/js/bootstrap-touchspin-script.js') }}"></script>
+
+    <!--Select Plugins Js-->
+    <script src="{{ url_for('static',filename='assets/plugins/select2/js/select2.min.js') }}"></script>
+    <!--Inputtags Js-->
+    <script src="{{ url_for('static',filename='assets/plugins/inputtags/js/bootstrap-tagsinput.js') }}"></script>
+
+    <script src="{{ url_for('static',filename='assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
 
     <script>
         $('#default-datepicker').datepicker({
@@ -104,6 +174,70 @@
         });
 
         $('#dateragne-picker .input-daterange').datepicker({});
+
+    </script>
+
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-multi-select/jquery.multi-select.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-multi-select/jquery.quicksearch.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.single-select').select2();
+
+            $('.multiple-select').select2();
+
+            //multiselect start
+
+            $('#my_multi_select1').multiSelect();
+            $('#my_multi_select2').multiSelect({
+                selectableOptgroup: true
+            });
+
+            $('#my_multi_select3').multiSelect({
+                selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='搜索...'>",
+                selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='搜索...'>",
+                afterInit: function (ms) {
+                    var that = this,
+                        $selectableSearch = that.$selectableUl.prev(),
+                        $selectionSearch = that.$selectionUl.prev(),
+                        selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                        selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which === 40) {
+                                that.$selectableUl.focus();
+                                return false;
+                            }
+                        });
+
+                    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which == 40) {
+                                that.$selectionUl.focus();
+                                return false;
+                            }
+                        });
+                },
+                afterSelect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                },
+                afterDeselect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                }
+            });
+
+            $('.custom-header').multiSelect({
+                selectableHeader: "<div class='custom-header'>Selectable items</div>",
+                selectionHeader: "<div class='custom-header'>Selection items</div>",
+                selectableFooter: "<div class='custom-header'>Selectable footer</div>",
+                selectionFooter: "<div class='custom-header'>Selection footer</div>"
+            });
+
+
+        });
 
     </script>
 {% endblock %}
