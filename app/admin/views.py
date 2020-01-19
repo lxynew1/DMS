@@ -7,6 +7,7 @@ from ..models import User
 
 
 @admin.route('/home')
+@login_required
 def home():
     return render_template('headers.html')
 
