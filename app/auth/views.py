@@ -10,7 +10,6 @@ from ..models import User
 def login():
     form = LoginForm()
     if request.method == 'POST':
-        print('==========submit=================')
         user = User.query.filter_by(email=form.email.data).first()
         # User.password(form.password.data)
         if user is not None and user.verify_password(form.password.data):
