@@ -9,3 +9,5 @@ from ..models import User
 @admin.route('/home')
 def home():
     return render_template('headers.html')
+
+

@@ -51,6 +51,7 @@
             </div>
 
             <div class="card mb-0 ">
+
                 <div class="card-body">
                     <div class="card-content p-3">
                         <div class="text-center">
@@ -58,6 +59,9 @@
                         </div>
                         <div class="card-title text-uppercase text-center py-3">登录</div>
                         <form method="post">
+                            {% for v in get_flashed_messages(category_filter=['err']) %}
+                                <button style="color:red;" class="">{{ v }}</button>
+                            {% endfor %}
                             <div class="form-group">
                                 <div class="position-relative has-icon-left">
                                     <label for="exampleInputUsername" class="sr-only">Username</label>
