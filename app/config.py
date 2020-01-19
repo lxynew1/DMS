@@ -1,7 +1,7 @@
 import os
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-ORA_CONNECT_STR = 'oracle://hr:hr@114.67.240.64/orcl'
+ORA_CONNECT_STR = 'oracle://DMS:DMS@10.73.9.21/bdc'
 
 
 class Config(object):

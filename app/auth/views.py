@@ -14,10 +14,10 @@ def login():
         # User.password(form.password.data)
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
-            return redirect(request.args.get('next') or url_for('auth.index'))
+            return redirect(request.args.get('next') or url_for('admin.home'))
         else:
             flash('Invalid username or password')
-            return render_template('index.html', form=form)
+            return redirect(url_for('auth.login'))
     else:
         return render_template('auth/authentication-signin.html', form=form)
 
