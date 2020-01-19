@@ -17,6 +17,8 @@ def login():
             return redirect(request.args.get('next') or url_for('admin.home'))
         else:
             flash('无效的用户名密码', 'err')
+            flash(form.email.data, 'username')
+            flash(form.remenber_me.data, 'checked')
             return redirect(url_for('auth.login'))
     else:
         return render_template('auth/authentication-signin.html', form=form)
