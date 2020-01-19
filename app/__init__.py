@@ -28,4 +28,7 @@ def create_app(config_name='development'):
     from .dataManage import datamanage as task_blueprint
     app.register_blueprint(task_blueprint, url_prefix='/datamanage')
 
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint, url_prefix='/')
+
     return app
