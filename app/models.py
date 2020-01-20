@@ -70,10 +70,21 @@ class LAND_SELL_INFO(db.Model):
     MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
     MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
 
+
 class DICT_REGION(db.Model):
     __tablename__ = 'DICT_REGION'
-
     FID = db.Column(db.String(255), primary_key=True, comment='随机UUID')
     REGION_NAME = db.Column(db.String(255), nullable=True, comment='区县名称')
     REGION_CODE = db.Column(db.String(255), nullable=True, comment='区县代码')
     TYPE = db.Column(db.String(50), nullable=True, comment='类型')
+
+
+class DICT_LAND_USE(db.Model):
+    __tablename__ = 'DICT_LAND_USE'
+    FID = db.Column(db.String(50), primary_key=True, comment='随机UUID')
+    USE_CODE = db.Column(db.String(50), nullable=True, comment='用途代码')
+    USE_NAME = db.Column(db.String(50), nullable=True, comment='用途')
+    PARENT_USE_CODE = db.Column(db.String(50), nullable=True, comment='上一级用途代码')
+    TYPE = db.Column(db.String(50), nullable=True, comment='类型')
+
+

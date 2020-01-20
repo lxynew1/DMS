@@ -3,7 +3,7 @@ from flask_login import login_user
 from flask_login import login_required, logout_user
 from . import datamanage
 # from .forms import LoginForm
-from ..models import User,DICT_REGION
+from ..models import User,DICT_REGION,DICT_LAND_USE
 
 
 @datamanage.route('/land_sell_adder')
