@@ -30,6 +30,9 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def get_id(self):
+        return self.id
+
     def __unicode__(self):
         return self.id
 
@@ -70,6 +73,7 @@ class LAND_SELL_INFO(db.Model):
     MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
     MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
 
+
 class DICT_REGION(db.Model):
     __tablename__ = 'DICT_REGION'
 
@@ -77,3 +81,15 @@ class DICT_REGION(db.Model):
     REGION_NAME = db.Column(db.String(255), nullable=True, comment='区县名称')
     REGION_CODE = db.Column(db.String(255), nullable=True, comment='区县代码')
     TYPE = db.Column(db.String(50), nullable=True, comment='类型')
+
+
+class DICT_REGION1(db.Model):
+    __tablename__ = 'DICT_REGION1'
+
+    FID = db.Column(db.String(255), primary_key=True, comment='随机UUID')
+    REGION_NAME = db.Column(db.String(255), nullable=True, comment='区县名称')
+    REGION_CODE = db.Column(db.String(255), nullable=True, comment='区县代码')
+    TYPE = db.Column(db.String(50), nullable=True, comment='类型')
+
+    def __repr__(self):
+        return '<DICT_REGION1 %r>' % self.REGION_NAME
