@@ -30,6 +30,9 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def get_id(self):
+        return self.id
+
     def __unicode__(self):
         return self.id
 
@@ -86,5 +89,3 @@ class DICT_LAND_USE(db.Model):
     USE_NAME = db.Column(db.String(50), nullable=True, comment='用途')
     PARENT_USE_CODE = db.Column(db.String(50), nullable=True, comment='上一级用途代码')
     TYPE = db.Column(db.String(50), nullable=True, comment='类型')
-
-

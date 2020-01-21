@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 import os
+from flask_script import Manager
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -10,6 +11,7 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
+Manager = Manager(app)
 
 
 class User(db.Model):
@@ -24,10 +26,9 @@ class User(db.Model):
     def password(self):
         raise AttributeError('password is not a readable attribute')
 
-
-
     def __unicode__(self):
         return self.id
+
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -37,3 +38,12 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role %r>' % self.name
+
+
+@app.route('/')
+def index():
+    return 'Hello'
+
+
+if __name__ == '__main__':
+    Manager.run()
