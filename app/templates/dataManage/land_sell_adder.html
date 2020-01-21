@@ -36,7 +36,7 @@
                                 <div class="form-group row" id="input_notice_no_title">
                                     <label for="input-21" class="col-sm-2 col-form-label"
                                            id="input_notice_no_key">公告编号</label>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-10" id="div_notice_no">
                                         <input type="text" class="form-control" id="input_notice_no"
                                                placeholder="请输入由字母或数字组成的公告编号" onblur="checkout('input_notice_no','a1')">
                                     </div>
@@ -92,17 +92,18 @@
                                     </div>
                                 </div>
                                 <div class="form-group row" id="input_total_area_title">
-                                    <label for="input-25" class="col-sm-2 col-form-label" id="input_total_area_key">总面积</label>
+                                    <label for="input-25" class="col-sm-2 col-form-label"
+                                           id="input_total_area_key">总面积</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="input_total_area"
                                                placeholder="请输入总面积" onblur="checkout('input_total_area','a1')">
                                     </div>
                                 </div>
-                                <div class="form-group row" id="input_plan_area_title input_plan_con_title">
+                                <div class="form-group row" id="input_a">
                                     <label for="input-25" class="col-sm-2 col-form-label" id="input_">建设用地面积</label>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4" id="div_plan_con">
                                         <input type="text" class="form-control" id="input_plan_con"
-                                               placeholder="请输入建设用地面积">
+                                               placeholder="请输入建设用地面积" onblur="checkout('input_plan_con','1')">
                                     </div>
                                     <label for="input-25" class="col-sm-2 col-form-label" id="input_plan_area_key">规划建筑面积</label>
                                     <div class="col-sm-4">
@@ -303,14 +304,22 @@
     <script>
         function checkout(type, limit) {
             var input_value = $("#" + type).val()
-            console.log('log:' + input_value + type)
+            var html_text = ""
+
             if (limit == 'a1') {
-                {#var new_input_value=RegExp(input_value)#}
+                {#数据类型a1为字母和数字，校验不通过则在input标签上级标签后显示报错信息#}
                 if (!/[0-9A-Za-z]+/.test(input_value)) {
                     var key = $("#" + type + '_key').val()
-                    {#alert(key + '只允许字母和数字！')#}
-                    var title=type+"_title"
-                    console.log(title)
+                    var title = $("#" + type).parent().attr('id')
+                    console.log('title ' + title)
+                    while (true) {
+                        if (!title.startsWith('input') || title.length == 0) {
+                            title = $("#" + title).parent().attr('id')
+                        }
+                        else {
+                            break
+                        }
+                    }
                     $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +
                         "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
                         "                                <div class=\"alert-icon contrast-alert\">\n" +
@@ -319,7 +328,31 @@
                         "                                <div class=\"alert-message\">\n" +
                         "                                    <span><strong>注意!</strong> 此处只允许输入字母和数字!</span>\n" +
                         "                                </div>\n" +
-                        "                            </div>").insertAfter("#"+title);
+                        "                            </div>").insertAfter("#" + title);
+                }
+            }
+            else if (limit = '1') {
+                if (!/[\d]/g.test(input_value)) {
+                    var key = $("#" + type + '_key').val()
+                    var title = $("#" + type).parent().attr('id')
+                    console.log('title ' + title)
+                    while (true) {
+                        if (!title.startsWith('input') || title.length == 0) {
+                            title = $("#" + title).parent().attr('id')
+                        }
+                        else {
+                            break
+                        }
+                    }
+                    $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +
+                        "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
+                        "                                <div class=\"alert-icon contrast-alert\">\n" +
+                        "                                    <i class=\"fa fa-times\"></i>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"alert-message\">\n" +
+                        "                                    <span><strong>注意!</strong> 此处只允许输入数字!</span>\n" +
+                        "                                </div>\n" +
+                        "                            </div>").insertAfter("#" + title);
                 }
             }
         }
