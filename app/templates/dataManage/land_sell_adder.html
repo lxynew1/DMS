@@ -29,23 +29,26 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-title">公告信息（单位：平方米、万元）</div>
+                            <div class="card-title">公告信息（单位：平方米、万元、年、%）</div>
                             <hr>
+
                             <form>
-                                <div class="form-group row">
-                                    <label for="input-21" class="col-sm-2 col-form-label">公告编号</label>
+                                <div class="form-group row" id="input_notice_no_title">
+                                    <label for="input-21" class="col-sm-2 col-form-label"
+                                           id="input_notice_no_key">公告编号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="input-21"
-                                               placeholder="请输入由字母或数字组成的公告编号">
+                                        <input type="text" class="form-control" id="input_notice_no"
+                                               placeholder="请输入由字母或数字组成的公告编号" onblur="checkout('input_notice_no','a1')">
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
                                     <label for="input-21" class="col-sm-2 col-form-label">行政区</label>
                                     <div class="col-sm-10">
                                         <select class="form-control single-select">
                                             <option>——请选择——</option>
                                             {% for key,value in region_dict.items() %}
-                                            <option value="{{ key }}">{{ value }}</option>
+                                                <option value="{{ key }}">{{ value }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -82,21 +85,74 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="input-24" class="col-sm-2 col-form-label">自定义用途一级分类</label>
+                                    <label for="input-25" class="col-sm-2 col-form-label">出让年限</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input-25"
+                                               placeholder="请输入出让年限">
+                                    </div>
+                                </div>
+                                <div class="form-group row" id="input_total_area_title">
+                                    <label for="input-25" class="col-sm-2 col-form-label" id="input_total_area_key">总面积</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input_total_area"
+                                               placeholder="请输入总面积" onblur="checkout('input_total_area','a1')">
+                                    </div>
+                                </div>
+                                <div class="form-group row" id="input_plan_area_title input_plan_con_title">
+                                    <label for="input-25" class="col-sm-2 col-form-label" id="input_">建设用地面积</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input_plan_con"
+                                               placeholder="请输入建设用地面积">
+                                    </div>
+                                    <label for="input-25" class="col-sm-2 col-form-label" id="input_plan_area_key">规划建筑面积</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input_plan_area"
+                                               placeholder="请输入规划建筑面积" onblur="checkout('input_plan_area','a1')">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="input-25" class="col-sm-2 col-form-label">容积率</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input-25"
+                                               placeholder="请输入容积率">
+                                    </div>
+                                    <label for="input-25" class="col-sm-2 col-form-label">建筑密度</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input-25"
+                                               placeholder="请输入建筑密度">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="input-25" class="col-sm-2 col-form-label">绿化率</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input-25"
+                                               placeholder="请输入绿化率">
+                                    </div>
+                                    <label for="input-25" class="col-sm-2 col-form-label">商业比例</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input-25"
+                                               placeholder="请输入商业比例">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="input-24" class="col-sm-2 col-form-label">公告用途</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="input-24"
-                                               placeholder="请选择自定义用途一级分类">
+                                               placeholder="请输入公告用途">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="input-24" class="col-sm-2 col-form-label">自定义用途二级分类</label>
+                                    <label for="input-24" class="col-sm-2 col-form-label">统计用途分类</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="input-24"
-                                               placeholder="请选择自定义用途二级分类">
+                                               placeholder="请选择统计用途分类">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="input-25" class="col-sm-2 col-form-label">公告用途</label>
+                                    <label for="input-25" class="col-sm-2 col-form-label">标准分类</label>
                                     <div class="col-sm-10">
                                         <div class="card">
                                             <div class="card-header text-uppercase">多选用途</div>
@@ -242,5 +298,30 @@
 
         });
 
+    </script>
+
+    <script>
+        function checkout(type, limit) {
+            var input_value = $("#" + type).val()
+            console.log('log:' + input_value + type)
+            if (limit == 'a1') {
+                {#var new_input_value=RegExp(input_value)#}
+                if (!/[0-9A-Za-z]+/.test(input_value)) {
+                    var key = $("#" + type + '_key').val()
+                    {#alert(key + '只允许字母和数字！')#}
+                    var title=type+"_title"
+                    console.log(title)
+                    $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +
+                        "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
+                        "                                <div class=\"alert-icon contrast-alert\">\n" +
+                        "                                    <i class=\"fa fa-times\"></i>\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"alert-message\">\n" +
+                        "                                    <span><strong>注意!</strong> 此处只允许输入字母和数字!</span>\n" +
+                        "                                </div>\n" +
+                        "                            </div>").insertAfter("#"+title);
+                }
+            }
+        }
     </script>
 {% endblock %}
