@@ -182,8 +182,8 @@
 
     function email_check() {
         if ($('#exampleInputEmailId').val().length == 0) {
-            $("#UserNameError").html('请填写邮箱地址')
-            $("#UserNameError").css("color", "red")
+            $("#EmailError").html('请填写邮箱地址')
+            $("#EmailError").css("color", "red")
         } else {
             $.ajax({
                 type: "GET",

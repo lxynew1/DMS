@@ -14,7 +14,7 @@ import json
 def register():
     form = RegistrationForm()
     if request.method == 'POST':
-        img_url = 'assets/img/tenyuan.jpg'
+        img_url = '/static/assets/img/tenyuan.jpg'
         # 根据表单数据创建用户
         user = User(id=str(uuid.uuid4()),
                     email=form.email.data,
