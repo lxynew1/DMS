@@ -12,7 +12,6 @@ login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 
 
-
 def create_app(config_name='development'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
@@ -25,12 +24,15 @@ def create_app(config_name='development'):
     app.register_blueprint(auth_blueprint, url_prefix='/', )
 
     from .admin import admin as task_blueprint
-    app.register_blueprint(task_blueprint, url_prefix='/admin')
+    app.register_blueprint(task_blueprint, url_prefix='/')
 
     from .dataManage import datamanage as task_blueprint
     app.register_blueprint(task_blueprint, url_prefix='/datamanage')
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint, url_prefix='/main')
+
+    from .calendar import calendar as calendar_blueprint
+    app.register_blueprint(calendar_blueprint, url_prefix='/calendar')
 
     return app
