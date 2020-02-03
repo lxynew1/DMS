@@ -84,8 +84,10 @@ class DICT_REGION(db.Model):
 
 class DICT_LAND_USE(db.Model):
     __tablename__ = 'DICT_LAND_USE'
-    FID = db.Column(db.String(50), primary_key=True, comment='随机UUID')
+    FID = db.Column(db.String(20), primary_key=True, comment='序号')
     USE_CODE = db.Column(db.String(50), nullable=True, comment='用途代码')
     USE_NAME = db.Column(db.String(50), nullable=True, comment='用途')
-    PARENT_USE_CODE = db.Column(db.String(50), nullable=True, comment='上一级用途代码')
-    TYPE = db.Column(db.String(50), nullable=True, comment='类型')
+    PARENT_ID = db.Column(db.String(20), nullable=True, comment='上一级用途代码')
+    GRADE = db.Column(db.String(20), nullable=True, comment='用途代码等级')
+
+
