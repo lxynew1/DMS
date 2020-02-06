@@ -1,31 +1,56 @@
 {% extends "base.html" %}
 {% block script %}
     {{ super() }}
-	<script src='/static/assets/plugins/fullcalendar/js/moment.js'></script>
-	<script src='/static/assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
-	<script src="/static/assets/plugins/fullcalendar/js/fullcalendar-custom-script.js"></script>
-{#    <script>#}
-{#        $('#calendar').fullCalendar()#}
-{#    </script>#}
+    <script src='/static/assets/plugins/fullcalendar/js/moment.js'></script>
+    <script src='/static/assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
+    {#	<script src="/static/assets/plugins/fullcalendar/js/fullcalendar-custom-script.js"></script>#}
+    <script>
+        var date = new Date();
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                buttonText: {
+                    month: '月',
+                    week: '周',
+                    day: '日'
+                },
+                defaultDate: date,
+                navLinks: true, // can click day/week names to navigate views
+                selectable: true,
+                selectHelper: true,
+                select: function (start, end) {
+                    var title = prompt('Event Title:');
+                    var eventData;
+                    if (title) {
+                        eventData = {
+                            title: title,
+                            start: start,
+                            end: end
+                        };
+                        $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                    }
+                    $('#calendar').fullCalendar('unselect');
+                },
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: "{{ url_for('static',filename = 'jsonfile/call.json')}}"
+            });
+        });
+
+    </script>
 {% endblock %}
 {% block link %}
     {{ super() }}
-    <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon" />
-		<!--Full Calendar Css-->
-		<link href='/static/assets/plugins/fullcalendar/css/fullcalendar.css' rel='stylesheet' />
-		<!-- simplebar CSS-->
-		<link href="/static/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-		<!-- Bootstrap core CSS-->
-		<link href="/static/assets/css/bootstrap.min.css" rel="stylesheet" />
-		<!-- animate CSS-->
-		<link href="/static/assets/css/animate.css" rel="stylesheet" type="text/css" />
-		<!-- Icons CSS-->
-		<link href="/static/assets/css/icons.css" rel="stylesheet" type="text/css" />
-		<!-- Sidebar CSS-->
-		<link href="/static/assets/css/sidebar-menu.css" rel="stylesheet" />
-		<!-- Custom Style-->
-		<link href="/static/assets/css/app-style.css" rel="stylesheet" />
+    <!--Full Calendar Css-->
+    <link href='/static/assets/plugins/fullcalendar/css/fullcalendar.css' rel='stylesheet'/>
+    <!-- simplebar CSS-->
+    <style>
 
+    </style>
 {% endblock %}
 {% block detail %}
     <div class="content-wrapper">
@@ -34,42 +59,41 @@
             <!-- Breadcrumb-->
             <div class="row pt-2 pb-2">
                 <div class="col-sm-9">
-                    <h4 class="page-title">Calendar</h4>
-{#                    <ol class="breadcrumb">#}
-{#                        <li class="breadcrumb-item"><a href="javaScript:void();">Fobia</a></li>#}
-{#                        <li class="breadcrumb-item"><a href="javaScript:void();">Calendar</a></li>#}
-{#                        <li class="breadcrumb-item active" aria-current="page">Calendar</li>#}
-{#                    </ol>#}
+                    <h4 class="page-title">工作表</h4>
+                    {#                    <ol class="breadcrumb">#}
+                    {#                        <li class="breadcrumb-item"><a href="javaScript:void();">Fobia</a></li>#}
+                    {#                        <li class="breadcrumb-item"><a href="javaScript:void();">Calendar</a></li>#}
+                    {#                        <li class="breadcrumb-item active" aria-current="page">Calendar</li>#}
+                    {#                    </ol>#}
                 </div>
                 <div class="col-sm-3">
-{#                    <div class="btn-group float-sm-right">#}
-{#                        <button type="button" class="btn btn-primary waves-effect waves-light"><i#}
-{#                                class="fa fa-cog mr-1"></i> Setting#}
-{#                        </button>#}
-{#                        <button type="button"#}
-{#                                class="btn btn-primary dropdown-toggle dropdown-toggle-split waves-effect waves-light"#}
-{#                                data-toggle="dropdown">#}
-{#                            <span class="caret"></span>#}
-{#                        </button>#}
-{#                        <div class="dropdown-menu">#}
-{#                            <a href="javaScript:void();" class="dropdown-item">Action</a>#}
-{#                            <a href="javaScript:void();" class="dropdown-item">Another action</a>#}
-{#                            <a href="javaScript:void();" class="dropdown-item">Something else here</a>#}
-{#                            <div class="dropdown-divider"></div>#}
-{#                            <a href="javaScript:void();" class="dropdown-item">Separated link</a>#}
-{#                        </div>#}
-{#                    </div>#}
+                    {#                    <div class="btn-group float-sm-right">#}
+                    {#                        <button type="button" class="btn btn-primary waves-effect waves-light"><i#}
+                    {#                                class="fa fa-cog mr-1"></i> Setting#}
+                    {#                        </button>#}
+                    {#                        <button type="button"#}
+                    {#                                class="btn btn-primary dropdown-toggle dropdown-toggle-split waves-effect waves-light"#}
+                    {#                                data-toggle="dropdown">#}
+                    {#                            <span class="caret"></span>#}
+                    {#                        </button>#}
+                    {#                        <div class="dropdown-menu">#}
+                    {#                            <a href="javaScript:void();" class="dropdown-item">Action</a>#}
+                    {#                            <a href="javaScript:void();" class="dropdown-item">Another action</a>#}
+                    {#                            <a href="javaScript:void();" class="dropdown-item">Something else here</a>#}
+                    {#                            <div class="dropdown-divider"></div>#}
+                    {#                            <a href="javaScript:void();" class="dropdown-item">Separated link</a>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
                 </div>
             </div>
             <!-- End Breadcrumb-->
-
             <div id='calendar'></div>
 
         </div>
         <!-- End container-fluid-->
     </div>
     <!--Start Back To Top Button-->
-{#    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>#}
+    {#    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>#}
     <!--End Back To Top Button-->
 
 {% endblock %}

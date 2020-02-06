@@ -5,10 +5,13 @@ from . import admin
 # from .forms import LoginForm
 from ..models import User
 
+from app import db
+
 
 @admin.route('/home')
 @login_required
 def home():
+    db.create_all()
     return render_template('headers.html')
 
 

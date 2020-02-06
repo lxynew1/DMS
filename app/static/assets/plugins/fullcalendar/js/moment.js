@@ -634,7 +634,7 @@
 
     // LOCALES
 
-    var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
+    var defaultLocaleMonths = 'January_年份_March_April_May_June_July_August_September_October_November_December'.split('_');
     function localeMonths (m) {
         return this._months[m.month()];
     }

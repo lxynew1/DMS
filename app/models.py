@@ -74,6 +74,17 @@ class LAND_SELL_INFO(db.Model):
     MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
 
 
+class USER_CALENDAR(db.Model):
+    __tablename__ = 'USER_CALENDAR'
+    ID = db.Column(db.Integer, primary_key=True, comment='随机UUID')
+    UID = db.Column(db.String(50), db.ForeignKey('users.id'), nullable=True, comment='用户ID')
+    TITLE = db.Column(db.String(2000), nullable=True, comment='记录日志事件')
+    START = db.Column(db.String(2000), nullable=True, comment='记录开始时间')
+    END = db.Column(db.String(2000), nullable=True, comment='记录结束时间')
+    URL = db.Column(db.String(2000), nullable=True, comment='超链接')
+    # users = db.relationship('User', backref='USER_CALENDAR')
+
+
 class DICT_REGION(db.Model):
     __tablename__ = 'DICT_REGION'
     FID = db.Column(db.String(255), primary_key=True, comment='随机UUID')
@@ -89,5 +100,3 @@ class DICT_LAND_USE(db.Model):
     USE_NAME = db.Column(db.String(50), nullable=True, comment='用途')
     PARENT_ID = db.Column(db.String(20), nullable=True, comment='上一级用途代码')
     GRADE = db.Column(db.String(20), nullable=True, comment='用途代码等级')
-
-
