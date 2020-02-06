@@ -7,6 +7,7 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>{% block title %}{% endblock %}数据管理平台</title>
+    {% block link %}
     <!--favicon-->
     <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.ico') }}" type="image/x-icon">
     <!-- simplebar CSS-->
@@ -21,7 +22,7 @@
     <link href="{{ url_for('static',filename='assets/css/sidebar-menu.css') }}" rel="stylesheet"/>
     <!-- Custom Style-->
     <link href="{{ url_for('static',filename='assets/css/app-style.css') }}" rel="stylesheet"/>
-
+    {% endblock %}
 
 </head>
 
@@ -495,7 +496,9 @@
     </header>
     <!--End topbar header-->
 
-    <div class="clearfix"></div>
+    <div class="clearfix">
+        <div style="background-color: red">{% block head %}{% endblock %}</div> <br>
+    </div>
     {% block detail %}
         {#    自定义内容#}
         {#	<!--Start footer-->#}
