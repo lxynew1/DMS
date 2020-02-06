@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		<meta name="description" content="" />
-		<meta name="author" content="" />
-		<title>Fobia - Bootstrap 4 Web Application UI Kit</title>
-		<!--favicon-->
-		<link rel="icon" href={{ url_for('static',filename = 'assets/images/favicon.ico') }} type="image/x-icon">
-		<!-- simplebar CSS-->
-		<link href={{ url_for('static',filename = 'assets/plugins/simplebar/css/simplebar.css')}} rel="stylesheet" />
-		<!-- Bootstrap core CSS-->
-		<link href={{ url_for('static"',filename = 'assets/css/bootstrap.min.css') }} rel="stylesheet" />
-		<!-- animate CSS-->
-		<link href={{ url_for('static',filename = 'assets/css/animate.css') }} rel="stylesheet" type="text/css" />
-		<!-- Icons CSS-->
-		<link href={{ url_for('static',filename = 'assets/css/icons.css')}} rel="stylesheet" type="text/css" />
-		<!-- Sidebar CSS-->
-		<link href={{ url_for('static',filename = 'assets/css/sidebar-menu.css')}} rel="stylesheet" />
-		<!-- Custom Style-->
-		<link href={{ url_for('static',filename = 'assets/css/app-style.css')}} rel="stylesheet" />
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Fobia - Bootstrap 4 Web Application UI Kit</title>
+    <!--favicon-->
+    <link rel="icon" href={{ url_for('static',filename = 'assets/images/favicon.ico') }} type="image/x-icon">
+    <!-- simplebar CSS-->
+    <link href={{ url_for('static',filename = 'assets/plugins/simplebar/css/simplebar.css') }} rel="stylesheet"/>
+    <!-- Bootstrap core CSS-->
+    <link href={{ url_for('static',filename = 'assets/css/bootstrap.min.css') }} rel="stylesheet"/>
+    <!-- animate CSS-->
+    <link href={{ url_for('static',filename = 'assets/css/animate.css') }} rel="stylesheet" type="text/css"/>
+    <!-- Icons CSS-->
+    <link href={{ url_for('static',filename = 'assets/css/icons.css') }} rel="stylesheet" type="text/css"/>
+    <!-- Sidebar CSS-->
+    <link href={{ url_for('static',filename = 'assets/css/sidebar-menu.css') }} rel="stylesheet"/>
+    <!-- Custom Style-->
+    <link href={{ url_for('static',filename = 'assets/css/app-style.css') }} rel="stylesheet"/>
 
-	</head>
+</head>
 
-	<body class="bg-facebook">
+<body class="bg-facebook">
 
-		<!-- start loader -->
-		<div id="pageloader-overlay" class="visible incoming">
-			<div class="loader-wrapper-outer">
-				<div class="loader-wrapper-inner">
-					<div class="loader"></div>
-				</div>
-			</div>
-		</div>
-		<!-- end loader -->
+<!-- start loader -->
+<div id="pageloader-overlay" class="visible incoming">
+    <div class="loader-wrapper-outer">
+        <div class="loader-wrapper-inner">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+<!-- end loader -->
 
-		<!-- Start wrapper-->
+<!-- Start wrapper-->
 <div id="wrapper">
 
     <div class="container">
@@ -46,31 +46,30 @@
                     <h1 class="error-title text-white"> 500</h1>
                     <h2 class="error-sub-title text-white">500 内部服务器错误</h2>
 
-{#                    <p class="error-message text-white text-uppercase">抱歉，发生错误，找不到请求的页面！</p>#}
+                    {#                    <p class="error-message text-white text-uppercase">抱歉，发生错误，找不到请求的页面！</p>#}
 
                     <div class="mt-4">
-                        <a href{{ url_for('admin.home') }} class="btn btn-dark btn-round m-1">返回首页 </a>
-{#                        <a href="javascript:void();" class="btn btn-warning btn-round m-1">Previous Page </a>#}
+                        <a href="{{ url_for('admin.home') }}" class="btn btn-dark btn-round m-1">返回首页 </a>
                     </div>
 
                     <div class="mt-4">
                         <p class="text-white">Copyright © 2020 DMS | All rights reserved.</p>
                     </div>
-{#                    <hr class="w-50 border-white-2">#}
-{#                    <div class="mt-2">#}
-{#                        <a href="javascript:void()"#}
-{#                           class="btn-social btn-facebook btn-social-circle waves-effect waves-light m-1"><i#}
-{#                                class="fa fa-facebook"></i></a>#}
-{#                        <a href="javascript:void()"#}
-{#                           class="btn-social btn-google-plus btn-social-circle waves-effect waves-light m-1"><i#}
-{#                                class="fa fa-google-plus"></i></a>#}
-{#                        <a href="javascript:void()"#}
-{#                           class="btn-social btn-behance btn-social-circle waves-effect waves-light m-1"><i#}
-{#                                class="fa fa-behance"></i></a>#}
-{#                        <a href="javascript:void()"#}
-{#                           class="btn-social btn-dribbble btn-social-circle waves-effect waves-light m-1"><i#}
-{#                                class="fa fa-dribbble"></i></a>#}
-{#                    </div>#}
+                    {#                    <hr class="w-50 border-white-2">#}
+                    {#                    <div class="mt-2">#}
+                    {#                        <a href="javascript:void()"#}
+                    {#                           class="btn-social btn-facebook btn-social-circle waves-effect waves-light m-1"><i#}
+                    {#                                class="fa fa-facebook"></i></a>#}
+                    {#                        <a href="javascript:void()"#}
+                    {#                           class="btn-social btn-google-plus btn-social-circle waves-effect waves-light m-1"><i#}
+                    {#                                class="fa fa-google-plus"></i></a>#}
+                    {#                        <a href="javascript:void()"#}
+                    {#                           class="btn-social btn-behance btn-social-circle waves-effect waves-light m-1"><i#}
+                    {#                                class="fa fa-behance"></i></a>#}
+                    {#                        <a href="javascript:void()"#}
+                    {#                           class="btn-social btn-dribbble btn-social-circle waves-effect waves-light m-1"><i#}
+                    {#                                class="fa fa-dribbble"></i></a>#}
+                    {#                    </div>#}
                 </div>
             </div>
         </div>
@@ -79,18 +78,18 @@
 </div><!--wrapper-->
 
 
-		<!-- Bootstrap core JavaScript-->
-		<script src={{ url_for('static',filename ='assets/js/jquery.min.js') }}></script>
-		<script src={{ url_for('static',filename ='assets/js/popper.min.js') }}></script>
-		<script src={{ url_for('static',filename ='assets/js/bootstrap.min.js') }}></script>
+<!-- Bootstrap core JavaScript-->
+<script src={{ url_for('static',filename ='assets/js/jquery.min.js') }}></script>
+<script src={{ url_for('static',filename ='assets/js/popper.min.js') }}></script>
+<script src={{ url_for('static',filename ='assets/js/bootstrap.min.js') }}></script>
 
-		<!-- simplebar js -->
-		<script src={{ url_for('static',filename ='assets/plugins/simplebar/js/simplebar.js') }}></script>
-		<!-- sidebar-menu js -->
-		<script src={{ url_for('static',filename ='assets/js/sidebar-menu.js')}}></script>
+<!-- simplebar js -->
+<script src={{ url_for('static',filename ='assets/plugins/simplebar/js/simplebar.js') }}></script>
+<!-- sidebar-menu js -->
+<script src={{ url_for('static',filename ='assets/js/sidebar-menu.js') }}></script>
 
-		<!-- Custom scripts -->
-		<script src={{ url_for('static',filename ='assets/js/app-script.js') }}></script>
+<!-- Custom scripts -->
+<script src={{ url_for('static',filename ='assets/js/app-script.js') }}></script>
 
-	</body>
+</body>
 </html>
