@@ -78,7 +78,7 @@ $(document).ready(function() {
         {
           title: 'Click for Google',
           url: 'http://google.com/',
-          start: '2020-02-28'
+          start: '2020-02-27'
         }
       ]
     });
