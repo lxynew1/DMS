@@ -1,3 +1,7 @@
+import ast
+import json
+
+from flask import jsonify
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -77,12 +81,30 @@ class LAND_SELL_INFO(db.Model):
 class USER_CALENDAR(db.Model):
     __tablename__ = 'USER_CALENDAR'
     FID = db.Column(db.Integer, primary_key=True, comment='随机UUID')
-    UID = db.Column(db.String(50), db.ForeignKey('users.id'),  comment='用户ID')
+    UID = db.Column(db.String(50), db.ForeignKey('users.id'), comment='用户ID')
     TITLE = db.Column(db.String(2000), nullable=True, comment='记录日志事件')
     START = db.Column(db.String(2000), nullable=True, comment='记录开始时间')
     END = db.Column(db.String(2000), nullable=True, comment='记录结束时间')
     URL = db.Column(db.String(2000), nullable=True, comment='超链接')
+
     # users = db.relationship('User', backref='USER_CALENDAR')
+    def to_json(self):
+        dict = self.__dict__
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict
+
+
+def comments(Comment, UID):
+    comments = db.session.query(Comment).filter_by(UID=UID).all()
+    result = []
+    for comment in comments:
+        comment = "{'title':'" + comment.to_json()['TITLE'] + "','start' : '" + comment.to_json()[
+            'START'] + "','end' : '" + comment.to_json()['END'] + "','url' : '" + comment.to_json()['URL'] + "'}"
+        comment = ast.literal_eval(comment)
+        result.append(comment)
+    # return jsonify(result)
+    return result
 
 
 class DICT_REGION(db.Model):
@@ -96,7 +118,7 @@ class DICT_REGION(db.Model):
 class DICT_LAND_USE(db.Model):
     __tablename__ = 'DICT_LAND_USE'
     FID = db.Column(db.String(20), primary_key=True, comment='序号')
-    USE_CODE = db.Column(db.String(50), nullable=True, comment='用途代码')
+    UID = db.Column(db.String(50), nullable=True, comment='用途代码')
     USE_NAME = db.Column(db.String(50), nullable=True, comment='用途')
     PARENT_ID = db.Column(db.String(20), nullable=True, comment='上一级用途代码')
     GRADE = db.Column(db.String(20), nullable=True, comment='用途代码等级')

@@ -12,7 +12,8 @@ class Config(object):
     SQLALCHEMY_POOL_TIMEOUT = 10  # 指定数据库连接池的超时时间。默认是10s。
     SQLALCHEMY_POOL_RECYCLE = 3000  # 配置连接池的 recyle 时间。默认是7200s。
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    # SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    # SQLALCHEMY_ECHO = True
 
     @staticmethod
     def init_app(app):

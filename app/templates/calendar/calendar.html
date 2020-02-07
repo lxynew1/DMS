@@ -11,7 +11,7 @@
                 $.ajax({
                     type: "GET",
                     url: "{{ url_for('calendar.get_user_json') }}",
-                    data: '',
+                    data: {UID: "{{ current_user.id }}"},
                     dataType: "json",
                     success: function (data) {
                         resolve(data.return_info)
