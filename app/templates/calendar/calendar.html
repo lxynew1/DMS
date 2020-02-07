@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block script %}
     {{ super() }}
-    <script src='/static/assets/plugins/fullcalendar/js/moment.js'></script>
+    <script src='/static/assets/plugins/fullcalendar/js/moment.min.js'></script>
     <script src='/static/assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
     {#	<script src="/static/assets/plugins/fullcalendar/js/fullcalendar-custom-script.js"></script>#}
     <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
@@ -23,19 +23,9 @@
                 })
             })
         };
-        $(document).ready(function () {
+        $(document).ready(function(){
             ajax().then(function (res) {
                 $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,agendaWeek,agendaDay'
-                    },
-                    buttonText: {
-                        month: '月',
-                        week: '周',
-                        day: '日'
-                    },
                     defaultDate: date,
                     timeFormat: 'HH:mm',  //定义表格中显示的时间格式如：22：30，默认格式为HH(:mm)效果是整点的时候自动隐藏分钟，例如23：00会显示成23
                     displayEventEnd: true,  //显示事件的结束时间，默认是false
@@ -54,7 +44,8 @@
                             eventData = {
                                 title: title,
                                 start: start,
-                                end: end
+                                end: end,
+                                url: url
                             };
                             $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
                         }
@@ -64,7 +55,31 @@
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
                     {#events: "{{ url_for('static',filename = 'jsonfile/call.json')}}"#}
-                    events: res
+                    events: res,
+                    eventMouseover: function (calEvent, jsEvent, view) {//鼠标在日程区块上时触发
+                        $(this).css('background-color', 'gray');
+                    },
+                    eventMouseout: function (calEvent, jsEvent, view) {//鼠标从日程区块离开时触发
+                        $(this).css('background-color', '#0089AE');
+                    },
+                    customButtons: {
+                        myCustomButton: {
+                            text: 'custom!',
+                            click: function () {
+                                alert('clicked the custom button!');
+                            }
+                        }
+                    },
+                    header: {
+                        left: 'prev,next today myCustomButton',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    buttonText: {
+                        month: '月',
+                        week: '周',
+                        day: '日'
+                    },
                 });
             });
         })
