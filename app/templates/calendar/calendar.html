@@ -4,6 +4,7 @@
     <script src='/static/assets/plugins/fullcalendar/js/moment.js'></script>
     <script src='/static/assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
     {#	<script src="/static/assets/plugins/fullcalendar/js/fullcalendar-custom-script.js"></script>#}
+    <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
     <script>
         var date = new Date();
         var ajax = function () {
@@ -36,7 +37,14 @@
                         day: '日'
                     },
                     defaultDate: date,
+                    timeFormat: 'HH:mm',  //定义表格中显示的时间格式如：22：30，默认格式为HH(:mm)效果是整点的时候自动隐藏分钟，例如23：00会显示成23
+                    displayEventEnd: true,  //显示事件的结束时间，默认是false
+                    aspectRatio: 1,     //设置日历单元格显示的宽高比,数值越小越窄高
                     navLinks: true, // can click day/week names to navigate views
+                    eventLimit: true, // allow "more" link when too many events
+                    editable: true,     //允许编辑
+                    eventStartEditable: true,   //允许直接在界面中编辑事件的开始时间
+                    eventDurationEditable: true,    //允许编辑事件的时长
                     selectable: true,
                     selectHelper: true,
                     select: function (start, end) {
