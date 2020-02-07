@@ -5,6 +5,7 @@
     <script src='/static/assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
     {#	<script src="/static/assets/plugins/fullcalendar/js/fullcalendar-custom-script.js"></script>#}
     <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
+    <script src='/static/assets/dateparse/dateparse.js'></script>
     <script>
         var date = new Date();
         var ajax = function () {
@@ -23,7 +24,7 @@
                 })
             })
         };
-        $(document).ready(function(){
+        $(document).ready(function () {
             ajax().then(function (res) {
                 $('#calendar').fullCalendar({
                     defaultDate: date,
@@ -38,23 +39,30 @@
                     selectable: true,
                     selectHelper: true,
                     select: function (start, end) {
-                        var title = prompt('Event Title:');
-                        var eventData;
+                        var title = prompt('新增日志:');
                         if (title) {
-                            eventData = {
+                            var eventData = {
                                 title: title,
                                 start: start,
                                 end: end,
-                                url: url
                             };
+
+                            console.log(start.toISOString());
+                            $.ajax({
+                                type: "get",
+                                url: "{{ url_for('calendar.store_user_calendar') }}",
+                                data: { title: title, start: start.toISOString(), end: end.toISOString(),UID: "{{ current_user.id }}",url:"#"},
+                                success: function (res) {
+                                    alert("保存成功！")
+
+                                }
+                            })
                             $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
                         }
                         $('#calendar').fullCalendar('unselect');
                     },
-
                     editable: true,
                     eventLimit: true, // allow "more" link when too many events
-                    {#events: "{{ url_for('static',filename = 'jsonfile/call.json')}}"#}
                     events: res,
                     eventMouseover: function (calEvent, jsEvent, view) {//鼠标在日程区块上时触发
                         $(this).css('background-color', 'gray');
@@ -71,7 +79,7 @@
                         }
                     },
                     header: {
-                        left: 'prev,next today myCustomButton',
+                        left: 'prev,next today',
                         center: 'title',
                         right: 'month,agendaWeek,agendaDay'
                     },
@@ -83,6 +91,7 @@
                 });
             });
         })
+
 
     </script>
 {% endblock %}

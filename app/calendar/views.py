@@ -1,9 +1,12 @@
+import uuid
+
 from app.models import USER_CALENDAR, comments
 from . import calendar
 from flask import render_template, request, jsonify
 from flask_login import login_required
 import json
 from app import db
+from ..models import USER_CALENDAR
 
 
 @calendar.route('/')
@@ -13,6 +16,7 @@ def calendar_home():
 
 
 @calendar.route('/get_user_json', methods=['GET', 'POST'])
+@login_required
 def get_user_json():
     return_dict = {"return_info": '', 'return_code': '200'}
     if request.args is None:
@@ -26,4 +30,23 @@ def get_user_json():
     # CALENDARS = USER_CALENDAR.query.filter_by(UID=UID).all()
     print(comments(USER_CALENDAR, UID))
     return_dict['return_info'] = comments(USER_CALENDAR, UID)
+    return json.dumps(return_dict, ensure_ascii=False)
+
+
+@calendar.route('/store_user_calendar', methods=['GET', 'POST'])
+@login_required
+def store_user_calendar():
+    DATA = request.args.to_dict()
+    ID = str(uuid.uuid4())
+    TITLE = str(DATA.get('title'))
+    START = str(DATA.get('start'))
+    END = str(DATA.get('end'))
+    UID = str(DATA.get('UID'))
+    URL = str(DATA.get('URL')) if len(str(DATA.get('URL'))) == 0 else '#'
+    print(id, TITLE, START, END, UID, URL)
+    UC = USER_CALENDAR(id=ID, UID=UID, TITLE=TITLE, START=START, END=END, URL=URL)
+    db.session.add(UC)
+    db.session.commit()
+    print(id, TITLE, START, END, UID)
+    return_dict = {'return_code': '200', 'return_info': '', 'result': False}
     return json.dumps(return_dict, ensure_ascii=False)

@@ -80,7 +80,7 @@ class LAND_SELL_INFO(db.Model):
 
 class USER_CALENDAR(db.Model):
     __tablename__ = 'USER_CALENDAR'
-    FID = db.Column(db.Integer, primary_key=True, comment='随机UUID')
+    id = db.Column(db.String(50), primary_key=True)
     UID = db.Column(db.String(50), db.ForeignKey('users.id'), comment='用户ID')
     TITLE = db.Column(db.String(2000), nullable=True, comment='记录日志事件')
     START = db.Column(db.String(2000), nullable=True, comment='记录开始时间')
