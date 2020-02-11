@@ -8,3 +8,9 @@ from wtforms.validators import Required, Length, Email
 #     password = PasswordField('password', validators=[Required()])
 #     remenber_me = BooleanField('keep me logged in')
 #     submit = SubmitField('登录')
+
+class LoginForm(Form):
+    email = StringField('Email', validators=[Required(), Length(1, 64), Email()])
+    password = PasswordField('password', validators=[Required()])
+    remenber_me = BooleanField('keep me logged in')
+    submit = SubmitField('登录')

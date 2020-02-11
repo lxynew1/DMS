@@ -109,23 +109,23 @@
                             {#									</div>#}
                             {#									<button type="button" class="btn btn-primary btn-block waves-effect waves-light">Sign Up</button>#}
                             {{ form.submit(class='btn btn-primary btn-block waves-effect waves-light') }}
-                            {#									<div class="text-center pt-3">#}
-                            {#										<p>or Sign up with</p>#}
-                            {#										<div class="form-row mt-4">#}
-                            {#											<div class="form-group mb-0 col-6">#}
-                            {#												<button type="button" class="btn bg-facebook text-white btn-block"><i class="fa fa-facebook-square"></i>#}
-                            {#													Facebook</button>#}
-                            {#											</div>#}
-                            {#											<div class="form-group mb-0 col-6 text-right">#}
-                            {#												<button type="button" class="btn bg-twitter text-white btn-block"><i class="fa fa-twitter-square"></i>#}
-                            {#													Twitter</button>#}
-                            {#											</div>#}
-                            {#										</div>#}
-                            {##}
-                            {#										<hr>#}
-                            {##}
-                            {#										<p class="text-dark">Already have an account? <a href="authentication-signin2.html"> Sign In here</a></p>#}
-                            {#									</div>#}
+                            									<div class="text-center pt-3">
+{#                            										<p>or Sign up with</p>#}
+{#                            										<div class="form-row mt-4">#}
+{#                            											<div class="form-group mb-0 col-6">#}
+{#                            												<button type="button" class="btn bg-facebook text-white btn-block"><i class="fa fa-facebook-square"></i>#}
+{#                            													Facebook</button>#}
+{#                            											</div>#}
+{#                            											<div class="form-group mb-0 col-6 text-right">#}
+{#                            												<button type="button" class="btn bg-twitter text-white btn-block"><i class="fa fa-twitter-square"></i>#}
+{#                            													Twitter</button>#}
+{#                            											</div>#}
+{#                            										</div>#}
+{##}
+{#                            										<hr>#}
+
+                            										<p class="text-dark">已经有账号？<a href={{ url_for("auth.login") }}> 返回登陆</a></p>
+                            									</div>
                         </form>
                     </div>
                 </div>

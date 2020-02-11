@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block script %}
+    {{ super() }}
+{% endblock %}
+{% block link %}
+    {{ super() }}
+{% endblock %}
+{% block detail %}
+    <div class="content-wrapper">
+        <div class="container-fluid">
+
+            <!-- Breadcrumb-->
+            <div class="row pt-2 pb-2">
+                <div class="col-sm-9">
+                    <h4 class="page-title">土拍数据查询界面</h4>
+                </div>
+                <div class="row">
+						<div class="col-lg-6">
+							<div class="card">
+								<div class="card-header text-uppercase">Left Input Addon</div>
+								<div class="card-body">
+									<div class="input-group mb-3">
+										<div class="input-group-prepend">
+											<span class="input-group-text">@</span>
+										</div>
+										<input type="text" class="form-control" placeholder="some text">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="card">
+								<div class="card-header text-uppercase">Right Input Addon</div>
+								<div class="card-body">
+									<div class="input-group mb-3">
+										<input type="text" class="form-control" placeholder="some text">
+										<div class="input-group-append">
+											<span class="input-group-text">@example.com</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                <!-- End container-fluid-->
+            </div>
+
+{% endblock %}

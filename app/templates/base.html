@@ -7,9 +7,9 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>{% block title %}{% endblock %}数据管理平台</title>
-    {% block link %}
+{% block link %}
     <!--favicon-->
-    <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.ico') }}" type="image/x-icon">
     <!-- simplebar CSS-->
     <link href="{{ url_for('static',filename='assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet"/>
     <!-- Bootstrap core CSS-->
@@ -22,8 +22,8 @@
     <link href="{{ url_for('static',filename='assets/css/sidebar-menu.css') }}" rel="stylesheet"/>
     <!-- Custom Style-->
     <link href="{{ url_for('static',filename='assets/css/app-style.css') }}" rel="stylesheet"/>
-    {% endblock %}
 
+{% endblock %}
 </head>
 
 <body>
@@ -191,7 +191,8 @@
                 <ul class="sidebar-submenu">
                     <li><a href="{{ url_for('datamanage.landSellAdder') }}"><i class="zmdi zmdi-long-arrow-right"></i>
                         土地数据录入 </a></li>
-                    <li><a href="form-input-group.html"><i class="zmdi zmdi-long-arrow-right"></i> Input Groups</a></li>
+                    <li><a href="{{ url_for('datamanage.landSellSearch') }}"><i class="zmdi zmdi-long-arrow-right"></i>
+                        土拍数据查询</a></li>
                     <li><a href="form-layouts.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Layouts</a></li>
                     <li><a href="form-advanced.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Advanced</a></li>
                     <li><a href="form-uploads.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Uploads</a></li>
@@ -497,8 +498,8 @@
     <!--End topbar header-->
 
     <div class="clearfix">
-        <div style="background-color: red">{% block head %}{% endblock %}</div> <br>
-    </div>
+		<div style="background-color: red">{% block head %}{% endblock %}</div> <br>
+	</div>
     {% block detail %}
         {#    自定义内容#}
         {#	<!--Start footer-->#}
@@ -520,15 +521,12 @@
     <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
     <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
-
     <!-- simplebar js -->
     <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
     <!-- sidebar-menu js -->
     <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
-
     <!-- Custom scripts -->
     <script src="{{ url_for('static',filename='assets/js/app-script.js') }}"></script>
-
     <!-- Chart js -->
     <script src="{{ url_for('static',filename='assets/plugins/Chart.js/Chart.min.js') }}"></script>
     <!-- Easy Pie Chart JS -->

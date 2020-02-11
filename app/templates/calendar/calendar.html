@@ -6,6 +6,9 @@
     {#	<script src="/static/assets/plugins/fullcalendar/js/fullcalendar-custom-script.js"></script>#}
     <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
     <script src='/static/assets/dateparse/dateparse.js'></script>
+    <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
+    <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
+    <script src='/static/assets/plugins/fullcalendar/js/bootstrap.min.js'></script>
     <script>
         var date = new Date();
         var ajax = function () {
@@ -46,12 +49,11 @@
                                 start: start,
                                 end: end,
                             };
-
                             console.log(start.toISOString());
                             $.ajax({
                                 type: "get",
                                 url: "{{ url_for('calendar.store_user_calendar') }}",
-                                data: { title: title, start: start.toISOString(), end: end.toISOString(),UID: "{{ current_user.id }}",url:"#"},
+                                data: { title: title, start: start.toISOString(), end: end.toISOString(),UID: "{{ current_user.id }}",url:'#'},
                                 success: function (res) {
                                     alert("保存成功！")
 
@@ -88,21 +90,23 @@
                         week: '周',
                         day: '日'
                     },
+                    eventClick: function (event, element) {
+                        event.title = "CLICKED!";
+                        alert(event.id)
+                        $('#calendar').fullCalendar('updateEvent', event);
+                        {#$('#calendar').fullCalendar('removeEvents', event.id);#}
+                    }
                 });
             });
         })
-
-
     </script>
 {% endblock %}
 {% block link %}
     {{ super() }}
-    <!--Full Calendar Css-->
-    <link href='/static/assets/plugins/fullcalendar/css/fullcalendar.css' rel='stylesheet'/>
-    <!-- simplebar CSS-->
-    <style>
+	<link href='/static/assets/plugins/fullcalendar/css/fullcalendar.css' rel='stylesheet' />
+	<!-- simplebar CSS-->
+	<link href="/static/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
 
-    </style>
 {% endblock %}
 {% block detail %}
     <div class="content-wrapper">

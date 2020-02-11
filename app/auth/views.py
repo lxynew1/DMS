@@ -35,6 +35,7 @@ def register():
 
 
 @auth.route('/login', methods=['GET', 'POST'])
+@auth.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if request.method == 'POST':
