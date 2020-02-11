@@ -1,48 +1,342 @@
 {% extends "base.html" %}
 {% block script %}
-    {{ super() }}
+    <script src="/static/assets/js/jquery.min.js"></script>
+    <script src="/static/assets/js/popper.min.js"></script>
+    <script src="/static/assets/js/bootstrap.min.js"></script>
+
+    <!-- simplebar js -->
+    <script src="/static/assets/plugins/simplebar/js/simplebar.js"></script>
+    <!-- sidebar-menu js -->
+    <script src="/static/assets/js/sidebar-menu.js"></script>
+
+    <!-- Custom scripts -->
+    <script src="/static/assets/js/app-script.js"></script>
+
+    <!--Bootstrap Touchspin Js-->
+    <script src="/static/assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
+    <script src="/static/assets/plugins/bootstrap-touchspin/js/bootstrap-touchspin-script.js"></script>
+
+    <!--Select Plugins Js-->
+    <script src="/static/assets/plugins/select2/js/select2.min.js"></script>
+    <!--Inputtags Js-->
+    <script src="/static/assets/plugins/inputtags/js/bootstrap-tagsinput.js"></script>
+
+    <!--Bootstrap Datepicker Js-->
+    <script src="/static/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        $('#default-datepicker').datepicker({
+            todayHighlight: true
+        });
+        $('#autoclose-datepicker').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        $('#inline-datepicker').datepicker({
+            todayHighlight: true
+        });
+
+        $('#dateragne-picker .input-daterange').datepicker({});
+
+    </script>
+    <!--Multi Select Js-->
+    <script src="/static/assets/plugins/jquery-multi-select/jquery.multi-select.js"></script>
+    <script src="/static/assets/plugins/jquery-multi-select/jquery.quicksearch.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.single-select').select2();
+
+            $('.multiple-select').select2();
+
+            //multiselect start
+
+            $('#my_multi_select1').multiSelect();
+            $('#my_multi_select2').multiSelect({
+                selectableOptgroup: true
+            });
+
+            $('#my_multi_select3').multiSelect({
+                selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+                afterInit: function (ms) {
+                    var that = this,
+                        $selectableSearch = that.$selectableUl.prev(),
+                        $selectionSearch = that.$selectionUl.prev(),
+                        selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                        selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which === 40) {
+                                that.$selectableUl.focus();
+                                return false;
+                            }
+                        });
+
+                    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                        .on('keydown', function (e) {
+                            if (e.which == 40) {
+                                that.$selectionUl.focus();
+                                return false;
+                            }
+                        });
+                },
+                afterSelect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                },
+                afterDeselect: function () {
+                    this.qs1.cache();
+                    this.qs2.cache();
+                }
+            });
+
+            $('.custom-header').multiSelect({
+                selectableHeader: "<div class='custom-header'>Selectable items</div>",
+                selectionHeader: "<div class='custom-header'>Selection items</div>",
+                selectableFooter: "<div class='custom-header'>Selectable footer</div>",
+                selectionFooter: "<div class='custom-header'>Selection footer</div>"
+            });
+
+
+        });
+        $().ready(function () {
+
+            $("#personal-info").validate();
+
+            // validate signup form on keyup and submit
+            $("#signupForm").validate({
+                rules: {
+                    firstname: "required",
+                    lastname: "required",
+                    username: {
+                        required: true,
+                        minlength: 2
+                    },
+                    password: {
+                        required: true,
+                        minlength: 5
+                    },
+                    confirm_password: {
+                        required: true,
+                        minlength: 5,
+                        equalTo: "#password"
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    contactnumber: {
+                        required: true,
+                        minlength: 10
+                    },
+                    topic: {
+                        required: "#newsletter:checked",
+                        minlength: 2
+                    },
+                    agree: "required"
+                },
+                messages: {
+                    firstname: "Please enter your firstname",
+                    lastname: "Please enter your lastname",
+                    username: {
+                        required: "Please enter a username",
+                        minlength: "Your username must consist of at least 2 characters"
+                    },
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long"
+                    },
+                    confirm_password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long",
+                        equalTo: "Please enter the same password as above"
+                    },
+                    email: "Please enter a valid email address",
+                    contactnumber: "Please enter your 10 digit number",
+                    agree: "Please accept our policy",
+                    topic: "Please select at least 2 topics"
+                }
+            });
+
+        });
+
+    </script>
 {% endblock %}
 {% block link %}
-    {{ super() }}
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+
+    <!--Select Plugins-->
+    <link href="/static/assets/plugins/select2/css/select2.min.css" rel="stylesheet"/>
+    <!--inputtags-->
+    <link href="/static/assets/plugins/inputtags/css/bootstrap-tagsinput.css" rel="stylesheet"/>
+    <!--multi select-->
+    <link href="/static/assets/plugins/jquery-multi-select/multi-select.css" rel="stylesheet" type="text/css">
+    <!--Bootstrap Datepicker-->
+    <link href="/static/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet"
+          type="text/css">
+    <!--Touchspin-->
+    <link href="/static/assets/plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.css" rel="stylesheet"
+          type="text/css">
+
+    <!-- simplebar CSS-->
+    <link href="/static/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
+    <!-- Bootstrap core CSS-->
+    <link href="/static/assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- animate CSS-->
+    <link href="/static/assets/css/animate.css" rel="stylesheet" type="text/css"/>
+    <!-- Icons CSS-->
+    <link href="/static/assets/css/icons.css" rel="stylesheet" type="text/css"/>
+    <!-- Sidebar CSS-->
+    <link href="/static/assets/css/sidebar-menu.css" rel="stylesheet"/>
+    <!-- Custom Style-->
+    <link href="/static/assets/css/app-style.css" rel="stylesheet"/>
+    <style>
+        .row, .card, .card-body {
+            width: 100%;
+        }
+    </style>
 {% endblock %}
 {% block detail %}
     <div class="content-wrapper">
         <div class="container-fluid">
-
             <!-- Breadcrumb-->
             <div class="row pt-2 pb-2">
                 <div class="col-sm-9">
-                    <h4 class="page-title">土拍数据查询界面</h4>
+                    <h4 class="page-title">土拍数据查询</h4>
                 </div>
                 <div class="row">
-						<div class="col-lg-6">
-							<div class="card">
-								<div class="card-header text-uppercase">Left Input Addon</div>
-								<div class="card-body">
-									<div class="input-group mb-3">
-										<div class="input-group-prepend">
-											<span class="input-group-text">@</span>
-										</div>
-										<input type="text" class="form-control" placeholder="some text">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<div class="card">
-								<div class="card-header text-uppercase">Right Input Addon</div>
-								<div class="card-body">
-									<div class="input-group mb-3">
-										<input type="text" class="form-control" placeholder="some text">
-										<div class="input-group-append">
-											<span class="input-group-text">@example.com</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-                <!-- End container-fluid-->
-            </div>
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form id="personal-info">
+                                    <div class="form-group row">
+                                        <label for="input-5" class="col-sm-2 col-form-label">    时间</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="input-5" name="company"
+                                                   required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="input-6" class="col-sm-2 col-form-label">    大区</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="input-6" name="intersted" required>
+                                                <option>Web Development</option>
+                                                <option>Mobile Development</option>
+                                                <option>Digital Marketing</option>
+                                                <option>Graphic Designing</option>
+                                                <option>Ecommerce Industr</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="input-7" class="col-sm-2 col-form-label">    位置</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="input-7" name="budget" required>
+                                                <option>BUDGET</option>
+                                                <option>Less then 2000$</option>
+                                                <option>2000$ - 10000$</option>
+                                                <option>10000$ - 20000$</option>
+                                                <option>Above 20000$</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-success"><i
+                                                class="fa fa-check-square-o"></i> 查询
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header"><i class="fa fa-table"></i>土拍数据展示</div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="example" class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Lael Greer</td>
+                                            <td>Systems Administrator</td>
+                                            <td>London</td>
+                                            <td>21</td>
+                                            <td>2009/02/27</td>
+                                            <td>$103,500</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jonas Alexander</td>
+                                            <td>Developer</td>
+                                            <td>San Francisco</td>
+                                            <td>30</td>
+                                            <td>2010/07/14</td>
+                                            <td>$86,500</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Shad Decker</td>
+                                            <td>Regional Director</td>
+                                            <td>Edinburgh</td>
+                                            <td>51</td>
+                                            <td>2008/11/13</td>
+                                            <td>$183,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Michael Bruce</td>
+                                            <td>Javascript Developer</td>
+                                            <td>Singapore</td>
+                                            <td>29</td>
+                                            <td>2011/06/27</td>
+                                            <td>$183,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Donna Snider</td>
+                                            <td>Customer Support</td>
+                                            <td>New York</td>
+                                            <td>27</td>
+                                            <td>2011/01/25</td>
+                                            <td>$112,000</td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Row-->
+
+            </div><!--End Row-->
+            <!-- End container-fluid-->
+        </div>
+    </div>
 
 {% endblock %}
