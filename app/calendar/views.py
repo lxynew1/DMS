@@ -1,12 +1,11 @@
 import uuid
 
-from app.models import USER_CALENDAR, comments
 from . import calendar
 from flask import render_template, request, jsonify
 from flask_login import login_required
 import json
 from app import db
-from ..models import USER_CALENDAR
+from ..models import USER_CALENDAR,comments
 
 
 @calendar.route('/')

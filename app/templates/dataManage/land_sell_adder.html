@@ -5,6 +5,7 @@
           rel="stylesheet" type="text/css">
     <link href="{{ url_for('static',filename='assets/plugins/jquery-multi-select/multi-select.css') }}" rel="stylesheet"
           type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/plugins/notifications/css/lobibox.min.css') }}"/>
 
     <div class="clearfix"></div>
 
@@ -34,55 +35,66 @@
 
                             <form>
                                 <div class="form-group row" id="input_notice_no_title">
-                                    <label for="input-21" class="col-sm-2 col-form-label"
-                                           id="input_notice_no_key">公告编号</label>
+                                    <label for="input_notice_no" class="col-sm-2 col-form-label"
+                                           id="label_input_notice_no">公告编号</label>
                                     <div class="col-sm-10" id="div_notice_no">
-                                        <input type="text" class="form-control" id="input_notice_no"
-                                               placeholder="请输入由字母或数字组成的公告编号" required=""
-                                               onblur="checkout('input_notice_no','a1')">
+                                        <input type="text" onkeyup=" this.value=this.value.replace(/[^\w-]/g,'') "
+                                               class="form-control" id="input_notice_no"
+                                               placeholder="请输入由字母、数字、横线或下划线组成的公告编号" required="required"
+                                               onblur='notice_no_is_repetition()'>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="input-21" class="col-sm-2 col-form-label">行政区</label>
+                                    <label for="select_region_code" class="col-sm-2 col-form-label"
+                                           id="label_select_region_code">行政区</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control single-select" id="region_code">
-                                            <option value="-1">——请选择——</option>
+                                        <select class="form-control single-select" id="select_region_code">
+                                            <option value="-1">请选择</option>
                                             {% for key,value in region_dict.items() %}
                                                 <option value="{{ key }}">{{ value }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label for="input-22" class="col-sm-2 col-form-label">土地坐落</label>
+                                    <label for="input_land_location" class="col-sm-2 col-form-label"
+                                           id="label_input_land_location">土地坐落</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="input-22"
+                                        <input type="text" class="form-control" id="input_land_location"
+                                               required="required"
                                                placeholder="请输入公告详情中的土地坐落">
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label for="input-23" class="col-sm-2 col-form-label">公告时间</label>
+                                    <label for="input_date" class="col-sm-2 col-form-label">公告时间</label>
+                                    {#                                    增加唯一标签#}
+                                    <label style="display: none" id="label_input_date_begin">公告起始时间</label>
+                                    <label style="display: none" id="label_input_date_end">公告结束时间</label>
                                     <div class="col-sm-10">
                                         <div id="dateragne-picker">
                                             <div class="input-daterange input-group">
-                                                <input type="text" class="form-control" name="start"
+                                                <input type="text" class="form-control" name="start" required="required"
+                                                       id="input_date_begin"
                                                        placeholder="请选择起始时间"/>
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">至</span>
                                                 </div>
-                                                <input type="text" class="form-control" name="end"
-                                                       placeholder="请选择结束时间"/>
+                                                <input type="text" class="form-control" name="end" id="input_date_end"
+                                                       placeholder="请选择结束时间" required="required"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="input-25" class="col-sm-2 col-form-label">出让方式</label>
+                                    <label for="select_assignment_method" class="col-sm-2 col-form-label"
+                                           id="label_select_assignment_method">出让方式</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control single-select">
-                                            <option value="-1">——请选择——</option>
+                                        <select class="form-control single-select" id="select_assignment_method">
+                                            <option value="-1">请选择</option>
                                             <option value="1">拍卖</option>
                                             <option value="2">挂牌</option>
                                             <option value="3">招标</option>
@@ -90,81 +102,119 @@
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label for="input-25" class="col-sm-2 col-form-label">出让年限</label>
+                                    <label for="input_assignment_limit" class="col-sm-2 col-form-label"
+                                           id="label_input_assignment_limit">出让年限</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="input-25"
-                                               placeholder="请输入出让年限">
+                                        <input type="text" class="form-control" id="input_assignment_limit"
+                                               placeholder="请输入出让年限" required="required">
                                     </div>
                                 </div>
+
                                 <div class="form-group row" id="input_total_area_title">
-                                    <label for="input-25" class="col-sm-2 col-form-label"
-                                           id="input_total_area_key">总面积</label>
+                                    <label for="input_total_area" class="col-sm-2 col-form-label"
+                                           id="label_input_total_area">总面积</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="input_total_area"
-                                               placeholder="请输入总面积" onblur="checkout('input_total_area','a1')">
+                                               placeholder="请输入总面积"
+                                               onkeyup=" this.value=this.value.replace(/[^\d.]/g,'') "
+                                               required="required">
                                     </div>
                                 </div>
+
                                 <div class="form-group row" id="input_a">
-                                    <label for="input-25" class="col-sm-2 col-form-label" id="input_">建设用地面积</label>
+                                    <label for="input_construction_area" class="col-sm-2 col-form-label"
+                                           id="label_input_construction_area">建设用地面积</label>
                                     <div class="col-sm-4" id="div_plan_con">
-                                        <input type="text" class="form-control" id="input_plan_con"
-                                               placeholder="请输入建设用地面积" onblur="checkout('input_plan_con','1')">
+                                        <input type="text" class="form-control" id="input_construction_area"
+                                               placeholder="请输入建设用地面积" required="required"
+                                               onkeyup=" this.value=this.value.replace(/[^\d.]/g,'') "
+                                        >
                                     </div>
-                                    <label for="input-25" class="col-sm-2 col-form-label" id="input_plan_area_key">规划建筑面积</label>
+                                    <label for="input_plan_area" class="col-sm-2 col-form-label"
+                                           id="label_input_plan_area">规划建筑面积</label>
                                     <div class="col-sm-4">
                                         <input type="text" class="form-control" id="input_plan_area"
-                                               placeholder="请输入规划建筑面积" onblur="checkout('input_plan_area','a1')">
+                                               placeholder="请输入规划建筑面积" required="required"
+                                               onkeyup=" this.value=this.value.replace(/[^\d.]/g,'') ">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="input-25" class="col-sm-2 col-form-label">容积率</label>
+                                    <label for="input_floor_area_ratio" class="col-sm-2 col-form-label"
+                                           id="label_input_floor_area_ratio">容积率</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="input-25"
-                                               placeholder="请输入容积率">
+                                        <input type="text" class="form-control" id="input_floor_area_ratio"
+                                               placeholder="请输入容积率" required="required"
+                                               onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
                                     </div>
-                                    <label for="input-25" class="col-sm-2 col-form-label">建筑密度</label>
+                                    <label for="input_building_density" class="col-sm-2 col-form-label"
+                                           id="label_input_building_density">建筑密度</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="input-25"
-                                               placeholder="请输入建筑密度">
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="input-25" class="col-sm-2 col-form-label">绿化率</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="input-25"
-                                               placeholder="请输入绿化率">
-                                    </div>
-                                    <label for="input-25" class="col-sm-2 col-form-label">商业比例</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control" id="input-25"
-                                               placeholder="请输入商业比例">
+                                        <input type="text" class="form-control" id="input_building_density"
+                                               placeholder="请输入建筑密度" required="required"
+                                               onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="input-24" class="col-sm-2 col-form-label">公告用途</label>
+                                    <label for="input_greening_rate" class="col-sm-2 col-form-label"
+                                           id="label_input_greening_rate">绿化率</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input_greening_rate"
+                                               placeholder="请输入绿化率" required="required"
+                                               onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                    </div>
+                                    <label for="input_business_proportion" class="col-sm-2 col-form-label"
+                                           id="label_input_business_proportion">商业比例</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input_business_proportion"
+                                               placeholder="请输入商业比例" required="required"
+                                               onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="input_price_begin" class="col-sm-2 col-form-label"
+                                           id="label_input_price_begin">起始价</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input_price_begin"
+                                               placeholder="请输入起始价" required="required"
+                                               onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                    </div>
+                                    <label for="input_security_deposit" class="col-sm-2 col-form-label"
+                                           id="label_input_security_deposit">保证金</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="input_security_deposit"
+                                               placeholder="请输入保证金" required="required"
+                                               onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="input_notice_use" class="col-sm-2 col-form-label"
+                                           id="label_input_notice_use">公告用途</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="input-24"
-                                               placeholder="请输入公告用途">
+                                        <input type="text" class="form-control" id="input_notice_use"
+                                               placeholder="请输入公告用途" required="required">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="input-24" class="col-sm-2 col-form-label">统计用途分类</label>
+                                    <label for="select_plan_use_custom" class="col-sm-2 col-form-label"
+                                           id="label_select_plan_use_custom">统计用途分类</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control single-select">
-                                            <option>——请选择——</option>
-                                            <option value="1">拍卖</option>
-                                            <option value="2">挂牌</option>
-                                            <option value="3">招标</option>
-                                            <option value="4">协议</option>
+                                        <select class="form-control single-select" id="select_plan_use_custom"
+                                                required="required">
+                                            <option value="-1">请选择</option>
+                                            {% for key,value in custom_use_dict.items() %}
+                                                <option value="{{ key }}">{{ value }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="input-25" class="col-sm-2 col-form-label">标准用途分类</label>
+                                    <label for="standard_use_code" class="col-sm-2 col-form-label">标准用途分类</label>
                                     <div class="col-sm-10">
                                         <div class="card">
                                             <div class="card-header text-uppercase">多选用途</div>
@@ -174,7 +224,7 @@
                                                         <select name="country" class="multi-select" multiple="multiple"
                                                                 id="standard_use_code">
                                                             {#                                                            <option value="AF">二类居住用地</option>#}
-                                                            {% for key,value in standard_user_dict.items() %}
+                                                            {% for key,value in standard_use_dict.items() %}
                                                                 <option value="{{ key }}">{{ value }}</option>
                                                             {% endfor %}
                                                         </select>
@@ -184,39 +234,16 @@
                                         <div class="form-group row">
                                             <label class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <button type="button" class="btn btn-primary px-5" data-toggle="modal"
-                                                        data-target="#primarymodal" onclick="saveData()">
+                                                <button type="submit" class="btn btn-primary px-5"
+                                                        id="submit_data"
+                                                        style="cursor: not-allowed"
+                                                        onmousemove="check_select()"
+                                                        onclick="return saveData()">
                                                     提交
                                                 </button>
-                                                {#                                                modal start #}
-                                                <div class="modal fade" id="primarymodal">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content border-primary">
-                                                            <div class="modal-header bg-primary">
-                                                                <h5 class="modal-title text-white">Your modal title
-                                                                    here</h5>
-                                                                <button type="button" class="close text-white"
-                                                                        data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p></p>
-                                                                <p></p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-inverse-primary"
-                                                                        data-dismiss="modal"><i class="fa fa-times"></i>
-                                                                    关闭
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary"><i
-                                                                        class="fa fa-check-square-o"></i> 保存
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!--End Modal -->
+
+                                                <span id="submit_info"></span>
+                                                <span id="save_info"></span>
                                             </div>
                                         </div>
                             </form>
@@ -339,72 +366,261 @@
         });
 
     </script>
+    {#自定义js函数#}
+    {#    <script>#}
+    {#        function checkout(type, limit) {#}
+    {##}
+    {#            var input_value = $("#" + type).val()#}
+    {##}
+    {#            if (limit == 'a1') {#}
+    {#数据类型a1为字母和数字，校验不通过则在input标签上级标签后显示报错信息#}
+    {#                if (!/[0-9A-Za-z]+/.test(input_value)) {#}
+    {#                    var key = $("#" + type + '_key').val()#}
+    {#                    var title = $("#" + type).parent().attr('id')#}
+    {#                    console.log('title ' + title)#}
+    {#                    while (true) {#}
+    {#                        if (!title.startsWith('input') || title.length == 0) {#}
+    {#                            title = $("#" + title).parent().attr('id')#}
+    {#                        }#}
+    {#                        else {#}
+    {#                            break#}
+    {#                        }#}
+    {#                    }#}
+    {#                    $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +#}
+    {#                        "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +#}
+    {#                        "                                <div class=\"alert-icon contrast-alert\">\n" +#}
+    {#                        "                                    <i class=\"fa fa-times\"></i>\n" +#}
+    {#                        "                                </div>\n" +#}
+    {#                        "                                <div class=\"alert-message\">\n" +#}
+    {#                        "                                    <span><strong>注意!</strong> 此处只允许输入字母和数字!或检查是否为空！</span>\n" +#}
+    {#                        "                                </div>\n" +#}
+    {#                        "                            </div>").insertAfter("#" + title);#}
+    {#                }#}
+    {#            }#}
+    {#            else if (limit = '1') {#}
+    {#                if (!/[\d]/g.test(input_value)) {#}
+    {#                    var key = $("#" + type + '_key').val()#}
+    {#                    var title = $("#" + type).parent().attr('id')#}
+    {#                    console.log('title ' + title)#}
+    {#                    while (true) {#}
+    {#                        if (!title.startsWith('input') || title.length == 0) {#}
+    {#                            title = $("#" + title).parent().attr('id')#}
+    {#                        }#}
+    {#                        else {#}
+    {#                            break#}
+    {#                        }#}
+    {#                    }#}
+    {#                    $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +#}
+    {#                        "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +#}
+    {#                        "                                <div class=\"alert-icon contrast-alert\">\n" +#}
+    {#                        "                                    <i class=\"fa fa-times\"></i>\n" +#}
+    {#                        "                                </div>\n" +#}
+    {#                        "                                <div class=\"alert-message\">\n" +#}
+    {#                        "                                    <span><strong>注意!</strong> 此处只允许输入数字!或检查是否为空！</span>\n" +#}
+    {#                        "                                </div>\n" +#}
+    {#                        "                            </div>").insertAfter("#" + title);#}
+    {#                }#}
+    {#            }#}
+    {#        }#}
+    {##}
+    {#    </script>#}
 
     <script>
-        function checkout(type, limit) {
-            var input_value = $("#" + type).val()
-            var html_text = ""
-
-            if (limit == 'a1') {
-                {#数据类型a1为字母和数字，校验不通过则在input标签上级标签后显示报错信息#}
-                if (!/[0-9A-Za-z]+/.test(input_value)) {
-                    var key = $("#" + type + '_key').val()
-                    var title = $("#" + type).parent().attr('id')
-                    console.log('title ' + title)
-                    while (true) {
-                        if (!title.startsWith('input') || title.length == 0) {
-                            title = $("#" + title).parent().attr('id')
-                        }
-                        else {
-                            break
-                        }
-                    }
-                    $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +
-                        "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
-                        "                                <div class=\"alert-icon contrast-alert\">\n" +
-                        "                                    <i class=\"fa fa-times\"></i>\n" +
-                        "                                </div>\n" +
-                        "                                <div class=\"alert-message\">\n" +
-                        "                                    <span><strong>注意!</strong> 此处只允许输入字母和数字!或检查是否为空！</span>\n" +
-                        "                                </div>\n" +
-                        "                            </div>").insertAfter("#" + title);
-                }
-            }
-            else if (limit = '1') {
-                if (!/[\d]/g.test(input_value)) {
-                    var key = $("#" + type + '_key').val()
-                    var title = $("#" + type).parent().attr('id')
-                    console.log('title ' + title)
-                    while (true) {
-                        if (!title.startsWith('input') || title.length == 0) {
-                            title = $("#" + title).parent().attr('id')
-                        }
-                        else {
-                            break
-                        }
-                    }
-                    $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +
-                        "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
-                        "                                <div class=\"alert-icon contrast-alert\">\n" +
-                        "                                    <i class=\"fa fa-times\"></i>\n" +
-                        "                                </div>\n" +
-                        "                                <div class=\"alert-message\">\n" +
-                        "                                    <span><strong>注意!</strong> 此处只允许输入数字!或检查是否为空！</span>\n" +
-                        "                                </div>\n" +
-                        "                            </div>").insertAfter("#" + title);
-                }
-            }
-        }
-    </script>
-
-    <script>
-        function saveData() {
-            var region_code = $('#region_code option:selected').val()
-            var standard_use_code='';
+        function check_select() {
+            var input_notice_no = $(" #input_notice_no ").val()
+            var input_land_location = $(" #input_land_location ").val();
+            var input_date_begin = $(" #input_date_begin ").val();
+            var input_date_end = $(" #input_date_end ").val();
+            var input_assignment_limit = $(" #input_assignment_limit ").val();
+            var input_total_area = $(" #input_total_area ").val();
+            var input_construction_area = $(" #input_construction_area ").val();
+            var input_plan_area = $(" #input_plan_area ").val();
+            var input_floor_area_ratio = $(" #input_floor_area_ratio ").val();
+            var input_building_density = $(" #input_building_density ").val();
+            var input_greening_rate = $(" #input_greening_rate ").val();
+            var input_business_proportion = $(" #input_business_proportion ").val();
+            var input_price_begin = $(" #input_price_begin ").val();
+            var input_security_deposit = $(" #input_security_deposit ").val();
+            var input_notice_use = $(" #input_notice_use ").val();
+            var select_region_code = $('#select_region_code option:selected').val();
+            var select_assignment_method = $('#select_assignment_method option:selected').val();
+            var select_plan_use_custom = $('#select_plan_use_custom option:selected').val();
+            var standard_use_code = '';
             $("#standard_use_code option:selected").each(function () {
-                standard_use_code=standard_use_code+$(this).text()+';'
+                standard_use_code = standard_use_code + $(this).text() + ';'
+            });
+            var state = '0';
+            var input_list = {
+                input_notice_no: input_notice_no,
+                input_land_location: input_land_location,
+                input_date_begin: input_date_begin,
+                input_date_end: input_date_end,
+                input_assignment_limit: input_assignment_limit,
+                input_total_area: input_total_area,
+                input_construction_area: input_construction_area,
+                input_plan_area: input_plan_area,
+                input_floor_area_ratio: input_floor_area_ratio,
+                input_building_density: input_building_density,
+                input_greening_rate: input_greening_rate,
+                input_business_proportion: input_business_proportion,
+                input_price_begin: input_price_begin,
+                input_security_deposit: input_security_deposit,
+                input_notice_use: input_notice_use,
+            }
+            var select_list = {
+                select_region_code: select_region_code,
+                select_assignment_method: select_assignment_method,
+                select_plan_use_custom: select_plan_use_custom
+            }
+            if (state == '0') {
+                for (i in input_list) {
+                    if (input_list[i] == "") {
+                        var info = $("#label_" + i).html()
+                        $("#submit_info").html('请填写' + info)
+                        $("#submit_info").css("color", "red")
+                        $('#submit_data').css('cursor', 'not-allowed')
+                        state = '1'
+                        break
+                    }
+                }
+            }
+            if (state == '0') {
+                for (i in select_list) {
+                    if (select_list[i] == '-1') {
+                        var info = $("#label_" + i).html()
+                        $("#submit_info").html('请选择' + info)
+                        $("#submit_info").css("color", "red")
+                        $('#submit_data').css('cursor', 'not-allowed')
+                        state = '1'
+                        break
+                    }
+                }
+            }
+            if (state == '0') {
+                if (standard_use_code == '') {
+                    $("#submit_info").html('请选择标准用途分类')
+                    $("#submit_info").css("color", "red")
+                    $('#submit_data').css('cursor', 'not-allowed')
+                    state = '1'
+                }
+            }
+            if (state == '0') {
+                $("#submit_info").html('')
+                $('#submit_data').removeAttr('style')
+            }
+
+
+        }
+
+
+        function saveData() {
+            var input_notice_no = $(" #input_notice_no ").val()
+            var select_region_code = $('#select_region_code option:selected').val();
+            var input_land_location = $(" #input_land_location ").val();
+            var input_date_begin = $(" #input_date_begin ").val();
+            var input_date_end = $(" #input_date_end ").val();
+            var select_assignment_method = $('#select_assignment_method option:selected').val();
+            var input_assignment_limit = $(" #input_assignment_limit ").val();
+            var input_total_area = $(" #input_total_area ").val();
+            var input_construction_area = $(" #input_construction_area ").val();
+            var input_plan_area = $(" #input_plan_area ").val();
+            var input_floor_area_ratio = $(" #input_floor_area_ratio ").val();
+            var input_building_density = $(" #input_building_density ").val();
+            var input_greening_rate = $(" #input_greening_rate ").val();
+            var input_business_proportion = $(" #input_business_proportion ").val();
+            var input_price_begin = $(" #input_price_begin ").val();
+            var input_security_deposit = $(" #input_security_deposit ").val();
+            var input_notice_use = $(" #input_notice_use ").val();
+            var select_plan_use_custom = $('#select_plan_use_custom option:selected').val();
+            var standard_use_code = '';
+            $("#standard_use_code option:selected").each(function () {
+                standard_use_code = standard_use_code + $(this).text() + ';'
+            });
+            if ($('#submit_data').css('cursor') == 'not-allowed') {
+                return false
+            }
+            else {
+                $.ajax({
+                        type: "GET",
+                        url: "{{ url_for('datamanage.landSellAdderSave') }}",
+                        data: {
+                            input_notice_no: input_notice_no,
+                            select_region_code: select_region_code,
+                            input_land_location: input_land_location,
+                            input_date_begin: input_date_begin,
+                            input_date_end: input_date_end,
+                            select_assignment_method: select_assignment_method,
+                            input_assignment_limit: input_assignment_limit,
+                            input_total_area: input_total_area,
+                            input_construction_area: input_construction_area,
+                            input_plan_area: input_plan_area,
+                            input_floor_area_ratio: input_floor_area_ratio,
+                            input_building_density: input_building_density,
+                            input_greening_rate: input_greening_rate,
+                            input_business_proportion: input_business_proportion,
+                            input_price_begin: input_price_begin,
+                            input_security_deposit: input_security_deposit,
+                            input_notice_use: input_notice_use,
+                            select_plan_use_custom: select_plan_use_custom,
+                            standard_use_code: standard_use_code
+                        },
+                        dataType: "json",
+                        success:
+                            function (data) {
+                                if (data.return_code == '200') {
+                                    console.log('111')
+                                    anim5_noti(value='保存成功！')
+                                }
+                                else if (data.return_code == '1000') {
+                                    console.log(data.return_info)
+                                    anim4_noti(data.return_info)
+                                }
+                            }
+                    }
+                )
+                return false
+            }
+
+        }
+
+
+    </script>
+    <script>
+        function notice_no_is_repetition() {
+            $.ajax({
+                type: "GET",
+                url: "{{ url_for('datamanage.noticeNoIsRepetition') }}",
+                data: {notice_no: $('#input_notice_no').val()},
+                dataType: "json",
+                success: function (data) {
+                    if (data.return_code == '1000') {
+                        $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +
+                            "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +
+                            "                                <div class=\"alert-icon contrast-alert\">\n" +
+                            "                                    <i class=\"fa fa-times\"></i>\n" +
+                            "                                </div>\n" +
+                            "                                <div class=\"alert-message\">\n" +
+                            "                                    <span><strong>注意!</strong> 公告编号重复，请检查后输入！</span>\n" +
+                            "                                </div>\n" +
+                            "                            </div>").insertAfter("#input_notice_no_title");
+                    }
+                }
             })
-            console.log(standard_use_code)
         }
     </script>
+    {#自定义js函数_end#}
+    <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+
+    <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+
+    <!-- simplebar js -->
+    <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
+    <!-- sidebar-menu js -->
+    <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
+
+    <!-- Custom scripts -->
+
+    <script src="{{ url_for('static',filename='assets/plugins/notifications/js/lobibox.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notifications.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
 {% endblock %}
