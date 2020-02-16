@@ -17,6 +17,8 @@ def create_app(config_name='development'):
     app.config.from_object(config[config_name])
     db.init_app(app)
     login_manager.init_app(app)
+    from .api import api_models
+    api_models.init_app(app=app)
     with app.test_request_context():
         db.create_all()
 
@@ -34,5 +36,8 @@ def create_app(config_name='development'):
 
     from .calendar import calendar as calendar_blueprint
     app.register_blueprint(calendar_blueprint, url_prefix='/calendar')
+
+    from .api import api as api_blueprint
+    app.register_blueprint(api_blueprint, url_prefix='/api')
 
     return app

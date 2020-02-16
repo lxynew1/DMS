@@ -7,22 +7,24 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>{% block title %}{% endblock %}数据管理平台</title>
-    <!--favicon-->
-    <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.ico') }}" type="image/x-icon">
-    <!-- simplebar CSS-->
-    <link href="{{ url_for('static',filename='assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet"/>
-    <!-- Bootstrap core CSS-->
-    <link href="{{ url_for('static',filename='assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
-    <!-- animate CSS-->
-    <link href="{{ url_for('static',filename='assets/css/animate.css') }}" rel="stylesheet" type="text/css"/>
-    <!-- Icons CSS-->
-    <link href="{{ url_for('static',filename='assets/css/icons.css') }}" rel="stylesheet" type="text/css"/>
-    <!-- Sidebar CSS-->
-    <link href="{{ url_for('static',filename='assets/css/sidebar-menu.css') }}" rel="stylesheet"/>
-    <!-- Custom Style-->
-    <link href="{{ url_for('static',filename='assets/css/app-style.css') }}" rel="stylesheet"/>
 
+    {% block link %}
+        <!--favicon-->
+        <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.ico') }}" type="image/x-icon">
+        <!-- simplebar CSS-->
+        <link href="{{ url_for('static',filename='assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet"/>
+        <!-- Bootstrap core CSS-->
+        <link href="{{ url_for('static',filename='assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
+        <!-- animate CSS-->
+        <link href="{{ url_for('static',filename='assets/css/animate.css') }}" rel="stylesheet" type="text/css"/>
+        <!-- Icons CSS-->
+        <link href="{{ url_for('static',filename='assets/css/icons.css') }}" rel="stylesheet" type="text/css"/>
+        <!-- Sidebar CSS-->
+        <link href="{{ url_for('static',filename='assets/css/sidebar-menu.css') }}" rel="stylesheet"/>
+        <!-- Custom Style-->
+        <link href="{{ url_for('static',filename='assets/css/app-style.css') }}" rel="stylesheet"/>
 
+    {% endblock %}
 </head>
 
 <body>
@@ -62,8 +64,8 @@
             </div>
             <div id="user-dropdown" class="collapse">
                 <ul class="user-setting-menu">
-                    <li><a href="javaScript:void();"><i class="icon-user"></i> 我的 </a></li>
-                    <li><a href="javaScript:void();"><i class="icon-settings"></i> 设置 </a></li>
+                    <li><a href="javaScript:void(0);"><i class="icon-user"></i> 我的 </a></li>
+                    <li><a href="javaScript:void(0);"><i class="icon-settings"></i> 设置 </a></li>
                     <li><a href="{{ url_for('auth.logout') }}"><i class="icon-power"></i> 登出 </a></li>
                 </ul>
             </div>
@@ -71,7 +73,7 @@
         <ul class="sidebar-menu do-nicescrol">
             <li class="sidebar-header">主菜单</li>
             <li>
-                <a href="javaScript:void();" class="waves-effect">
+                <a href="javaScript:void(0);" class="waves-effect">
                     <i class="zmdi zmdi-view-dashboard"></i> <span>管理面板</span><i
                         class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -82,7 +84,7 @@
                 </ul>
             </li>
             <li>
-                <a href="javaScript:void();" class="waves-effect">
+                <a href="javaScript:void(0);" class="waves-effect">
                     <i class="zmdi zmdi-layers"></i>
                     <span>资源共享</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -106,7 +108,7 @@
                 </ul>
             </li>
             <li>
-                <a href="javaScript:void();" class="waves-effect">
+                <a href="javaScript:void(0);" class="waves-effect">
                     <i class="zmdi zmdi-card-travel"></i>
                     <span>工具箱</span>
                     <i class="fa fa-angle-left pull-right"></i>
@@ -133,7 +135,7 @@
                 </ul>
             </li>
             <li>
-                <a href="javaScript:void();" class="waves-effect">
+                <a href="javaScript:void(0);" class="waves-effect">
                     <i class="zmdi zmdi-chart"></i> <span>数据统计</span>
                     <i class="fa fa-angle-left float-right"></i>
                 </a>
@@ -147,7 +149,7 @@
                 </ul>
             </li>
             <li>
-                <a href="javaScript:void();" class="waves-effect">
+                <a href="javaScript:void(0);" class="waves-effect">
                     <i class="zmdi zmdi-invert-colors"></i> <span>素材库</span>
                     <i class="fa fa-angle-left float-right"></i>
                 </a>
@@ -170,7 +172,7 @@
             </li>
 
             <li>
-                <a href="javaScript:void();" class="waves-effect">
+                <a href="javaScript:void(0);" class="waves-effect">
                     <i class="zmdi zmdi-email"></i>
                     <span>邮箱</span>
                     <small class="badge float-right badge-warning">12</small>
@@ -183,14 +185,15 @@
             </li>
 
             <li>
-                <a href="javaScript:void();" class="waves-effect">
+                <a href="javaScript:void(0);" class="waves-effect">
                     <i class="zmdi zmdi-format-list-bulleted"></i> <span>数据管理</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="sidebar-submenu">
                     <li><a href="{{ url_for('datamanage.landSellAdder') }}"><i class="zmdi zmdi-long-arrow-right"></i>
                         土地数据录入 </a></li>
-                    <li><a href="#"><i class="zmdi zmdi-long-arrow-right"></i> 土拍数据查询</a></li>
+                    <li><a href="{{ url_for('datamanage.landSellSearch') }}"><i class="zmdi zmdi-long-arrow-right"></i>
+                        土拍数据查询</a></li>
                     <li><a href="form-layouts.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Layouts</a></li>
                     <li><a href="form-advanced.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Advanced</a></li>
                     <li><a href="form-uploads.html"><i class="zmdi zmdi-long-arrow-right"></i> Form Uploads</a></li>
@@ -202,7 +205,7 @@
             </li>
 
             {#            <li>#}
-            {#                <a href="javaScript:void();" class="waves-effect">#}
+            {#                <a href="javaScript:void(0);" class="waves-effect">#}
             {#                    <i class="zmdi zmdi-lock"></i> <span>Authentication</span>#}
             {#                    <i class="fa fa-angle-left float-right"></i>#}
             {#                </a>#}
@@ -232,7 +235,7 @@
             {#            </li>#}
 
             <li>
-                <a href="javaScript:void();" class="waves-effect">
+                <a href="javaScript:void(0);" class="waves-effect">
                     <i class="zmdi zmdi-grid"></i> <span>爬虫管理</span>
                     <i class="fa fa-angle-left float-right"></i>
                 </a>
@@ -244,7 +247,7 @@
             </li>
 
             <li>
-                <a href="javaScript:void();" class="waves-effect">
+                <a href="javaScript:void(0);" class="waves-effect">
                     <i class="zmdi zmdi-map"></i> <span>地图</span>
                     <i class="fa fa-angle-left float-right"></i>
                 </a>
@@ -255,7 +258,7 @@
             </li>
 
             {#            <li>#}
-            {#                <a href="javaScript:void();" class="waves-effect">#}
+            {#                <a href="javaScript:void(0);" class="waves-effect">#}
             {#                    <i class="zmdi zmdi-collection-folder-image"></i> <span>Sample Pages</span>#}
             {#                    <i class="fa fa-angle-left float-right"></i>#}
             {#                </a>#}
@@ -272,40 +275,40 @@
             {#            </li>#}
 
             {#            <li>#}
-            {#                <a href="javaScript:void();" class="waves-effect">#}
+            {#                <a href="javaScript:void(0);" class="waves-effect">#}
             {#                    <i class="fa fa-share"></i> <span>Multilevel</span>#}
             {#                    <i class="fa fa-angle-left pull-right"></i>#}
             {#                </a>#}
             {#                <ul class="sidebar-submenu">#}
-            {#                    <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level One</a></li>#}
+            {#                    <li><a href="javaScript:void(0);"><i class="zmdi zmdi-long-arrow-right"></i> Level One</a></li>#}
             {#                    <li>#}
-            {#                        <a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level One <i#}
+            {#                        <a href="javaScript:void(0);"><i class="zmdi zmdi-long-arrow-right"></i> Level One <i#}
             {#                                class="fa fa-angle-left pull-right"></i></a>#}
             {#                        <ul class="sidebar-submenu">#}
-            {#                            <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level Two</a>#}
+            {#                            <li><a href="javaScript:void(0);"><i class="zmdi zmdi-long-arrow-right"></i> Level Two</a>#}
             {#                            </li>#}
             {#                            <li>#}
-            {#                                <a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level Two <i#}
+            {#                                <a href="javaScript:void(0);"><i class="zmdi zmdi-long-arrow-right"></i> Level Two <i#}
             {#                                        class="fa fa-angle-left pull-right"></i></a>#}
             {#                                <ul class="sidebar-submenu">#}
-            {#                                    <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level#}
+            {#                                    <li><a href="javaScript:void(0);"><i class="zmdi zmdi-long-arrow-right"></i> Level#}
             {#                                        Three</a></li>#}
-            {#                                    <li><a href="javaScript:void();"><i class="zmdi zmdi-long-arrow-right"></i> Level#}
+            {#                                    <li><a href="javaScript:void(0);"><i class="zmdi zmdi-long-arrow-right"></i> Level#}
             {#                                        Three</a></li>#}
             {#                                </ul>#}
             {#                            </li>#}
             {#                        </ul>#}
             {#                    </li>#}
-            {#                    <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-long-arrow-right"></i>#}
+            {#                    <li><a href="javaScript:void(0);" class="waves-effect"><i class="zmdi zmdi-long-arrow-right"></i>#}
             {#                        Level One</a></li>#}
             {#                </ul>#}
             {#            </li>#}
             <li class="sidebar-header">标签</li>
-            <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>重要事件</span></a>
+            <li><a href="javaScript:void(0);" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>重要事件</span></a>
             </li>
-            <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-chart-donut text-success"></i>
+            <li><a href="javaScript:void(0);" class="waves-effect"><i class="zmdi zmdi-chart-donut text-success"></i>
                 <span>提示</span></a></li>
-            <li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-share text-info"></i>
+            <li><a href="javaScript:void(0);" class="waves-effect"><i class="zmdi zmdi-share text-info"></i>
                 <span>分享</span></a>
             </li>
         </ul>
@@ -318,14 +321,14 @@
         <nav class="navbar navbar-expand fixed-top">
             <ul class="navbar-nav mr-auto align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link toggle-menu" href="javascript:void();">
+                    <a class="nav-link toggle-menu" href="javascript:void(0);">
                         <i class="icon-menu menu-icon"></i>
                     </a>
                 </li>
                 <li class="nav-item">
                     <form class="search-bar">
                         <input type="text" class="form-control" placeholder="输入关键词">
-                        <a href="javascript:void();"><i class="icon-magnifier"></i></a>
+                        <a href="javascript:void(0);"><i class="icon-magnifier"></i></a>
                     </form>
                 </li>
             </ul>
@@ -333,7 +336,7 @@
             <ul class="navbar-nav align-items-center right-nav-link">
                 <li class="nav-item dropdown-lg">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-                       href="javascript:void();">
+                       href="javascript:void(0);">
                         <i class="fa fa-envelope-open-o"></i><span class="badge badge-light badge-up">12</span></a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <ul class="list-group list-group-flush">
@@ -342,7 +345,7 @@
                                 <span class="badge badge-light">12</span>
                             </li>
                             <li class="list-group-item">
-                                <a href="javaScript:void();">
+                                <a href="javaScript:void(0);">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
                                                                  src="{{ url_for('static',filename='assets/images/avatars/avatar-5.png') }}"
@@ -356,7 +359,7 @@
                                 </a>
                             </li>
                             <li class="list-group-item">
-                                <a href="javaScript:void();">
+                                <a href="javaScript:void(0);">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
                                                                  src="{{ url_for('static',filename='assets/images/avatars/avatar-6.png') }}"
@@ -370,7 +373,7 @@
                                 </a>
                             </li>
                             <li class="list-group-item">
-                                <a href="javaScript:void();">
+                                <a href="javaScript:void(0);">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
                                                                  src="{{ url_for('static',filename='assets/images/avatars/avatar-7.png') }}"
@@ -384,7 +387,7 @@
                                 </a>
                             </li>
                             <li class="list-group-item">
-                                <a href="javaScript:void();">
+                                <a href="javaScript:void(0);">
                                     <div class="media">
                                         <div class="avatar"><img class="align-self-start mr-3"
                                                                  src="{{ url_for('static',filename='assets/images/avatars/avatar-8.png') }}"
@@ -397,14 +400,14 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="list-group-item text-center"><a href="javaScript:void();">See All Messages</a>
+                            <li class="list-group-item text-center"><a href="javaScript:void(0);">See All Messages</a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item dropdown-lg">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-                       href="javascript:void();">
+                       href="javascript:void(0);">
                         <i class="fa fa-bell-o"></i><span class="badge badge-info badge-up">14</span></a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <ul class="list-group list-group-flush">
@@ -413,7 +416,7 @@
                                 <span class="badge badge-info">14</span>
                             </li>
                             <li class="list-group-item">
-                                <a href="javaScript:void();">
+                                <a href="javaScript:void(0);">
                                     <div class="media">
                                         <i class="zmdi zmdi-accounts fa-2x mr-3 text-info"></i>
                                         <div class="media-body">
@@ -424,7 +427,7 @@
                                 </a>
                             </li>
                             <li class="list-group-item">
-                                <a href="javaScript:void();">
+                                <a href="javaScript:void(0);">
                                     <div class="media">
                                         <i class="zmdi zmdi-coffee fa-2x mr-3 text-warning"></i>
                                         <div class="media-body">
@@ -435,7 +438,7 @@
                                 </a>
                             </li>
                             <li class="list-group-item">
-                                <a href="javaScript:void();">
+                                <a href="javaScript:void(0);">
                                     <div class="media">
                                         <i class="zmdi zmdi-notifications-active fa-2x mr-3 text-danger"></i>
                                         <div class="media-body">
@@ -445,14 +448,14 @@
                                     </div>
                                 </a>
                             </li>
-                            <li class="list-group-item text-center"><a href="javaScript:void();">See All
+                            <li class="list-group-item text-center"><a href="javaScript:void(0);">See All
                                 Notifications</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item language">
                     <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown"
-                       href="javascript:void();"><i class="fa fa-flag"></i></a>
+                       href="javascript:void(0);"><i class="fa fa-flag"></i></a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-item"><i class="flag-icon flag-icon-gb mr-2"></i> English</li>
                         <li class="dropdown-item"><i class="flag-icon flag-icon-fr mr-2"></i> French</li>
@@ -467,7 +470,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li class="dropdown-item user-details">
-                            <a href="javaScript:void();">
+                            <a href="javaScript:void(0);">
                                 <div class="media">
                                     <div class="avatar"><img class="align-self-start mr-3"
                                                              src="{{ current_user.head_img }}"
@@ -495,15 +498,22 @@
     </header>
     <!--End topbar header-->
 
-    <div class="clearfix"></div>
+    <div class="clearfix">
+        <div style="background-color: red">{% block head %}{% endblock %}</div>
+        <br>
+    </div>
     {% block detail %}
         {#    自定义内容#}
         {#	<!--Start footer-->#}
     {% endblock %}
+
+    <a href="javaScript:void(0);" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+
     <footer class="footer">
         <div class="container">
             <div class="text-center">
                 Copyright © 2020 DMS</a>  All rights reserved.
+
             </div>
         </div>
     </footer>
@@ -517,15 +527,12 @@
     <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
     <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
-
     <!-- simplebar js -->
     <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
     <!-- sidebar-menu js -->
     <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
-
     <!-- Custom scripts -->
     <script src="{{ url_for('static',filename='assets/js/app-script.js') }}"></script>
-
     <!-- Chart js -->
     <script src="{{ url_for('static',filename='assets/plugins/Chart.js/Chart.min.js') }}"></script>
     <!-- Easy Pie Chart JS -->
@@ -533,15 +540,13 @@
     <!-- Knob Chart -->
     <script src="{{ url_for('static',filename='assets/plugins/jquery-knob/excanvas.js') }}"></script>
     <script src="{{ url_for('static',filename='assets/plugins/jquery-knob/jquery.knob.js') }}"></script>
-
+    <!-- fb-index2 js -->
+    <script src="{{ url_for('static',filename='assets/js/index2.js') }}"></script>
+    <script>
+        $(function () {
+            $(".knob").knob();
+        });
+    </script>
 {% endblock %}
-<script>
-    $(function () {
-        $(".knob").knob();
-    });
-</script>
-<!-- fb-index2 js -->
-<script src="{{ url_for('static',filename='assets/js/index2.js') }}"></script>
-
 </body>
 </html>

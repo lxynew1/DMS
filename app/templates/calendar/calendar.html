@@ -1,12 +1,28 @@
-{% extends "base.html" %}
+{% extends "headers.html" %}
 {% block script %}
-    {{ super() }}
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+    <!-- simplebar js -->
+    <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
+    <!-- sidebar-menu js -->
+    <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
+    <!-- Custom scripts -->
+    <script src="{{ url_for('static',filename='assets/js/app-script.js') }}"></script>
+    <!-- Chart js -->
+    <script src="{{ url_for('static',filename='assets/plugins/Chart.js/Chart.min.js') }}"></script>
+    <!-- Easy Pie Chart JS -->
+    <script src="{{ url_for('static',filename='assets/plugins/jquery.easy-pie-chart/jquery.easypiechart.min.js') }}"></script>
+    <!-- Knob Chart -->
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-knob/excanvas.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-knob/jquery.knob.js') }}"></script>
+
     <script src='/static/assets/plugins/fullcalendar/js/moment.min.js'></script>
     <script src='/static/assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
     {#	<script src="/static/assets/plugins/fullcalendar/js/fullcalendar-custom-script.js"></script>#}
     <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
     <script src='/static/assets/dateparse/dateparse.js'></script>
-    <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
     <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
     <script src='/static/assets/plugins/fullcalendar/js/bootstrap.min.js'></script>
     <script>
@@ -53,7 +69,13 @@
                             $.ajax({
                                 type: "get",
                                 url: "{{ url_for('calendar.store_user_calendar') }}",
-                                data: { title: title, start: start.toISOString(), end: end.toISOString(),UID: "{{ current_user.id }}",url:'#'},
+                                data: {
+                                    title: title,
+                                    start: start.toISOString(),
+                                    end: end.toISOString(),
+                                    UID: "{{ current_user.id }}",
+                                    url: '#'
+                                },
                                 success: function (res) {
                                     alert("保存成功！")
 
@@ -103,10 +125,11 @@
 {% endblock %}
 {% block link %}
     {{ super() }}
-	<link href='/static/assets/plugins/fullcalendar/css/fullcalendar.css' rel='stylesheet' />
-	<!-- simplebar CSS-->
-	<link href="/static/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet" />
-
+    <link href='/static/assets/plugins/fullcalendar/css/fullcalendar.css' rel='stylesheet'/>
+    <!-- simplebar CSS-->
+    <link href="/static/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
 {% endblock %}
 {% block detail %}
     <div class="content-wrapper">
@@ -151,6 +174,5 @@
     <!--Start Back To Top Button-->
     {#    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>#}
     <!--End Back To Top Button-->
-
 {% endblock %}
 

@@ -1,6 +1,7 @@
-{% extends "headers.html" %}
-{% block link %}
-    <meta charset="utf-8"/>
+<!DOCTYPE html>
+<html>
+	<head>	
+	<meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
@@ -74,8 +75,7 @@
             margin: 1%;
         }
     </style>
-{% endblock %}
-{% block script %}
+</head>
     <script src="/static/assets/js/jquery.min.js"></script>
     <script src="/static/assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
     <script src="/static/assets/js/popper.min.js"></script>
@@ -357,10 +357,8 @@
 
     </script>
 
-
-{% endblock %}
-
-{% block detail %}
+<body>
+	
     <div class="content-wrapper">
         <div class="container-fluid">
             <!-- Breadcrumb-->
@@ -467,5 +465,4 @@
             <!-- End container-fluid-->
         </div>
     </div>
-
-{% endblock %}
+</body>
