@@ -7,4 +7,4 @@ from flask import Blueprint
 
 datamanage = Blueprint('datamanage', __name__)
 
-from . import views,views01
+from . import views
