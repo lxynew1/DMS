@@ -1,26 +1,29 @@
+import datetime
+
 from flask import render_template, redirect, request, url_for, flash, json, jsonify
 from flask_login import login_user
 from flask_login import login_required, logout_user
-from sqlalchemy import asc, desc
+from sqlalchemy import asc, desc, and_
 
 from app.auth.forms import RegistrationForm
 from . import datamanage
 from .forms import LandSellSearch
 from ..models import User, DICT_REGION, DICT_LAND_USE
-from ..models import LAND_SELL_INFO_TEST_LXY
+from ..models import LAND_SELL_INFO
 from app.util import log
 
 
 @datamanage.route('/landSellSearch', methods=['GET', 'POST'])
+@datamanage.route('/landSellSearchNoUser', methods=['GET', 'POST'])
 @login_required
 def landSellSearch():
     form = LandSellSearch()
     # if request.method == 'POST':
     #     land_location_list = request.values.getlist("land_location")
     #     assignment_method_list = request.values.getlist("assignment_method")
-    #     result = LAND_SELL_INFO_TEST_LXY.query.filter(
-    #         LAND_SELL_INFO_TEST_LXY.LAND_LOCATION.in_(land_location_list)).with_entities(
-    #         LAND_SELL_INFO_TEST_LXY.LAND_LOCATION, LAND_SELL_INFO_TEST_LXY.ASSIGNMENT_METHOD).all()
+    #     result = LAND_SELL_INFO.query.filter(
+    #         LAND_SELL_INFO.LAND_LOCATION.in_(land_location_list)).with_entities(
+    #         LAND_SELL_INFO.LAND_LOCATION, LAND_SELL_INFO.ASSIGNMENT_METHOD).all()
     #     log("LAND_LOCATION,ASSIGNMENT_METHOD:", [(row.LAND_LOCATION, row.ASSIGNMENT_METHOD) for row in result])
     #     flash('block', 'display')
     #     flash(land_location_list, 'land_location_list')
@@ -30,74 +33,157 @@ def landSellSearch():
     return render_template('dataManage/land_sell_search.html', form=form)
 
 
-@datamanage.route('/landSellSearchNoUser', methods=['GET', 'POST'])
-# @login_required
-def landSellSearchNoUser():
-    form = LandSellSearch()
-    # if request.method == 'POST':
-    #     land_location_list = request.values.getlist("land_location")
-    #     assignment_method_list = request.values.getlist("assignment_method")
-    #     result = LAND_SELL_INFO_TEST_LXY.query.filter(
-    #         LAND_SELL_INFO_TEST_LXY.LAND_LOCATION.in_(land_location_list)).with_entities(
-    #         LAND_SELL_INFO_TEST_LXY.LAND_LOCATION, LAND_SELL_INFO_TEST_LXY.ASSIGNMENT_METHOD).all()
-    #     log("LAND_LOCATION,ASSIGNMENT_METHOD:", [(row.LAND_LOCATION, row.ASSIGNMENT_METHOD) for row in result])
-    #     flash('block', 'display')
-    #     flash(land_location_list, 'land_location_list')
-    #     return redirect(url_for('datamanage.landSellSearch'))
-    # else:
-    #     return render_template('dataManage/land_sell_search.html', form=form)
-    return render_template('dataManage/land_sell_search_nouser.html', form=form)
-
-
 @datamanage.route('/landSellSearchTableAdder', methods=['GET', 'POST'])
 def landSellSearchTableAdder():
-    column_order = ["FID", "LAND_LOCATION", "LAND_LOCATION",
-                    "ASSIGNMENT_METHOD"]
+    column_order = ["FID",
+                    "NOTICE_NUM",
+                    "LAND_LOCATION",
+                    "TOTAL_AREA",
+                    "CONSTRUCTION_AREA",
+                    "PLAN_BUILD_AREA",
+                    "PLAN_USE",
+                    "PLAN_USE_CUSTOM",
+                    "FLOOR_AREA_RATIO",
+                    "GREENING_RATE",
+                    "BUSSINESS_PROPORTION",
+                    "BUILDING_DENSITY",
+                    "ASSIGNMENT_METHOD",
+                    "ASSIGNMENT_LIMIT",
+                    "DATE_BEGIN",
+                    "DATE_END",
+                    "REGION_CODE",
+                    "PRICE_BEGIN",
+                    "SECURITY_DEPOSIT",
+                    "NOTICE_USE"
+                    ]
     if request.method == 'POST':
-        testdata = json.loads(request.get_data())
-        # land_location_list = request.values.getlist("land_location")
-        log("test:", testdata)
-        log("test:", type(testdata))
-        draw = testdata['draw']
-        start = testdata['start']
-        length = testdata['length']
-        page = testdata['page']
-        land_location_list = testdata['land_location_list']
-        order = testdata['order']
-        flag = False
-        for v in land_location_list:
-            if v == '全部':
-                flag = True
-        if (flag == True):
-            if (order[0].get('dir') == 'desc'):
-                recordsFiltered = LAND_SELL_INFO_TEST_LXY.query.filter().count()  # 记录数
-                # 这边用paginate来获取请求页码的数据
-                pagination = LAND_SELL_INFO_TEST_LXY.query.filter().order_by(
-                    desc(column_order[order[0].get('column')])).paginate(
-                    page=page, per_page=length, error_out=True)
-            else:
-                recordsFiltered = LAND_SELL_INFO_TEST_LXY.query.filter().count()  # 记录数
-                # 这边用paginate来获取请求页码的数据
-                pagination = LAND_SELL_INFO_TEST_LXY.query.filter().order_by(
-                    asc(column_order[order[0].get('column')])).paginate(
-                    page=page, per_page=length, error_out=True)
+        land_search_data = json.loads(request.get_data())
+        log("land_search_data:", land_search_data)
+        draw = land_search_data['draw']
+        start = land_search_data['start']
+        length = land_search_data['length']
+        page = land_search_data['page']
+        s_day = land_search_data['s_day']
+        if s_day == '':
+            s_day = '1900-01-01'
         else:
-            if (order[0].get('dir') == 'desc'):
-                recordsFiltered = LAND_SELL_INFO_TEST_LXY.query.filter(
-                    LAND_SELL_INFO_TEST_LXY.LAND_LOCATION.in_(land_location_list)).count()  # 记录数
-                # 这边用paginate来获取请求页码的数据
-                pagination = LAND_SELL_INFO_TEST_LXY.query.filter(
-                    LAND_SELL_INFO_TEST_LXY.LAND_LOCATION.in_(land_location_list)).order_by(
-                    desc(column_order[order[0].get('column')])).paginate(
-                    page=page, per_page=length, error_out=True)
-            else:
-                recordsFiltered = LAND_SELL_INFO_TEST_LXY.query.filter(
-                    LAND_SELL_INFO_TEST_LXY.LAND_LOCATION.in_(land_location_list)).count()  # 记录数
-                # 这边用paginate来获取请求页码的数据
-                pagination = LAND_SELL_INFO_TEST_LXY.query.filter(
-                    LAND_SELL_INFO_TEST_LXY.LAND_LOCATION.in_(land_location_list)).order_by(
-                    asc(column_order[order[0].get('column')])).paginate(
-                    page=page, per_page=length, error_out=True)
+            mon = s_day[0:2]
+            day = s_day[3:5]
+            year = s_day[6:10]
+            s_day = year + '-' + mon + '-' + day
+        e_day = land_search_data['e_day']
+        if e_day == '':
+            e_day = '2300-01-01'
+        else:
+            mon = e_day[0:2]
+            day = e_day[3:5]
+            year = e_day[6:10]
+            e_day = year + '-' + mon + '-' + day
+        log(e_day, s_day)
+        region_name_list = [w.REGION_CODE for w in DICT_REGION.query.filter(
+            DICT_REGION.REGION_NAME.in_(land_search_data['region_name_list'])).all()]
+        land_location = '%' + land_search_data['land_location'] + '%'
+        assignment_method_list = land_search_data['assignment_method_list']  # 出让方式
+        assignment_limit_list = land_search_data['assignment_limit_list']  # 出让年限
+        plan_use_list = land_search_data['plan_use_list']  # 规划用途
+        order = land_search_data['order']
+        # 查询条件定义
+
+        # 行政区+公告时间+土地坐落
+        if region_name_list == [] or str(region_name_list).__contains__('全部'):
+            region_rules = and_(*[LAND_SELL_INFO.REGION_CODE.like(w) for w in ['%']],
+                                LAND_SELL_INFO.LAND_LOCATION.like(land_location), LAND_SELL_INFO.DATE_BEGIN >= s_day,
+                                LAND_SELL_INFO.DATE_END <= e_day)
+        else:
+            region_rules = and_(*[LAND_SELL_INFO.REGION_CODE.in_(w) for w in [region_name_list]],
+                                LAND_SELL_INFO.LAND_LOCATION.like(land_location), LAND_SELL_INFO.DATE_BEGIN >= s_day,
+                                LAND_SELL_INFO.DATE_END <= e_day)
+
+        # 出让方式
+        if assignment_method_list == [] or str(assignment_method_list).__contains__('全部'):
+            assignment_method_rules = and_(*[LAND_SELL_INFO.ASSIGNMENT_METHOD.like(w) for w in ['%']])
+        else:
+            assignment_method_rules = and_(*[LAND_SELL_INFO.ASSIGNMENT_METHOD.in_(w) for w in [assignment_method_list]])
+
+        # 出让年限
+        if assignment_limit_list == [] or str(assignment_limit_list).__contains__('全部'):
+            assignment_limit_rules = and_(*[LAND_SELL_INFO.ASSIGNMENT_LIMIT.like(w) for w in ['%']])
+        else:
+            assignment_limit_rules = and_(*[LAND_SELL_INFO.ASSIGNMENT_LIMIT.in_(w) for w in [assignment_limit_list]])
+
+        # 规划用途
+        if plan_use_list == [] or str(assignment_limit_list).__contains__('全部'):
+            plan_use_rules = and_(*[LAND_SELL_INFO.PLAN_USE.like(w) for w in ['%']])
+        else:
+            plan_use_rules = and_(*[LAND_SELL_INFO.PLAN_USE.in_(w) for w in [plan_use_list]])
+
+        if (order[0].get('dir') == 'desc'):  # 确定排序方法
+            recordsFiltered = LAND_SELL_INFO.query.filter(region_rules, assignment_method_rules, assignment_limit_rules,
+                                                          plan_use_rules).count()  # 记录数
+            # 这边用paginate来获取请求页码的数据
+            pagination = LAND_SELL_INFO.query.join(DICT_REGION,
+                                                   LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE).with_entities(
+                LAND_SELL_INFO.FID,
+                LAND_SELL_INFO.NOTICE_NUM,
+                LAND_SELL_INFO.LAND_LOCATION,
+                LAND_SELL_INFO.TOTAL_AREA,
+                LAND_SELL_INFO.CONSTRUCTION_AREA,
+                LAND_SELL_INFO.PLAN_BUILD_AREA,
+                LAND_SELL_INFO.NOTICE_USE,
+                LAND_SELL_INFO.PLAN_USE,
+                LAND_SELL_INFO.PLAN_USE_CUSTOM,
+                LAND_SELL_INFO.FLOOR_AREA_RATIO,
+                LAND_SELL_INFO.GREENING_RATE,
+                LAND_SELL_INFO.BUSSINESS_PROPORTION,
+                LAND_SELL_INFO.BUILDING_DENSITY,
+                LAND_SELL_INFO.ASSIGNMENT_METHOD,
+                LAND_SELL_INFO.ASSIGNMENT_LIMIT,
+                LAND_SELL_INFO.DATE_BEGIN,
+                LAND_SELL_INFO.DATE_END,
+                DICT_REGION.REGION_NAME,
+                LAND_SELL_INFO.PRICE_BEGIN,
+                LAND_SELL_INFO.SECURITY_DEPOSIT,
+                LAND_SELL_INFO.CREATE_BY,
+                LAND_SELL_INFO.CREATE_TIME,
+                LAND_SELL_INFO.MODIFIER_BY,
+                LAND_SELL_INFO.MODIFIER_TIME
+            ).filter(region_rules, assignment_method_rules, assignment_limit_rules, plan_use_rules).order_by(
+                desc(column_order[order[0].get('column')])).paginate(
+                page=page, per_page=length, error_out=True)
+        else:
+            recordsFiltered = LAND_SELL_INFO.query.filter(region_rules, assignment_method_rules, assignment_limit_rules,
+                                                          plan_use_rules).count()  # 记录数
+            # 这边用paginate来获取请求页码的数据
+            pagination = LAND_SELL_INFO.query.join(DICT_REGION,
+                                                   LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE).with_entities(
+                LAND_SELL_INFO.FID,
+                LAND_SELL_INFO.NOTICE_NUM,
+                LAND_SELL_INFO.LAND_LOCATION,
+                LAND_SELL_INFO.TOTAL_AREA,
+                LAND_SELL_INFO.CONSTRUCTION_AREA,
+                LAND_SELL_INFO.PLAN_BUILD_AREA,
+                LAND_SELL_INFO.NOTICE_USE,
+                LAND_SELL_INFO.PLAN_USE,
+                LAND_SELL_INFO.PLAN_USE_CUSTOM,
+                LAND_SELL_INFO.FLOOR_AREA_RATIO,
+                LAND_SELL_INFO.GREENING_RATE,
+                LAND_SELL_INFO.BUSSINESS_PROPORTION,
+                LAND_SELL_INFO.BUILDING_DENSITY,
+                LAND_SELL_INFO.ASSIGNMENT_METHOD,
+                LAND_SELL_INFO.ASSIGNMENT_LIMIT,
+                LAND_SELL_INFO.DATE_BEGIN,
+                LAND_SELL_INFO.DATE_END,
+                DICT_REGION.REGION_NAME,
+                LAND_SELL_INFO.PRICE_BEGIN,
+                LAND_SELL_INFO.SECURITY_DEPOSIT,
+                LAND_SELL_INFO.CREATE_BY,
+                LAND_SELL_INFO.CREATE_TIME,
+                LAND_SELL_INFO.MODIFIER_BY,
+                LAND_SELL_INFO.MODIFIER_TIME
+            ).filter(region_rules, assignment_method_rules, assignment_limit_rules, plan_use_rules).order_by(
+                asc(column_order[order[0].get('column')])).paginate(
+                page=page, per_page=length, error_out=True)
+
         recordsTotal = recordsFiltered
         objs = pagination.items
 
@@ -106,8 +192,31 @@ def landSellSearchTableAdder():
         num = 0
         for obj in objs:
             num = num + 1
-            list = [num, obj.LAND_LOCATION, obj.ASSIGNMENT_METHOD, obj.ASSIGNMENT_LIMIT, obj.DATE_BEGIN, obj.DATE_END,
-                    obj.PRICE_BEGIN]
+            list = [num,
+                    obj.REGION_NAME,  # 区县代码
+                    obj.NOTICE_NUM,  # 公告编号
+                    obj.LAND_LOCATION,  # 位置
+                    obj.TOTAL_AREA,  # 总面积（平方米）
+                    obj.CONSTRUCTION_AREA,  # 建设用地面积（平方米）
+                    obj.PLAN_BUILD_AREA,  # 规划建筑面积（平方米）
+                    obj.PLAN_USE,  # 规划用途
+                    obj.PLAN_USE_CUSTOM,  # 自定义用途
+                    obj.FLOOR_AREA_RATIO,  # 容积率
+                    obj.GREENING_RATE,  # 绿化率
+                    obj.BUSSINESS_PROPORTION,  # 商业比例
+                    obj.BUILDING_DENSITY,  # 建筑密度
+                    obj.ASSIGNMENT_METHOD,  # 出让方式
+                    obj.ASSIGNMENT_LIMIT,  # 出让年限
+                    obj.DATE_BEGIN,  # 起始日期
+                    obj.DATE_END,  # 截止日期
+                    obj.PRICE_BEGIN,  # 起始价（万元）
+                    obj.SECURITY_DEPOSIT,  # 保证金（万元）
+                    # obj.CREATE_BY,  # 创建人
+                    # obj.CREATE_TIME,  # 创建时间
+                    # obj.MODIFIER_BY,  # 修改人
+                    # obj.MODIFIER_TIME,  # 修改时间
+                    obj.NOTICE_USE,  # 公告用途
+                    ]
             data.append(list)
         res = {
             # 看文档 这四个都是必要的参数，还有个error可传可不传

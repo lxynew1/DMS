@@ -1,4 +1,5 @@
 import os
+import logging
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 ORA_CONNECT_STR = 'oracle://DMS:DMS@10.73.9.21/bdc'
@@ -13,6 +14,8 @@ class Config(object):
     SQLALCHEMY_POOL_RECYCLE = 3000  # 配置连接池的 recyle 时间。默认是7200s。
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     max_identifier_length = 128
+    logging.basicConfig()
+    logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
     # SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     # SQLALCHEMY_ECHO = True
 
