@@ -133,7 +133,7 @@
                 serverSide: true,
                 searching: false,  //搜索功能
                 ordering: true,   // 排序功能
-                lengthMenu: [10, 25, 50, 100], //一页行数
+                "lengthMenu": [10, 100, 500, 1000], //一页行数
                 ajax: function (data, callback) {
                     var param = {}
                     var region_name_list = get_el_list('.form-region-name .select2-selection__choice')//行政区
@@ -462,8 +462,8 @@
                                         <thead>
                                         <tr>
                                             <th>序列</th>
-                                            <th>公告编号</th>
                                             <th>所属区县</th>
+                                            <th>公告编号</th>
                                             <th>位置</th>
                                             <th>总面积（平方米）</th>
                                             <th>建设用地面积（平方米）</th>
@@ -480,10 +480,10 @@
                                             <th>截止日期</th>
                                             <th>起始价（万元）</th>
                                             <th>保证金（万元）</th>
-{#                                            <th>创建人</th>#}
-{#                                            <th>创建时间</th>#}
-{#                                            <th>修改人</th>#}
-{#                                            <th>修改时间</th>#}
+                                            {#                                            <th>创建人</th>#}
+                                            {#                                            <th>创建时间</th>#}
+                                            {#                                            <th>修改人</th>#}
+                                            {#                                            <th>修改时间</th>#}
                                             <th>公告用途</th>
 
                                         </tr>
@@ -491,8 +491,9 @@
                                         <tfoot>
                                         <tr>
                                             <th>序列</th>
-                                            <th>公告编号</th>
                                             <th>所属区县</th>
+                                            <th>公告编号</th>
+
                                             <th>位置</th>
                                             <th>总面积（平方米）</th>
                                             <th>建设用地面积（平方米）</th>
@@ -509,10 +510,10 @@
                                             <th>截止日期</th>
                                             <th>起始价（万元）</th>
                                             <th>保证金（万元）</th>
-{#                                            <th>创建人</th>#}
-{#                                            <th>创建时间</th>#}
-{#                                            <th>修改人</th>#}
-{#                                            <th>修改时间</th>#}
+                                            {#                                            <th>创建人</th>#}
+                                            {#                                            <th>创建时间</th>#}
+                                            {#                                            <th>修改人</th>#}
+                                            {#                                            <th>修改时间</th>#}
                                             <th>公告用途</th>
                                         </tr>
                                         </tfoot>

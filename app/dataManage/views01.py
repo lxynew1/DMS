@@ -36,6 +36,7 @@ def landSellSearch():
 @datamanage.route('/landSellSearchTableAdder', methods=['GET', 'POST'])
 def landSellSearchTableAdder():
     column_order = ["FID",
+                    "REGION_NAME",
                     "NOTICE_NUM",
                     "LAND_LOCATION",
                     "TOTAL_AREA",
@@ -51,7 +52,6 @@ def landSellSearchTableAdder():
                     "ASSIGNMENT_LIMIT",
                     "DATE_BEGIN",
                     "DATE_END",
-                    "REGION_CODE",
                     "PRICE_BEGIN",
                     "SECURITY_DEPOSIT",
                     "NOTICE_USE"
@@ -86,9 +86,9 @@ def landSellSearchTableAdder():
         assignment_method_list = land_search_data['assignment_method_list']  # 出让方式
         assignment_limit_list = land_search_data['assignment_limit_list']  # 出让年限
         plan_use_list = land_search_data['plan_use_list']  # 规划用途
-        order = land_search_data['order']
-        # 查询条件定义
+        order = land_search_data['order']  # 排序方式
 
+        # 查询条件定义
         # 行政区+公告时间+土地坐落
         if region_name_list == [] or str(region_name_list).__contains__('全部'):
             region_rules = and_(*[LAND_SELL_INFO.REGION_CODE.like(w) for w in ['%']],
@@ -118,11 +118,16 @@ def landSellSearchTableAdder():
             plan_use_rules = and_(*[LAND_SELL_INFO.PLAN_USE.in_(w) for w in [plan_use_list]])
 
         if (order[0].get('dir') == 'desc'):  # 确定排序方法
-            recordsFiltered = LAND_SELL_INFO.query.filter(region_rules, assignment_method_rules, assignment_limit_rules,
-                                                          plan_use_rules).count()  # 记录数
+            recordsFiltered = LAND_SELL_INFO.query \
+                .filter(region_rules,
+                        assignment_method_rules,
+                        assignment_limit_rules,
+                        plan_use_rules).count()  # 记录数
             # 这边用paginate来获取请求页码的数据
-            pagination = LAND_SELL_INFO.query.join(DICT_REGION,
-                                                   LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE).with_entities(
+            pagination = LAND_SELL_INFO.query \
+                .join(DICT_REGION,
+                      LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE) \
+                .with_entities(
                 LAND_SELL_INFO.FID,
                 LAND_SELL_INFO.NOTICE_NUM,
                 LAND_SELL_INFO.LAND_LOCATION,
@@ -147,15 +152,23 @@ def landSellSearchTableAdder():
                 LAND_SELL_INFO.CREATE_TIME,
                 LAND_SELL_INFO.MODIFIER_BY,
                 LAND_SELL_INFO.MODIFIER_TIME
-            ).filter(region_rules, assignment_method_rules, assignment_limit_rules, plan_use_rules).order_by(
-                desc(column_order[order[0].get('column')])).paginate(
-                page=page, per_page=length, error_out=True)
+            ).filter(region_rules,
+                     assignment_method_rules,
+                     assignment_limit_rules,
+                     plan_use_rules) \
+                .order_by(desc(column_order[order[0].get('column')])) \
+                .paginate(page=page, per_page=length, error_out=True)
         else:
-            recordsFiltered = LAND_SELL_INFO.query.filter(region_rules, assignment_method_rules, assignment_limit_rules,
-                                                          plan_use_rules).count()  # 记录数
+            recordsFiltered = LAND_SELL_INFO.query \
+                .filter(region_rules,
+                        assignment_method_rules,
+                        assignment_limit_rules,
+                        plan_use_rules).count()  # 记录数
             # 这边用paginate来获取请求页码的数据
-            pagination = LAND_SELL_INFO.query.join(DICT_REGION,
-                                                   LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE).with_entities(
+            pagination = LAND_SELL_INFO.query \
+                .join(DICT_REGION,
+                      LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE) \
+                .with_entities(
                 LAND_SELL_INFO.FID,
                 LAND_SELL_INFO.NOTICE_NUM,
                 LAND_SELL_INFO.LAND_LOCATION,
@@ -180,9 +193,12 @@ def landSellSearchTableAdder():
                 LAND_SELL_INFO.CREATE_TIME,
                 LAND_SELL_INFO.MODIFIER_BY,
                 LAND_SELL_INFO.MODIFIER_TIME
-            ).filter(region_rules, assignment_method_rules, assignment_limit_rules, plan_use_rules).order_by(
-                asc(column_order[order[0].get('column')])).paginate(
-                page=page, per_page=length, error_out=True)
+            ).filter(region_rules,
+                     assignment_method_rules,
+                     assignment_limit_rules,
+                     plan_use_rules) \
+                .order_by(asc(column_order[order[0].get('column')])) \
+                .paginate(page=page, per_page=length, error_out=True)
 
         recordsTotal = recordsFiltered
         objs = pagination.items
