@@ -1,7 +1,7 @@
 from flask_wtf import Form
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, SelectField
 from wtforms.validators import Required, Length, Email, DataRequired
-from ..models import LAND_SELL_INFO, DICT_REGION
+from ..models import LAND_SELL_INFO, DICT_REGION, DICT_LAND_USE
 import datetime
 
 year = str(datetime.datetime.now().year)
@@ -13,7 +13,7 @@ date_s = datetime.datetime.strptime(detester_s, '%Y-%m-%d')
 date_e = datetime.datetime.strptime(detester_e, '%Y-%m-%d')
 
 years = [("全部", "全部")]
-a = int(year)-5
+a = int(year) - 5
 a1 = int(year) + 5
 while a <= a1:
     years.extend([(a, a)])
@@ -42,8 +42,8 @@ class LandSellSearch(Form):
         default='全部'
     )
     # PLAN_USE
-    plan_use = SelectField(
-        validators=[DataRequired("请选择规划用途")],
+    plan_use_custom = SelectField(
+        validators=[DataRequired("请选择用途分类")],
         default='全部'
     )
 
@@ -62,8 +62,7 @@ class LandSellSearch(Form):
                                              DICT_REGION.REGION_CODE, DICT_REGION.REGION_NAME).order_by(
                                              DICT_REGION.REGION_CODE.desc()).distinct().all()])
 
-        self.plan_use.choices = [("全部", "全部")]
-        self.plan_use.choices.extend([(str(v.PLAN_USE), str(v.PLAN_USE)) for v in
-                                      LAND_SELL_INFO.query.with_entities(
-                                          LAND_SELL_INFO.PLAN_USE).order_by(
-                                          LAND_SELL_INFO.PLAN_USE.desc()).distinct().all()])
+        self.plan_use_custom.choices = [("全部", "全部")]
+        self.plan_use_custom.choices.extend([(str(v.USE_NAME), str(v.USE_NAME)) for v in
+                                        DICT_LAND_USE.query.filter(
+                                        DICT_LAND_USE.GRADE == 'CUSTOM_USE_1').all()])

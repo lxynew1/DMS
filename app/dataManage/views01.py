@@ -42,8 +42,8 @@ def landSellSearchTableAdder():
                     "TOTAL_AREA",
                     "CONSTRUCTION_AREA",
                     "PLAN_BUILD_AREA",
-                    "PLAN_USE",
-                    "PLAN_USE_CUSTOM",
+                    "USE_NAME",
+                    # "PLAN_USE_CUSTOM",
                     "FLOOR_AREA_RATIO",
                     "GREENING_RATE",
                     "BUSSINESS_PROPORTION",
@@ -85,7 +85,8 @@ def landSellSearchTableAdder():
         land_location = '%' + land_search_data['land_location'] + '%'
         assignment_method_list = land_search_data['assignment_method_list']  # 出让方式
         assignment_limit_list = land_search_data['assignment_limit_list']  # 出让年限
-        plan_use_list = land_search_data['plan_use_list']  # 规划用途
+        plan_use_list = [w.USE_CODE for w in DICT_LAND_USE.query.filter(
+            DICT_LAND_USE.USE_NAME.in_(land_search_data['plan_use_list'])).all()]  # 用途分类
         order = land_search_data['order']  # 排序方式
 
         # 查询条件定义
@@ -111,11 +112,11 @@ def landSellSearchTableAdder():
         else:
             assignment_limit_rules = and_(*[LAND_SELL_INFO.ASSIGNMENT_LIMIT.in_(w) for w in [assignment_limit_list]])
 
-        # 规划用途
+        # 用途分类
         if plan_use_list == [] or str(assignment_limit_list).__contains__('全部'):
             plan_use_rules = and_(*[LAND_SELL_INFO.PLAN_USE.like(w) for w in ['%']])
         else:
-            plan_use_rules = and_(*[LAND_SELL_INFO.PLAN_USE.in_(w) for w in [plan_use_list]])
+            plan_use_rules = and_(*[LAND_SELL_INFO.PLAN_USE_CUSTOM.in_(w) for w in [plan_use_list]])
 
         if (order[0].get('dir') == 'desc'):  # 确定排序方法
             recordsFiltered = LAND_SELL_INFO.query \
@@ -126,7 +127,10 @@ def landSellSearchTableAdder():
             # 这边用paginate来获取请求页码的数据
             pagination = LAND_SELL_INFO.query \
                 .join(DICT_REGION,
-                      LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE) \
+                      LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE)\
+                .join(DICT_LAND_USE,
+                      LAND_SELL_INFO.PLAN_USE_CUSTOM == DICT_LAND_USE.USE_CODE
+                      ) \
                 .with_entities(
                 LAND_SELL_INFO.FID,
                 LAND_SELL_INFO.NOTICE_NUM,
@@ -135,7 +139,7 @@ def landSellSearchTableAdder():
                 LAND_SELL_INFO.CONSTRUCTION_AREA,
                 LAND_SELL_INFO.PLAN_BUILD_AREA,
                 LAND_SELL_INFO.NOTICE_USE,
-                LAND_SELL_INFO.PLAN_USE,
+                DICT_LAND_USE.USE_NAME,
                 LAND_SELL_INFO.PLAN_USE_CUSTOM,
                 LAND_SELL_INFO.FLOOR_AREA_RATIO,
                 LAND_SELL_INFO.GREENING_RATE,
@@ -168,6 +172,9 @@ def landSellSearchTableAdder():
             pagination = LAND_SELL_INFO.query \
                 .join(DICT_REGION,
                       LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE) \
+                .join(DICT_LAND_USE,
+                      LAND_SELL_INFO.PLAN_USE_CUSTOM == DICT_LAND_USE.USE_CODE
+                      ) \
                 .with_entities(
                 LAND_SELL_INFO.FID,
                 LAND_SELL_INFO.NOTICE_NUM,
@@ -176,7 +183,7 @@ def landSellSearchTableAdder():
                 LAND_SELL_INFO.CONSTRUCTION_AREA,
                 LAND_SELL_INFO.PLAN_BUILD_AREA,
                 LAND_SELL_INFO.NOTICE_USE,
-                LAND_SELL_INFO.PLAN_USE,
+                DICT_LAND_USE.USE_NAME,
                 LAND_SELL_INFO.PLAN_USE_CUSTOM,
                 LAND_SELL_INFO.FLOOR_AREA_RATIO,
                 LAND_SELL_INFO.GREENING_RATE,
@@ -215,8 +222,8 @@ def landSellSearchTableAdder():
                     obj.TOTAL_AREA,  # 总面积（平方米）
                     obj.CONSTRUCTION_AREA,  # 建设用地面积（平方米）
                     obj.PLAN_BUILD_AREA,  # 规划建筑面积（平方米）
-                    obj.PLAN_USE,  # 规划用途
-                    obj.PLAN_USE_CUSTOM,  # 自定义用途
+                    obj.USE_NAME,  # 用途分类
+                    # obj.PLAN_USE_CUSTOM,  # 自定义用途
                     obj.FLOOR_AREA_RATIO,  # 容积率
                     obj.GREENING_RATE,  # 绿化率
                     obj.BUSSINESS_PROPORTION,  # 商业比例
