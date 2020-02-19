@@ -14,7 +14,7 @@ from app.util import log
 
 
 @datamanage.route('/landSellSearch', methods=['GET', 'POST'])
-@datamanage.route('/landSellSearchNoUser', methods=['GET', 'POST'])
+# @datamanage.route('/landSellSearchNoUser', methods=['GET', 'POST'])
 @login_required
 def landSellSearch():
     form = LandSellSearch()
