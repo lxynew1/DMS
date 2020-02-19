@@ -12,13 +12,6 @@ detester_s = year + '-01-01'
 date_s = datetime.datetime.strptime(detester_s, '%Y-%m-%d')
 date_e = datetime.datetime.strptime(detester_e, '%Y-%m-%d')
 
-years = [("全部", "全部")]
-a = int(year) - 5
-a1 = int(year) + 5
-while a <= a1:
-    years.extend([(a, a)])
-    a = a + 1
-
 
 class LandSellSearch(Form):
     start = DateField('DatePicker', format='%Y-%m-%d', default=date_s)
@@ -34,7 +27,7 @@ class LandSellSearch(Form):
     )
     assignment_limit = SelectField(
         validators=[DataRequired("请选择出让年限")],
-        choices=years,
+        choices=[("全部", "全部"), ("30", "30"), ("40", "40"), ("50", "50"), ("60", "60"), ("70", "70")],
         default='全部'
     )
     region_name = SelectField(
@@ -64,5 +57,5 @@ class LandSellSearch(Form):
 
         self.plan_use_custom.choices = [("全部", "全部")]
         self.plan_use_custom.choices.extend([(str(v.USE_NAME), str(v.USE_NAME)) for v in
-                                        DICT_LAND_USE.query.filter(
-                                        DICT_LAND_USE.GRADE == 'CUSTOM_USE_1').all()])
+                                             DICT_LAND_USE.query.filter(
+                                                 DICT_LAND_USE.GRADE == 'CUSTOM_USE_1').all()])
