@@ -1,4 +1,5 @@
 from flask_wtf import Form
+from sqlalchemy import and_
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateField, SelectField
 from wtforms.validators import Required, Length, Email, DataRequired
 from ..models import LAND_SELL_INFO, DICT_REGION, DICT_LAND_USE
@@ -51,9 +52,11 @@ class LandSellSearch(Form):
                                                LAND_SELL_INFO.LAND_LOCATION.desc()).limit(10).distinct().all()])
         self.region_name.choices = [("全部", "全部")]
         self.region_name.choices.extend([(v.REGION_CODE, v.REGION_NAME) for v in
-                                         DICT_REGION.query.with_entities(
+                                         DICT_REGION.query.filter(and_(DICT_REGION.REGION_NAME.notilike("所有区县"),
+                                                                       DICT_REGION.REGION_NAME.notilike(
+                                                                           "重庆"))).with_entities(
                                              DICT_REGION.REGION_CODE, DICT_REGION.REGION_NAME).order_by(
-                                             DICT_REGION.REGION_CODE.desc()).distinct().all()])
+                                             DICT_REGION.REGION_NAME.asc()).distinct().all()])
 
         self.plan_use_custom.choices = [("全部", "全部")]
         self.plan_use_custom.choices.extend([(str(v.USE_NAME), str(v.USE_NAME)) for v in
