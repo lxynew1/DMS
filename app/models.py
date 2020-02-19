@@ -134,3 +134,14 @@ class DICT_LAND_USE(db.Model):
     USE_NAME = db.Column(db.String(50), nullable=True, comment='用途')
     PARENT_ID = db.Column(db.String(20), nullable=True, comment='上一级用途代码')
     GRADE = db.Column(db.String(20), nullable=True, comment='用途代码等级')
+
+class DICT_HREF(db.Model):
+    #链接库
+    __tablename__ = 'DICT_HREF'
+    FID = db.Column(db.String(20), primary_key=True, comment='序号')
+    NAME= db.Column(db.String(50), nullable=False, comment='名称')
+    HREF = db.Column(db.String(255), nullable=False, comment='链接地址')
+    TYPE = db.Column(db.String(50), nullable=False, comment='类型')
+    PY_PATH = db.Column(db.String(255), nullable=True, comment='监控脚本路径')
+    PY_STATE = db.Column(db.String(50), nullable=True, comment='脚本开启状态，0为未开启，1为已开启')
+    PY_NEXT_TIME = db.Column(db.DateTime(50), nullable=True, comment='脚本下次运行时间')

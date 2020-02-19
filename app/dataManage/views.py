@@ -11,6 +11,8 @@ from . import datamanage
 from ..models import DICT_REGION, DICT_LAND_USE, LAND_SELL_INFO
 
 
+
+
 @datamanage.route('/land_sell_adder')
 @login_required
 def landSellAdder():
@@ -57,6 +59,10 @@ def noticeNoIsRepetition():
         return_dict['result'] = False
     return json.dumps(return_dict, ensure_ascii=False)
 
+#处理时间格式
+def reformatDate(date_str):
+    date_list=date_str.split('/')
+    return date_list[-1]+'-'+date_list[0]+'-'+date_list[1]
 
 @datamanage.route('/api/land_sell_adder/save')
 def landSellAdderSave():
@@ -87,8 +93,8 @@ def landSellAdderSave():
                                          BUILDING_DENSITY=get_data.get('input_building_density'),
                                          ASSIGNMENT_METHOD=get_data.get('select_assignment_method'),
                                          ASSIGNMENT_LIMIT=get_data.get('input_assignment_limit'),
-                                         DATE_BEGIN=get_data.get('input_date_begin'),
-                                         DATE_END=get_data.get('input_date_end'),
+                                         DATE_BEGIN=reformatDate(get_data.get('input_date_begin')),
+                                         DATE_END=reformatDate(get_data.get('input_date_end')),
                                          REGION_CODE=get_data.get('select_region_code'),
                                          PRICE_BEGIN=get_data.get('input_price_begin'),
                                          SECURITY_DEPOSIT=get_data.get('input_security_deposit'),
