@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 
 from flask import render_template, redirect, request, url_for, flash, json, jsonify
 from flask_login import login_user
@@ -33,6 +34,38 @@ def landSellSearch():
     return render_template('dataManage/land_sell_search.html', form=form)
 
 
+def objSearchValue(num: int, vlaue: str, data: List[str], obj):
+    for i in obj:
+        if str(i).__contains__(vlaue):
+            list = [num,
+                    obj.REGION_NAME,  # 区县代码
+                    obj.NOTICE_NUM,  # 公告编号
+                    obj.LAND_LOCATION,  # 位置
+                    obj.TOTAL_AREA,  # 总面积（平方米）
+                    obj.CONSTRUCTION_AREA,  # 建设用地面积（平方米）
+                    obj.PLAN_BUILD_AREA,  # 规划建筑面积（平方米）
+                    obj.USE_NAME,  # 用途分类
+                    # obj.PLAN_USE_CUSTOM,  # 自定义用途
+                    obj.FLOOR_AREA_RATIO,  # 容积率
+                    obj.GREENING_RATE,  # 绿化率
+                    obj.BUSSINESS_PROPORTION,  # 商业比例
+                    obj.BUILDING_DENSITY,  # 建筑密度
+                    obj.ASSIGNMENT_METHOD,  # 出让方式
+                    obj.ASSIGNMENT_LIMIT,  # 出让年限
+                    obj.DATE_BEGIN,  # 起始日期
+                    obj.DATE_END,  # 截止日期
+                    obj.PRICE_BEGIN,  # 起始价（万元）
+                    obj.SECURITY_DEPOSIT,  # 保证金（万元）
+                    # obj.CREATE_BY,  # 创建人
+                    # obj.CREATE_TIME,  # 创建时间
+                    # obj.MODIFIER_BY,  # 修改人
+                    # obj.MODIFIER_TIME,  # 修改时间
+                    obj.NOTICE_USE,  # 公告用途
+                    ]
+            data.append(list)
+            return None
+
+
 @datamanage.route('/landSellSearchTableAdder', methods=['GET', 'POST'])
 def landSellSearchTableAdder():
     column_order = ["FID",
@@ -64,6 +97,7 @@ def landSellSearchTableAdder():
         length = land_search_data['length']
         page = land_search_data['page']
         s_day = land_search_data['s_day']
+        search_value = land_search_data['search_value']
         if s_day == '':
             s_day = '1900-01-01'
         else:
@@ -127,7 +161,7 @@ def landSellSearchTableAdder():
             # 这边用paginate来获取请求页码的数据
             pagination = LAND_SELL_INFO.query \
                 .join(DICT_REGION,
-                      LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE)\
+                      LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE) \
                 .join(DICT_LAND_USE,
                       LAND_SELL_INFO.PLAN_USE_CUSTOM == DICT_LAND_USE.USE_CODE
                       ) \
@@ -215,38 +249,14 @@ def landSellSearchTableAdder():
         num = 0
         for obj in objs:
             num = num + 1
-            list = [num,
-                    obj.REGION_NAME,  # 区县代码
-                    obj.NOTICE_NUM,  # 公告编号
-                    obj.LAND_LOCATION,  # 位置
-                    obj.TOTAL_AREA,  # 总面积（平方米）
-                    obj.CONSTRUCTION_AREA,  # 建设用地面积（平方米）
-                    obj.PLAN_BUILD_AREA,  # 规划建筑面积（平方米）
-                    obj.USE_NAME,  # 用途分类
-                    # obj.PLAN_USE_CUSTOM,  # 自定义用途
-                    obj.FLOOR_AREA_RATIO,  # 容积率
-                    obj.GREENING_RATE,  # 绿化率
-                    obj.BUSSINESS_PROPORTION,  # 商业比例
-                    obj.BUILDING_DENSITY,  # 建筑密度
-                    obj.ASSIGNMENT_METHOD,  # 出让方式
-                    obj.ASSIGNMENT_LIMIT,  # 出让年限
-                    obj.DATE_BEGIN,  # 起始日期
-                    obj.DATE_END,  # 截止日期
-                    obj.PRICE_BEGIN,  # 起始价（万元）
-                    obj.SECURITY_DEPOSIT,  # 保证金（万元）
-                    # obj.CREATE_BY,  # 创建人
-                    # obj.CREATE_TIME,  # 创建时间
-                    # obj.MODIFIER_BY,  # 修改人
-                    # obj.MODIFIER_TIME,  # 修改时间
-                    obj.NOTICE_USE,  # 公告用途
-                    ]
-            data.append(list)
+            objSearchValue(num, search_value, data, obj)
         res = {
             # 看文档 这四个都是必要的参数，还有个error可传可不传
             'draw': draw,
             'recordsTotal': recordsTotal,
             'recordsFiltered': recordsFiltered,
             'data': data,
+            'search_value': search_value
         }
         log(jsonify(res))
         return jsonify(res)
