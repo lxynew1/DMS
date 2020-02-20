@@ -261,7 +261,7 @@
 		  }
 
 
-		  function anim2_noti(){
+		  function anim2_noti(value){
 			Lobibox.notify('info', {
 		    pauseDelayOnHover: true,
 		    icon: 'fa fa-info-circle',
@@ -270,11 +270,11 @@
 		    showClass: 'bounceIn',
             hideClass: 'bounceOut',
             width: 600,
-		    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+		    msg: value
 		    });
 		  }
 
-		  function anim3_noti(){
+		  function anim3_noti(value){
 			Lobibox.notify('warning', {
 		    pauseDelayOnHover: true,
             continueDelayOnInactiveTab: false,
@@ -283,7 +283,7 @@
 		    showClass: 'zoomIn',
             hideClass: 'zoomOut',
             width: 600,
-		    msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+		    msg: value
 		    });
 		  }
 

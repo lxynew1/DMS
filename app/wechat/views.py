@@ -6,13 +6,9 @@ from flask import render_template, request
 from flask_login import login_required,current_user
 
 from app import db
-from . import wechat
+from . import datamanage
 # from .forms import LoginForm
 from ..models import DICT_REGION, DICT_LAND_USE, LAND_SELL_INFO
 
 
 
-@wechat.route('/home')
-@login_required
-def home():
-    pass

@@ -2,11 +2,12 @@
 {% block link %}
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+    <!-- notifications css -->
+    <link rel="stylesheet" href="/static/assets/plugins/notifications/css/lobibox.min.css"/>
     <!--Select Plugins-->
     <link href="/static/assets/plugins/select2/css/select2.min.css" rel="stylesheet"/>
     <!--inputtags-->
@@ -60,7 +61,6 @@
 
         .row_table {
             display: none;
-        {#后台flash控制表格显示#}{#        {% if get_flashed_messages(category_filter=['display']) %}#}{#            {% for v in get_flashed_messages(category_filter=['display']) %}#}{#                display: {{ v }};#}{#            {% endfor %}#}{#        {% endif %}#}
         }
 
         div.dataTables_wrapper div.dataTables_filter {
@@ -73,6 +73,15 @@
             text-align: left;
             margin: 1%;
         }
+
+        .table01 {
+            display: table;
+        }
+
+        .dataTables_empty01 {
+            display: table-cell;
+            vertical-align: middle;
+        }
     </style>
 {% endblock %}
 {% block script %}
@@ -84,8 +93,6 @@
     <script src="/static/assets/plugins/simplebar/js/simplebar.js"></script>
     <!-- sidebar-menu js -->
     <script src="/static/assets/js/sidebar-menu.js"></script>
-    <!-- Custom scripts -->
-    <script src="/static/assets/js/app-script.js"></script>
     <!--Bootstrap Touchspin Js-->
     <script src="/static/assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
     <script src="/static/assets/plugins/bootstrap-touchspin/js/bootstrap-touchspin-script.js"></script>
@@ -113,6 +120,9 @@
     <script src="/static/assets/plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
     <script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.select.min.js"></script>
     <script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.colReorder.min.js"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/notifications/js/lobibox.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notifications.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
     <script>
         function get_el_list(el_class) {
             var list = []
@@ -122,7 +132,7 @@
             return list
         }
 
-        $(document).ready(function () {
+        function table_ajax() {
             //Default data table
             $('#default-datatable').DataTable();
             var table = $('#example').DataTable({
@@ -131,19 +141,33 @@
                 bSort: false,
                 //开启服务端分页
                 serverSide: true,
-                searching: false,  //搜索功能
+                searching: true,  //搜索功能
                 ordering: true,   // 排序功能
-                //lengthMenu: [5, 10, 25, 50, 100],
+                "lengthMenu": [10, 100, 500, 1000], //一页行数
                 ajax: function (data, callback) {
                     var param = {}
-                    var land_location_list = get_el_list('.form-big_area .select2-selection__choice')
+                    var region_name_list = get_el_list('.form-region-name .select2-selection__choice')//行政区
+                    var s_day = $('#input_date_begin').val()//公告开始时间
+                    var e_day = $('#input_date_end').val()//公告结束时间
+                    var land_location = $('#input_land_location').val()//土地坐落
+                    var assignment_method_list = get_el_list('.assignment_method .select2-selection__choice')//出让方式
+                    var assignment_limit_list = get_el_list('.assignment_limit .select2-selection__choice')//出让年限
+                    var plan_use_list = get_el_list('.plan_use .select2-selection__choice')//规划用途
                     param.draw = data.draw;
                     param.start = data.start;
                     param.length = data.length;
                     param.page = param.start / param.length + 1; //计算页码
-                    param.land_location_list = land_location_list;
-                    param.order = data.order;
+                    param.order = data.order; //排序方式
+                    param.search_value = data.search.value; //搜索内容
+                    param.region_name_list = region_name_list;
+                    param.land_location = land_location;
+                    param.assignment_method_list = assignment_method_list;
+                    param.assignment_limit_list = assignment_limit_list;
+                    param.plan_use_list = plan_use_list;
+                    param.s_day = s_day
+                    param.e_day = e_day
                     var paramString = JSON.stringify(param);
+                    console.log(paramString)
                     $.ajax({
                         type: "post",
                         url: "{{ url_for('datamanage.landSellSearchTableAdder') }}",
@@ -155,11 +179,18 @@
                             returnData.recordsTotal = res.recordsTotal;//返回数据全部记录
                             returnData.recordsFiltered = res.recordsFiltered;//过滤后记录
                             returnData.data = res.data; // 数据对象
-                            //console.log(returnData.data);
-                            callback(returnData);
+                            console.log(returnData.data);
+                            callback(returnData)
+                            if (returnData.data.length == 0&&res.search_value == "") {
+                                anim3_noti(value = "操作成功,但是查询不到相关数据！")
+                            }else if(res.search_value == "") {
+                                anim5_noti(value = "操作成功,已为您更新数据！")
+                            }
+
                         },
-                        error: function () {
-                            alert('请求错误')
+                        error: function (err) {
+                            {#alert('请求错误')#}
+                            anim4_noti("请求错误！")
                         }
                     })
                 },
@@ -207,7 +238,7 @@
                     "lengthMenu": "显示 _MENU_ 项结果",
                     "loadingRecords": "载入中...",
                     "processing": "处理中...",
-                    "search": "搜索:",
+                    "search": "搜索所有字段:",
                     "zeroRecords": "没有匹配结果",
                     "oPaginate": {
                         "sFirst": "首页",
@@ -228,10 +259,19 @@
                     },
                 }
             });
-            $('.btn-success').click(function () {
-                $('.row_table').css('display', 'block');
-                table.draw(true);
-            });
+            return table
+        }
+
+        $('.btn-success').click(function () {
+            if ($('.row_table').css("display") == "none") {
+                table_ajax()
+            } else {
+                $('#example').DataTable().draw(true);
+            }
+            $('.row_table').css('display', 'block');
+
+        });
+        $(document).ready(function () {
             //table.buttons().container().prependTo('#example_wrapper #example_filter');
             $('#default-datepicker').datepicker({
                 todayHighlight: true
@@ -364,64 +404,78 @@
     <div class="content-wrapper">
         <div class="container-fluid">
             <!-- Breadcrumb-->
-            <div class="row pt-2 pb-2">
+            <div class="row pt-2 pb-2 table_container_first">
                 <div class="col-sm-9">
                     <h4 class="page-title">土拍数据查询</h4>
                 </div>
-                <div class="row">
+                <div class="row row_search">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                {#                                <form id="personal-info" method="post">#}
+                                {#<form id="personal-info" method="post">#}
                                 <div class="form-group row">
-                                    <label for="input-5" class="col-sm-2 col-form-label"> 时间</label>
+                                    <label for="input_date" class="col-sm-2 col-form-label">公告时间</label>
+                                    {#增加唯一标签#}
+                                    <label style="display: none" id="label_input_date_begin">公告起始时间</label>
+                                    <label style="display: none" id="label_input_date_end">公告结束时间</label>
                                     <div class="col-sm-10">
                                         <div id="dateragne-picker">
                                             <div class="input-daterange input-group">
-                                                {#                                                    <input type="text" class="form-control" name="start"/>#}
-                                                {{ form.start(type="text",class="form-control  start-time") }}
+                                                <input type="text" class="form-control" name="start" required="required"
+                                                       id="input_date_begin"
+                                                       placeholder="请选择起始时间"/>
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">至</span>
                                                 </div>
-                                                {#                                                    <input type="text" class="form-control" name="end"/>#}
-                                                {{ form.end(type="text",class="form-control end-time") }}
+                                                <input type="text" class="form-control" name="end" id="input_date_end"
+                                                       placeholder="请选择结束时间" required="required"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row form-big_area">
-                                    <label for="input-6" class="col-sm-2 col-form-label"> 大区</label>
+                                <div class="form-group row form-region-name">
+                                    <label for="input-6" class="col-sm-2 col-form-label"> 行政区</label>
                                     <div class="col-sm-10">
-                                        {#                                                                                    <select class="form-control multiple-select" id="input-6" multiple="multiple"name="intersted" required>#}
-                                        {#                                                                                        <option>Web Development</option>#}
-                                        {#                                                                                        <option>Mobile Development</option>#}
-                                        {#                                                                                        <option>Digital Marketing</option>#}
-                                        {#                                                                                        <option>Graphic Designing</option>#}
-                                        {#                                                                                        <option>Ecommerce Industr</option>#}
-                                        {#                                                                                    </select>#}
-                                        {{ form.land_location(class="form-control multiple-select",id="input-7",multiple="multiple") }}
+                                        {{ form.region_name(class="form-control multiple-select",id="input-6",multiple="multiple") }}
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="input_land_location" class="col-sm-2 col-form-label"
+                                           id="label_input_land_location">土地坐落</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input_land_location"
+                                               required="required"
+                                               placeholder="请输入公告详情中的土地坐落">
+                                    </div>
+                                </div>
+                                <div class="form-group row assignment_method">
                                     <label for="input-7" class="col-sm-2 col-form-label"> 出让方式 </label>
                                     <div class="col-sm-10">
-                                        {#                                                                                    <select class="form-control" id="input-7" name="budget" required>#}
-                                        {#                                                                                        <option>BUDGET</option>#}
-                                        {#                                                                                        <option>Less then 2000$</option>#}
-                                        {#                                                                                        <option>2000$ - 10000$</option>#}
-                                        {#                                                                                        <option>10000$ - 20000$</option>#}
-                                        {#                                                                                        <option>Above 20000$</option>#}
-                                        {#                                                                                    </select>#}
                                         {{ form.assignment_method(class="form-control multiple-select",id="input-8",multiple="multiple") }}
                                     </div>
                                 </div>
-                                <div class="form-footer">
-                                    <button type="submit" class="btn btn-success"><i
-                                            class="fa fa-check-square-o"></i> 查询
-                                    </button>
-                                    {#                                        {{ form.submit(class="btn btn-success") }}#}
+                                <div class="form-group row assignment_limit">
+                                    <label for="input-8" class="col-sm-2 col-form-label"> 出让年限(年) </label>
+                                    <div class="col-sm-10">
+                                        {{ form.assignment_limit(class="form-control multiple-select",id="input-9",multiple="multiple") }}
+                                    </div>
                                 </div>
-                                {#                                </form>#}
+
+                                <div class="form-group row plan_use">
+                                    <label for="input-8" class="col-sm-2 col-form-label"> 用途分类 </label>
+                                    <div class="col-sm-10">
+                                        {{ form.plan_use_custom(class="form-control multiple-select",id="input-10",multiple="multiple") }}
+                                    </div>
+                                </div>
+                                <div class="form-footer">
+                                    {#                                    <button type="submit" class="btn btn-success"><i#}
+                                    {#                                            class="fa fa-check-square-o"></i> 查询#}
+                                    {#                                    </button>#}
+                                    <button class="btn btn-success fa fa-check-square-o">查询
+                                    </button>
+                                    {#{{ form.submit(class="btn btn-success") }}#}
+                                </div>
+                                {#</form>#}
                             </div>
                         </div>
 
@@ -437,23 +491,59 @@
                                         <thead>
                                         <tr>
                                             <th>序列</th>
-                                            <th>大区</th>
+                                            <th>所属区县</th>
+                                            <th>公告编号</th>
+                                            <th>位置</th>
+                                            <th>总面积（平方米）</th>
+                                            <th>建设用地面积（平方米）</th>
+                                            <th>规划建筑面积（平方米）</th>
+                                            <th>用途分类</th>
+                                            {#                                            <th>自定义用途</th>#}
+                                            <th>容积率</th>
+                                            <th>绿化率</th>
+                                            <th>商业比例</th>
+                                            <th>建筑密度</th>
                                             <th>出让方式</th>
-                                            <th>ASSIGNMENT_LIMIT</th>
-                                            <th>DATE_BEGIN</th>
-                                            <th>DATE_END</th>
-                                            <th>PRICE_BEGIN</th>
+                                            <th>出让年限</th>
+                                            <th>起始日期</th>
+                                            <th>截止日期</th>
+                                            <th>起始价（万元）</th>
+                                            <th>保证金（万元）</th>
+                                            {#                                            <th>创建人</th>#}
+                                            {#                                            <th>创建时间</th>#}
+                                            {#                                            <th>修改人</th>#}
+                                            {#                                            <th>修改时间</th>#}
+                                            <th>公告用途</th>
+
                                         </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
                                             <th>序列</th>
-                                            <th>大区</th>
+                                            <th>所属区县</th>
+                                            <th>公告编号</th>
+
+                                            <th>位置</th>
+                                            <th>总面积（平方米）</th>
+                                            <th>建设用地面积（平方米）</th>
+                                            <th>规划建筑面积（平方米）</th>
+                                            {#                                            <th>规划用途</th>#}
+                                            <th>用途分类</th>
+                                            <th>容积率</th>
+                                            <th>绿化率</th>
+                                            <th>商业比例</th>
+                                            <th>建筑密度</th>
                                             <th>出让方式</th>
-                                            <th>ASSIGNMENT_LIMIT</th>
-                                            <th>DATE_BEGIN</th>
-                                            <th>DATE_END</th>
-                                            <th>PRICE_BEGIN</th>
+                                            <th>出让年限</th>
+                                            <th>起始日期</th>
+                                            <th>截止日期</th>
+                                            <th>起始价（万元）</th>
+                                            <th>保证金（万元）</th>
+                                            {#                                            <th>创建人</th>#}
+                                            {#                                            <th>创建时间</th>#}
+                                            {#                                            <th>修改人</th>#}
+                                            {#                                            <th>修改时间</th>#}
+                                            <th>公告用途</th>
                                         </tr>
                                         </tfoot>
                                     </table>
