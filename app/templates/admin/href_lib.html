@@ -19,7 +19,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="card-title">土地</div>
+                            <div class="card-title">市级</div>
                             <hr>
                             <div class="row">
                                 <div class="icon col-sm-3" data-code="f112" data-name="balance">
@@ -64,20 +64,156 @@
                                 </div>
 
                             </div>
-{#                            <hr>#}
-{#                            <form class="row">#}
-{#                                <div class="form-group row col-sm-12">#}
-{#                                    <label for="select_region_code" class="col-sm-2 col-form-label"#}
-{#                                           id="label_select_region_code">行政区</label>#}
-{#                                    <div class="col-sm-10">#}
-{#                                        <select class="form-control single-select" id="select_region_code">#}
-{#                                            <option value="-1">请选择</option>#}
-{#                                            <option value="-1"><a href="http://zfcxjw.cq.gov.cn/"#}
-{#                                                                  target="_blank">沙坪坝</a></option>#}
-{#                                        </select>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </form>#}
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <h6>两江新区</h6>
+                                    <div class="icon" data-code="f111" data-name="balance-wallet">
+                                        <a href="http://www.liangjiang.gov.cn/" target="_blank"><i
+                                                class="zmdi zmdi-balance-wallet"></i>
+                                            <span>重庆·两江新区-首页</span></a>
+                                    </div>
+                                    <div class="icon" data-code="f111" data-name="balance-wallet">
+                                        <a href="http://www.liangjiang.gov.cn/" target="_blank"><i
+                                                class="zmdi zmdi-balance-wallet"></i>
+                                            <span>重庆·两江新区-首页</span></a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8"
+                                     style="width: 100%;height: 600px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+                                    <div id="main" style="height: 100%"></div>
+                                    <script type="text/javascript"
+                                            src="{{ url_for('static',filename='echarts/echarts.js') }}"></script>
+                                    <!-- 引用echarts 3.0版本 -->
+                                    <script type="text/javascript"
+                                            src="{{ url_for('static',filename='echarts/chongqing.js') }}"></script>
+                                    <!-- 引用自定义市县地图 -->
+                                    <script type="text/javascript">
+                                        //初始化ECharts实例
+                                        var myChart = echarts.init(document.getElementById('main'));
+                                        var option = {
+                                            title: {
+                                                text: '重庆行政区划图',
+                                                link: 'http://echarts.baidu.com/',
+                                                subtext: '点击可在左侧查看各类链接'
+                                            },
+
+                                            tooltip: {
+                                                trigger: 'item',
+                                                formatter: function (params) {
+                                                    var res = '';
+                                                    res += params['data'].name + '</br>';
+                                                    res += '用户数' + ' : ' + params['data'].value2 + '</br>';
+                                                    return res;
+                                                }
+                                                //formatter: '{b}<br/>{c}'
+                                            },//鼠标放在地图上时，显示的内容及样式控制
+                                            visualMap: {
+                                                show: false,//色系条是否显示
+                                                min: 0,
+                                                max: 45000,//取其区间值就代表色系inRange中的一种颜色
+                                                left: 'left',
+                                                top: 'bottom',
+                                                text: ['高', '低'], // 文本，默认为数值文本
+                                                calculable: true,
+                                                inRange: {
+                                                    color: ['#42a8be', '#00a69c', '#95ea95'],//上色范围
+                                                }
+                                            },//给地图上色
+                                            series: [{
+                                                name: '重庆市',
+                                                type: 'map',
+                                                mapType: 'chongqing',
+                                                selectedMode: 'single',
+                                                label: {
+                                                    normal: {show: true},
+                                                    emphasis: {show: true}
+                                                },
+                                                itemStyle: {
+                                                    normal: {
+                                                        borderColor: '#fff',
+                                                        areaColor: '#fff',
+                                                        borderWidth: 2,
+                                                    },//正常样式
+                                                    emphasis: {
+                                                        areaColor: 'red',
+                                                        borderWidth: 1,
+                                                        borderColor: 'yellow',
+                                                    }//鼠标事件区块样式
+                                                },
+                                                data: [
+                                                    {
+                                                        name: '渝中区',
+                                                        value: 40500,
+                                                        value2: 1024,
+                                                        href: 'http://www.baidu.com'
+                                                    },
+                                                    {
+                                                        name: '万州区',
+                                                        value: 23000,
+                                                        value2: 1024,
+                                                        href: 'http://www.baidu.com'
+                                                    },
+                                                    {name: '涪陵区', value: 0, value2: 1024},
+                                                    {name: '江津区', value: 23000, value2: 1024},
+                                                    {name: '合川区', value: 111, value2: 1024},
+                                                    {name: '长寿区', value: 23000, value2: 100},
+                                                    {name: '南川区', value: 0, value2: 100},
+                                                    {name: '秀山土家族苗族自治县', value: 0, value2: 100},
+                                                    {name: '石柱土家族自治县', value: 0, value2: 100},
+                                                    {name: '酉阳土家族苗族自治县', value: 0, value2: 100},
+                                                    {name: '彭水苗族土家族自治县', value: 0, value2: 100},
+                                                    {name: '巫溪县', value: 0, value2: 100},
+                                                    {name: '巫山县', value: 0, value2: 100},
+                                                    {name: '奉节县', value: 0, value2: 100},
+                                                    {name: '云阳县', value: 0, value2: 100},
+                                                    {name: '开州区', value: 0, value2: 100},
+                                                    {name: '忠县', value: 0, value2: 100},
+                                                ],//value的值是上面visualMap属性中设置的颜色色系区间的值，即0~45000
+                                                label: {
+                                                    normal: {
+                                                        show: true,
+                                                        formatter: function (val) {
+                                                            var area_content = '{a|' + val.name + '}';
+                                                            return area_content.split("-").join("\n");
+                                                        },//让series 中的文字进行换行
+                                                        rich: {
+                                                            a: {
+                                                                color: 'black'
+                                                            },
+                                                            b: {
+                                                                color: 'yellow',
+                                                                fontFamily: 'Microsoft YaHei',
+                                                                fontSize: 14,
+                                                            }
+                                                        },//富文本样式,就是上面的formatter中'{a|'和'{b|'
+                                                    },
+                                                    emphasis: {show: true}
+                                                },//地图中文字内容及样式控制
+                                            }]
+                                        };
+                                        console.log(option)
+                                        myChart.setOption(option, true);
+                                        myChart.on('click', function (params) {
+                                            console.log(params);//此处写点击事件内容
+                                            alert(params['data'].href)
+                                        });//点击事件，此事件还可以用到柱状图等其他地图
+                                    </script>
+                                </div>
+                                {#                            <form class="row">#}
+                                {#                                <div class="form-group row col-sm-12">#}
+                                {#                                    <label for="select_region_code" class="col-sm-2 col-form-label"#}
+                                {#                                           id="label_select_region_code">行政区</label>#}
+                                {#                                    <div class="col-sm-10">#}
+                                {#                                        <select class="form-control single-select" id="select_region_code">#}
+                                {#                                            <option value="-1">请选择</option>#}
+                                {#                                            <option value="-1"><a href="http://zfcxjw.cq.gov.cn/"#}
+                                {#                                                                  target="_blank">沙坪坝</a></option>#}
+                                {#                                        </select>#}
+                                {#                                    </div>#}
+                                {#                                </div>#}
+                                {#                            </form>#}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -107,4 +243,6 @@
                     </div>
                 </div>
             </div>
+            <script src="{{ url_for('static',filename='assets/plugins/alerts-boxes/js/sweetalert.min.js') }}"></script>
+
 {% endblock %}

@@ -100,6 +100,7 @@ class LAND_SELL_INFO_TEST_LXY(db.Model):
     CREATE_TIME = db.Column(db.DateTime, nullable=False, comment='创建时间')
     MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
     MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
+    CRAWL_FID = db.Column(db.String(50), nullable=True, comment='爬虫唯一值，一般为官网FID')
 
 
 class USER_CALENDAR(db.Model):
@@ -145,3 +146,4 @@ class DICT_HREF(db.Model):
     PY_PATH = db.Column(db.String(255), nullable=True, comment='监控脚本路径')
     PY_STATE = db.Column(db.String(50), nullable=True, comment='脚本开启状态，0为未开启，1为已开启')
     PY_NEXT_TIME = db.Column(db.DateTime(50), nullable=True, comment='脚本下次运行时间')
+    REGION_CODE = db.Column(db.String(20), nullable=False, comment='行政区代码')
