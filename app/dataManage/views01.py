@@ -1,6 +1,8 @@
 import datetime
 from typing import List
 
+# from ratelimit import limits, RateLimitException
+from app import limiter
 from flask import render_template, redirect, request, url_for, flash, json, jsonify
 from flask_login import login_user
 from flask_login import login_required, logout_user
@@ -67,6 +69,8 @@ def objSearchValue(num: int, vlaue: str, data: List[str], obj):
 
 
 @datamanage.route('/landSellSearchTableAdder', methods=['GET', 'POST'])
+@limiter.limit("2/second", error_message="OverSpeed",
+               exempt_when=lambda: len(str(request.get_json("search_value").get("search_value"))) != 0)
 def landSellSearchTableAdder():
     column_order = ["FID",
                     "REGION_NAME",
@@ -91,7 +95,7 @@ def landSellSearchTableAdder():
                     ]
     if request.method == 'POST':
         land_search_data = json.loads(request.get_data())
-        log("land_search_data:", land_search_data)
+        # log("land_search_data:", land_search_data)
         draw = land_search_data['draw']
         start = land_search_data['start']
         length = land_search_data['length']
@@ -113,7 +117,7 @@ def landSellSearchTableAdder():
             day = e_day[3:5]
             year = e_day[6:10]
             e_day = year + '-' + mon + '-' + day
-        log(e_day, s_day)
+        # log(e_day, s_day)
         region_name_list = [w.REGION_CODE for w in DICT_REGION.query.filter(
             DICT_REGION.REGION_NAME.in_(land_search_data['region_name_list'])).all()]
         land_location = '%' + land_search_data['land_location'] + '%'
@@ -258,5 +262,5 @@ def landSellSearchTableAdder():
             'data': data,
             'search_value': search_value
         }
-        log(jsonify(res))
+        # log(jsonify(res))
         return jsonify(res)

@@ -45,6 +45,37 @@
           type="text/css">
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            margin: 0 auto;
+            width: 100%;
+            height: 500px;
+            /* border: 1px #008B8B solid; */
+            text-align: center;
+        }
+
+        /* 设置一个伪元素，将行高撑起来 */
+        .box:after {
+            display: inline-block;
+            line-height: 100%;
+            width: 0px;
+            height: 100%;
+            content: "";
+            vertical-align: middle;
+        }
+
+        /* 因为伪元素将行高撑起来了，所以图片就会显示在水平的居中方向 */
+        .box img {
+            /* 把此元素放置在父元素的中部。 */
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+        }
+
         .row, .card, .card-body {
             width: 100%;
         }
@@ -132,6 +163,47 @@
             return list
         }
 
+        function anim5_noti_success(value,) {
+            Lobibox.notify('success', {
+                pauseDelayOnHover: true,
+                continueDelayOnInactiveTab: false,
+                position: 'center top',
+                showClass: 'rollIn',
+                hideClass: 'rollOut',
+                icon: 'fa fa-check-circle',
+                width: 600,
+                msg: value,
+                delay: 3000
+            });
+        }
+
+        function anim5_noti_success01(value,) {
+            Lobibox.notify('success', {
+                pauseDelayOnHover: true,
+                continueDelayOnInactiveTab: false,
+                position: 'center top',
+                showClass: 'rollIn',
+                hideClass: 'rollOut',
+                icon: 'fa fa-check-circle',
+                width: 600,
+                msg: value,
+                delay: 1500
+            });
+        }
+
+        function anim4_noti_err(value) {
+            Lobibox.notify('error', {
+                pauseDelayOnHover: true,
+                continueDelayOnInactiveTab: false,
+                icon: 'fa fa-times-circle',
+                position: 'center top',
+                showClass: 'lightSpeedIn',
+                hideClass: 'lightSpeedOut',
+                width: 600,
+                msg: value
+            });
+        }
+
         function table_ajax() {
             //Default data table
             $('#default-datatable').DataTable();
@@ -167,7 +239,6 @@
                     param.s_day = s_day
                     param.e_day = e_day
                     var paramString = JSON.stringify(param);
-                    console.log(paramString)
                     $.ajax({
                         type: "post",
                         url: "{{ url_for('datamanage.landSellSearchTableAdder') }}",
@@ -181,18 +252,23 @@
                             returnData.data = res.data; // 数据对象
                             console.log(returnData.data);
                             callback(returnData)
-                            if (returnData.data.length == 0&&res.search_value == "") {
+                            if (returnData.data.length == 0 && res.search_value == "") {
                                 anim3_noti(value = "操作成功,但是查询不到相关数据！")
-                            }else if(res.search_value == "") {
-                                anim5_noti(value = "操作成功,已为您更新数据！")
+                            } else if (res.search_value == "") {
+                                anim5_noti_success01(value = "操作成功,已为您更新数据！")
                             }
 
                         },
                         error: function (err) {
-                            {#alert('请求错误')#}
-                            anim4_noti("请求错误！")
+                            if (err.responseText.toString().search("OverSpeed") != -1) {
+                                anim4_noti_err("请勿过高频率操作！")
+                            } else if (err.responseText.toString().search("Pass") != -1) {
+                            } else {
+                                anim4_noti_err("请求错误！")
+                            }
                         }
                     })
+
                 },
                 lengthChange: false,
                 //设置首页尾页
@@ -392,7 +468,6 @@
                     topic: "Please select at least 2 topics"
                 }
             });
-
         });
 
     </script>
@@ -402,6 +477,7 @@
 
 {% block detail %}
     <div class="content-wrapper">
+        <input class="ajaxFinished" value="true" style="display: none"/>
         <div class="container-fluid">
             <!-- Breadcrumb-->
             <div class="row pt-2 pb-2 table_container_first">
