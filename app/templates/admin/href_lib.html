@@ -66,7 +66,7 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-4" id="clicked_region">
                                     <h6>两江新区</h6>
                                     <div class="icon" data-code="f111" data-name="balance-wallet">
                                         <a href="http://www.liangjiang.gov.cn/" target="_blank"><i
@@ -195,9 +195,36 @@
                                         console.log(option)
                                         myChart.setOption(option, true);
                                         myChart.on('click', function (params) {
+                                            var region_name = params['data'].name
+                                            var html_text = '<h6>' + region_name + '</h6>'
                                             console.log(params);//此处写点击事件内容
-                                            alert(params['data'].href)
-                                        });//点击事件，此事件还可以用到柱状图等其他地图
+                                            $.ajax({
+                                                type: "GET",
+                                                url: "{{ url_for('admin.hrefLibRegionData') }}",
+                                                data: {region_name: region_name},
+                                                dataType: "json",
+                                                success:
+                                                    function (data) {
+                                                        console.log(data.return_code)
+                                                        console.log(data.return_info[region_name])
+                                                        if (data.return_code == '200') {
+
+                                                            for (i in data.return_info[region_name]) {
+                                                                var key=Object.keys(data.return_info[region_name][i])
+                                                                html_text += '<div class="icon" data-code="f111" data-name="balance-wallet">'
+                                                                html_text += '<a href=' + data.return_info[region_name][i][key] + ' target="_blank">'
+                                                                html_text += '<i class="zmdi zmdi-balance-wallet"></i>'
+                                                                html_text += '<span >'+key+'</span></a >'
+                                                                html_text += '</div>'
+                                                            }
+                                                            $("#clicked_region").html(html_text)
+                                                        }
+                                                    }
+
+
+                                            })
+                                        })
+                                        ;//点击事件，此事件还可以用到柱状图等其他地图
                                     </script>
                                 </div>
                                 {#                            <form class="row">#}
