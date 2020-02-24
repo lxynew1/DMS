@@ -50,32 +50,6 @@
             padding: 0;
         }
 
-        .box {
-            margin: 0 auto;
-            width: 100%;
-            height: 500px;
-            /* border: 1px #008B8B solid; */
-            text-align: center;
-        }
-
-        /* 设置一个伪元素，将行高撑起来 */
-        .box:after {
-            display: inline-block;
-            line-height: 100%;
-            width: 0px;
-            height: 100%;
-            content: "";
-            vertical-align: middle;
-        }
-
-        /* 因为伪元素将行高撑起来了，所以图片就会显示在水平的居中方向 */
-        .box img {
-            /* 把此元素放置在父元素的中部。 */
-            vertical-align: middle;
-            width: 50px;
-            height: 50px;
-        }
-
         .row, .card, .card-body {
             width: 100%;
         }
@@ -208,133 +182,135 @@
             //Default data table
             $('#default-datatable').DataTable();
             var table = $('#example').DataTable({
-                bAutoWidth: true,
-                bProcessing: true,
-                bSort: false,
-                //开启服务端分页
-                serverSide: true,
-                searching: true,  //搜索功能
-                ordering: true,   // 排序功能
-                "lengthMenu": [10, 100, 500, 1000], //一页行数
-                ajax: function (data, callback) {
-                    var param = {}
-                    var region_name_list = get_el_list('.form-region-name .select2-selection__choice')//行政区
-                    var s_day = $('#input_date_begin').val()//公告开始时间
-                    var e_day = $('#input_date_end').val()//公告结束时间
-                    var land_location = $('#input_land_location').val()//土地坐落
-                    var assignment_method_list = get_el_list('.assignment_method .select2-selection__choice')//出让方式
-                    var assignment_limit_list = get_el_list('.assignment_limit .select2-selection__choice')//出让年限
-                    var plan_use_list = get_el_list('.plan_use .select2-selection__choice')//规划用途
-                    param.draw = data.draw;
-                    param.start = data.start;
-                    param.length = data.length;
-                    param.page = param.start / param.length + 1; //计算页码
-                    param.order = data.order; //排序方式
-                    param.search_value = data.search.value; //搜索内容
-                    param.region_name_list = region_name_list;
-                    param.land_location = land_location;
-                    param.assignment_method_list = assignment_method_list;
-                    param.assignment_limit_list = assignment_limit_list;
-                    param.plan_use_list = plan_use_list;
-                    param.s_day = s_day
-                    param.e_day = e_day
-                    var paramString = JSON.stringify(param);
-                    $.ajax({
-                        type: "post",
-                        url: "{{ url_for('datamanage.landSellSearchTableAdder') }}",
-                        data: paramString,
-                        datatype: 'json',
-                        success: function (res) { //res后端返回的参数
-                            var returnData = {};
-                            returnData.draw = res.draw; // 计数器
-                            returnData.recordsTotal = res.recordsTotal;//返回数据全部记录
-                            returnData.recordsFiltered = res.recordsFiltered;//过滤后记录
-                            returnData.data = res.data; // 数据对象
-                            console.log(returnData.data);
-                            callback(returnData)
-                            if (returnData.data.length == 0 && res.search_value == "") {
-                                anim3_noti(value = "操作成功,但是查询不到相关数据！")
-                            } else if (res.search_value == "") {
-                                anim5_noti_success01(value = "操作成功,已为您更新数据！")
-                            }
+                    bAutoWidth: true,
+                    bProcessing: true,
+                    bSort: false,
+                    //开启服务端分页
+                    serverSide: true,
+                    searching: true,  //搜索功能
+                    ordering: true,   // 排序功能
+                    "lengthMenu": [10, 100, 500, 1000], //一页行数
+                    ajax: function (data, callback) {
+                        var param = {}
+                        var region_name_list = get_el_list('.form-region-name .select2-selection__choice')//行政区
+                        var s_day = $('#input_date_begin').val()//公告开始时间
+                        var e_day = $('#input_date_end').val()//公告结束时间
+                        var land_location = $('#input_land_location').val()//土地坐落
+                        var assignment_method_list = get_el_list('.assignment_method .select2-selection__choice')//出让方式
+                        var assignment_limit_list = get_el_list('.assignment_limit .select2-selection__choice')//出让年限
+                        var plan_use_list = get_el_list('.plan_use .select2-selection__choice')//规划用途
+                        param.draw = data.draw;
+                        param.start = data.start;
+                        param.length = data.length;
+                        param.page = param.start / param.length + 1; //计算页码
+                        param.order = data.order; //排序方式
+                        param.search_value = data.search.value; //搜索内容
+                        param.region_name_list = region_name_list;
+                        param.land_location = land_location;
+                        param.assignment_method_list = assignment_method_list;
+                        param.assignment_limit_list = assignment_limit_list;
+                        param.plan_use_list = plan_use_list;
+                        param.s_day = s_day
+                        param.e_day = e_day
+                        var paramString = JSON.stringify(param);
+                        $.ajax({
+                            type: "post",
+                            url: "{{ url_for('datamanage.landSellSearchTableAdder') }}",
+                            data: paramString,
+                            datatype: 'json',
+                            success: function (res) { //res后端返回的参数
+                                var returnData = {};
+                                returnData.draw = res.draw; // 计数器
+                                returnData.recordsTotal = res.recordsTotal;//返回数据全部记录
+                                returnData.recordsFiltered = res.recordsFiltered;//过滤后记录
+                                returnData.data = res.data; // 数据对象
+                                console.log(returnData.data);
+                                callback(returnData)
+                                if (returnData.data.length == 0 && res.search_value == "") {
+                                    anim3_noti(value = "操作成功,但是查询不到相关数据！")
+                                } else if (res.search_value == "") {
+                                    anim5_noti_success01(value = "操作成功,已为您更新数据！")
+                                }
 
+                            },
+                            error: function (err) {
+                                if (err.responseText.toString().search("OverSpeed") != -1) {
+                                    anim4_noti_err("请勿过高频率操作！")
+                                } else if (err.responseText.toString().search("Pass") != -1) {
+                                } else {
+                                    anim4_noti_err("请求错误！")
+                                }
+                            }
+                        })
+
+                    },
+                    lengthChange: false,
+                    //设置首页尾页
+                    pagingType: "full_numbers",
+                    //设置按钮
+                    buttons: ['pageLength', 'copy', 'excel', 'print', 'colvis', 'selectAll', 'selectNone'],
+                    dom: 'Blfrtip',
+                    //表格行选中
+                    select: {
+                        style: 'multi'
+                    },
+                    //拖动列开启
+                    colReorder: true,
+                    //序号自增长
+                    // fnDrawCallback: function () {
+                    //     var api = this.api();
+                    //     var startIndex = api.context[0]._iDisplayStart;//获取到本页开始的条数
+                    //     api.column(0).nodes().each(function (cell, i) {
+                    //         //此处 startIndex + i + 1;会出现翻页序号不连续，主要是因为startIndex 的原因,去掉即可。
+                    //         cell.innerHTML = startIndex + i + 1;
+                    //         //cell.innerHTML = i + 1;
+                    //     });
+                    // }
+                    // ,
+                    language: {
+                        "buttons": {
+                            "pageLength": "显示 %d 行",
+                            "excel": "<i class='fa fa-file-excel-o'></i>&nbsp;导出Excel",
+                            "copy": "复制",
+                            "pdf": "<i class='fa fa-file-pdf-o'></i>&nbsp;导出PDF",
+                            "print": "打印",
+                            "colvis": "设置列不可见",
+                            "selectAll": "全选",
+                            "selectNone": "取消全选"
                         },
-                        error: function (err) {
-                            if (err.responseText.toString().search("OverSpeed") != -1) {
-                                anim4_noti_err("请勿过高频率操作！")
-                            } else if (err.responseText.toString().search("Pass") != -1) {
-                            } else {
-                                anim4_noti_err("请求错误！")
+                        "decimal": "",
+                        "emptyTable": "表中数据为空",
+                        "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                        "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                        "infoFiltered": "(由 _MAX_ 项结果过滤)",
+                        "InfoPostFix": "",
+                        "thousands": ",",
+                        "lengthMenu": "显示 _MENU_ 项结果",
+                        "loadingRecords": "载入中...",
+                        "processing": "处理中...",
+                        "search": "搜索所有字段:",
+                        "zeroRecords": "没有匹配结果",
+                        "oPaginate": {
+                            "sFirst": "首页",
+                            "sPrevious": "上一页",
+                            "sNext": "下一页",
+                            "sLast": "尾页"
+                        },
+                        "Aria": {
+                            "sSortAscending": ": 以升序排列此列",
+                            "sSortDescending": ": 以降序排列此列"
+                        },
+                        "select": {
+                            "rows": {
+                                "_": "<div class='row_select_span1'>已选中 %d 行</div>",
+                                "0": "<div class='row_select_span'>点击一行选中</div>",
+                                //"1":"<div class='row_select_span1'>只选中了一行</div>"
                             }
-                        }
-                    })
-
-                },
-                lengthChange: false,
-                //设置首页尾页
-                pagingType: "full_numbers",
-                //设置按钮
-                buttons: ['pageLength', 'copy', 'excel', 'print', 'colvis', 'selectAll', 'selectNone'],
-                dom: 'Blfrtip',
-                //表格行选中
-                select: {
-                    style: 'multi'
-                },
-                //拖动列开启
-                colReorder: true,
-                //序号自增长
-                // fnDrawCallback: function () {
-                //     var api = this.api();
-                //     var startIndex = api.context[0]._iDisplayStart;//获取到本页开始的条数
-                //     api.column(0).nodes().each(function (cell, i) {
-                //         //此处 startIndex + i + 1;会出现翻页序号不连续，主要是因为startIndex 的原因,去掉即可。
-                //         cell.innerHTML = startIndex + i + 1;
-                //         //cell.innerHTML = i + 1;
-                //     });
-                // }
-                // ,
-                language: {
-                    "buttons": {
-                        "pageLength": "显示 %d 行",
-                        "excel": "<i class='fa fa-file-excel-o'></i>&nbsp;导出Excel",
-                        "copy": "复制",
-                        "pdf": "<i class='fa fa-file-pdf-o'></i>&nbsp;导出PDF",
-                        "print": "打印",
-                        "colvis": "设置列不可见",
-                        "selectAll": "全选",
-                        "selectNone": "取消全选"
-                    },
-                    "decimal": "",
-                    "emptyTable": "表中数据为空",
-                    "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                    "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                    "infoFiltered": "(由 _MAX_ 项结果过滤)",
-                    "InfoPostFix": "",
-                    "thousands": ",",
-                    "lengthMenu": "显示 _MENU_ 项结果",
-                    "loadingRecords": "载入中...",
-                    "processing": "处理中...",
-                    "search": "搜索所有字段:",
-                    "zeroRecords": "没有匹配结果",
-                    "oPaginate": {
-                        "sFirst": "首页",
-                        "sPrevious": "上一页",
-                        "sNext": "下一页",
-                        "sLast": "尾页"
-                    },
-                    "Aria": {
-                        "sSortAscending": ": 以升序排列此列",
-                        "sSortDescending": ": 以降序排列此列"
-                    },
-                    "select": {
-                        "rows": {
-                            "_": "<div class='row_select_span1'>已选中 %d 行</div>",
-                            "0": "<div class='row_select_span'>点击一行选中</div>",
-                            //"1":"<div class='row_select_span1'>只选中了一行</div>"
-                        }
-                    },
+                        },
+                    }
                 }
-            });
+                )
+            ;
             return table
         }
 
