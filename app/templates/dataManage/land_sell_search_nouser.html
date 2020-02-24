@@ -1,13 +1,14 @@
-<!DOCTYPE html>
 <html>
-	<head>	
-	<meta charset="utf-8"/>
+<head>
+    <title>土拍数据查询</title>
+    <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+    <!-- notifications css -->
+    <link rel="stylesheet" href="/static/assets/plugins/notifications/css/lobibox.min.css"/>
     <!--Select Plugins-->
     <link href="/static/assets/plugins/select2/css/select2.min.css" rel="stylesheet"/>
     <!--inputtags-->
@@ -45,6 +46,37 @@
           type="text/css">
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            margin: 0 auto;
+            width: 100%;
+            height: 500px;
+            /* border: 1px #008B8B solid; */
+            text-align: center;
+        }
+
+        /* 设置一个伪元素，将行高撑起来 */
+        .box:after {
+            display: inline-block;
+            line-height: 100%;
+            width: 0px;
+            height: 100%;
+            content: "";
+            vertical-align: middle;
+        }
+
+        /* 因为伪元素将行高撑起来了，所以图片就会显示在水平的居中方向 */
+        .box img {
+            /* 把此元素放置在父元素的中部。 */
+            vertical-align: middle;
+            width: 50px;
+            height: 50px;
+        }
+
         .row, .card, .card-body {
             width: 100%;
         }
@@ -61,7 +93,6 @@
 
         .row_table {
             display: none;
-        {#后台flash控制表格显示#}{#        {% if get_flashed_messages(category_filter=['display']) %}#}{#            {% for v in get_flashed_messages(category_filter=['display']) %}#}{#                display: {{ v }};#}{#            {% endfor %}#}{#        {% endif %}#}
         }
 
         div.dataTables_wrapper div.dataTables_filter {
@@ -74,357 +105,118 @@
             text-align: left;
             margin: 1%;
         }
-    </style>
-</head>
-    <script src="/static/assets/js/jquery.min.js"></script>
-    <script src="/static/assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
-    <script src="/static/assets/js/popper.min.js"></script>
-    <script src="/static/assets/js/bootstrap.min.js"></script>
-    <!-- simplebar js -->
-    <script src="/static/assets/plugins/simplebar/js/simplebar.js"></script>
-    <!-- sidebar-menu js -->
-    <script src="/static/assets/js/sidebar-menu.js"></script>
-    <!-- Custom scripts -->
-    <script src="/static/assets/js/app-script.js"></script>
-    <!--Bootstrap Touchspin Js-->
-    <script src="/static/assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
-    <script src="/static/assets/plugins/bootstrap-touchspin/js/bootstrap-touchspin-script.js"></script>
-    <!--Select Plugins Js-->
-    <script src="/static/assets/plugins/select2/js/select2.min.js"></script>
-    <!--Inputtags Js-->
-    <script src="/static/assets/plugins/inputtags/js/bootstrap-tagsinput.js"></script>
-    <!--Bootstrap Datepicker Js-->
-    <script src="/static/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <!--Multi Select Js-->
-    <script src="/static/assets/plugins/jquery-multi-select/jquery.multi-select.js"></script>
-    <script src="/static/assets/plugins/jquery-multi-select/jquery.quicksearch.js"></script>
-    <!-- Custom scripts -->
-    <script src="/static/assets/js/app-script.js"></script>
-    <!--Data Tables js-->
-    <script src="/static/assets/plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/jszip.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.select.min.js"></script>
-    <script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.colReorder.min.js"></script>
-    <script>
-        function get_el_list(el_class) {
-            var list = []
-            $(el_class).each(function (i, e) {
-                list[i] = $(el_class)[i].title
-            })
-            return list
+
+        .table01 {
+            display: table;
         }
 
-        $(document).ready(function () {
-            //Default data table
-            $('#default-datatable').DataTable();
-            var table = $('#example').DataTable({
-                bAutoWidth: true,
-                bProcessing: true,
-                bSort: false,
-                //开启服务端分页
-                serverSide: true,
-                searching: false,  //搜索功能
-                ordering: true,   // 排序功能
-                //lengthMenu: [5, 10, 25, 50, 100],
-                ajax: function (data, callback) {
-                    var param = {}
-                    var land_location_list = get_el_list('.form-big_area .select2-selection__choice')
-                    param.draw = data.draw;
-                    param.start = data.start;
-                    param.length = data.length;
-                    param.page = param.start / param.length + 1; //计算页码
-                    param.land_location_list = land_location_list;
-                    param.order = data.order;
-                    var paramString = JSON.stringify(param);
-                    $.ajax({
-                        type: "post",
-                        url: "{{ url_for('datamanage.landSellSearchTableAdder') }}",
-                        data: paramString,
-                        datatype: 'json',
-                        success: function (res) { //res后端返回的参数
-                            var returnData = {};
-                            returnData.draw = res.draw; // 计数器
-                            returnData.recordsTotal = res.recordsTotal;//返回数据全部记录
-                            returnData.recordsFiltered = res.recordsFiltered;//过滤后记录
-                            returnData.data = res.data; // 数据对象
-                            //console.log(returnData.data);
-                            callback(returnData);
-                        },
-                        error: function () {
-                            alert('请求错误')
-                        }
-                    })
-                },
-                lengthChange: false,
-                //设置首页尾页
-                pagingType: "full_numbers",
-                //设置按钮
-                buttons: ['pageLength', 'copy', 'excel', 'print', 'colvis', 'selectAll', 'selectNone'],
-                dom: 'Blfrtip',
-                //表格行选中
-                select: {
-                    style: 'multi'
-                },
-                //拖动列开启
-                colReorder: true,
-                //序号自增长
-                // fnDrawCallback: function () {
-                //     var api = this.api();
-                //     var startIndex = api.context[0]._iDisplayStart;//获取到本页开始的条数
-                //     api.column(0).nodes().each(function (cell, i) {
-                //         //此处 startIndex + i + 1;会出现翻页序号不连续，主要是因为startIndex 的原因,去掉即可。
-                //         cell.innerHTML = startIndex + i + 1;
-                //         //cell.innerHTML = i + 1;
-                //     });
-                // }
-                // ,
-                language: {
-                    "buttons": {
-                        "pageLength": "显示 %d 行",
-                        "excel": "<i class='fa fa-file-excel-o'></i>&nbsp;导出Excel",
-                        "copy": "复制",
-                        "pdf": "<i class='fa fa-file-pdf-o'></i>&nbsp;导出PDF",
-                        "print": "打印",
-                        "colvis": "设置列不可见",
-                        "selectAll": "全选",
-                        "selectNone": "取消全选"
-                    },
-                    "decimal": "",
-                    "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                    "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                    "infoFiltered": "(由 _MAX_ 项结果过滤)",
-                    "InfoPostFix": "",
-                    "thousands": ",",
-                    "lengthMenu": "显示 _MENU_ 项结果",
-                    "loadingRecords": "载入中...",
-                    "processing": "处理中...",
-                    "search": "搜索:",
-                    "zeroRecords": "没有匹配结果",
-                    "oPaginate": {
-                        "sFirst": "首页",
-                        "sPrevious": "上一页",
-                        "sNext": "下一页",
-                        "sLast": "尾页"
-                    },
-                    "Aria": {
-                        "sSortAscending": ": 以升序排列此列",
-                        "sSortDescending": ": 以降序排列此列"
-                    },
-                    "select": {
-                        "rows": {
-                            "_": "<div class='row_select_span1'>已选中 %d 行</div>",
-                            "0": "<div class='row_select_span'>点击一行选中</div>",
-                            //"1":"<div class='row_select_span1'>只选中了一行</div>"
-                        }
-                    },
-                }
-            });
-            $('.btn-success').click(function () {
-                $('.row_table').css('display', 'block');
-                table.draw(true);
-            });
-            //table.buttons().container().prependTo('#example_wrapper #example_filter');
-            $('#default-datepicker').datepicker({
-                todayHighlight: true
-            });
-            $('#autoclose-datepicker').datepicker({
-                autoclose: true,
-                todayHighlight: true
-            });
+        .dataTables_empty01 {
+            display: table-cell;
+            vertical-align: middle;
+        }
 
-            $('#inline-datepicker').datepicker({
-                todayHighlight: true
-            });
+        .nav-pills-secondary .nav-link.active, .nav-pills-secondary .show > .nav-link {
+            background-color: #2c5a98;
+        }
 
-            $('#dateragne-picker .input-daterange').datepicker({});
+        .container {
+            position: relative;
+        {#width: 100%;#}{#height: 100%;#} margin: 0 auto;
+        }
 
-            $('.single-select').select2();
-            $('.multiple-select').select2();
-            //multiselect start
-            $('#my_multi_select1').multiSelect();
-            $('#my_multi_select2').multiSelect({
-                selectableOptgroup: true
-            });
-            $('#my_multi_select3').multiSelect({
-                selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
-                selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
-                afterInit: function (ms) {
-                    var that = this,
-                        $selectableSearch = that.$selectableUl.prev(),
-                        $selectionSearch = that.$selectionUl.prev(),
-                        selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
-                        selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
-
-                    that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-                        .on('keydown', function (e) {
-                            if (e.which === 40) {
-                                that.$selectableUl.focus();
-                                return false;
-                            }
-                        });
-
-                    that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-                        .on('keydown', function (e) {
-                            if (e.which == 40) {
-                                that.$selectionUl.focus();
-                                return false;
-                            }
-                        });
-                },
-                afterSelect: function () {
-                    this.qs1.cache();
-                    this.qs2.cache();
-                },
-                afterDeselect: function () {
-                    this.qs1.cache();
-                    this.qs2.cache();
-                }
-            });
-
-            $('.custom-header').multiSelect({
-                selectableHeader: "<div class='custom-header'>Selectable items</div>",
-                selectionHeader: "<div class='custom-header'>Selection items</div>",
-                selectableFooter: "<div class='custom-header'>Selectable footer</div>",
-                selectionFooter: "<div class='custom-header'>Selection footer</div>"
-            });
-            $("#personal-info").validate();
-
-            // validate signup form on keyup and submit
-            $("#signupForm").validate({
-                rules: {
-                    firstname: "required",
-                    lastname: "required",
-                    username: {
-                        required: true,
-                        minlength: 2
-                    },
-                    password: {
-                        required: true,
-                        minlength: 5
-                    },
-                    confirm_password: {
-                        required: true,
-                        minlength: 5,
-                        equalTo: "#password"
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    contactnumber: {
-                        required: true,
-                        minlength: 10
-                    },
-                    topic: {
-                        required: "#newsletter:checked",
-                        minlength: 2
-                    },
-                    agree: "required"
-                },
-                messages: {
-                    firstname: "Please enter your firstname",
-                    lastname: "Please enter your lastname",
-                    username: {
-                        required: "Please enter a username",
-                        minlength: "Your username must consist of at least 2 characters"
-                    },
-                    password: {
-                        required: "Please provide a password",
-                        minlength: "Your password must be at least 5 characters long"
-                    },
-                    confirm_password: {
-                        required: "Please provide a password",
-                        minlength: "Your password must be at least 5 characters long",
-                        equalTo: "Please enter the same password as above"
-                    },
-                    email: "Please enter a valid email address",
-                    contactnumber: "Please enter your 10 digit number",
-                    agree: "Please accept our policy",
-                    topic: "Please select at least 2 topics"
-                }
-            });
-
-        });
-
-    </script>
+        .content-wrapper {
+            position: relative;
+        {#width: 100%;#}{#height: 100%;#} margin: 0 auto;
+        }
+    </style>
+</head>
 
 <body>
-	
+<div class="container">
     <div class="content-wrapper">
         <div class="container-fluid">
             <!-- Breadcrumb-->
-            <div class="row pt-2 pb-2">
+            <div class="row pt-2 pb-2 table_container_first">
                 <div class="col-sm-9">
                     <h4 class="page-title">土拍数据查询</h4>
                 </div>
-                <div class="row">
+                <div class="row row_search">
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                {#                                <form id="personal-info" method="post">#}
+                                {#<form id="personal-info" method="post">#}
                                 <div class="form-group row">
-                                    <label for="input-5" class="col-sm-2 col-form-label"> 时间</label>
+                                    <label for="input_date" class="col-sm-2 col-form-label">公告时间</label>
+                                    {#增加唯一标签#}
+                                    <label style="display: none" id="label_input_date_begin">公告起始时间</label>
+                                    <label style="display: none" id="label_input_date_end">公告结束时间</label>
                                     <div class="col-sm-10">
                                         <div id="dateragne-picker">
                                             <div class="input-daterange input-group">
-                                                {#                                                    <input type="text" class="form-control" name="start"/>#}
-                                                {{ form.start(type="text",class="form-control  start-time") }}
+                                                <input type="text" class="form-control" name="start" required="required"
+                                                       id="input_date_begin"
+                                                       placeholder="请选择起始时间"/>
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">至</span>
                                                 </div>
-                                                {#                                                    <input type="text" class="form-control" name="end"/>#}
-                                                {{ form.end(type="text",class="form-control end-time") }}
+                                                <input type="text" class="form-control" name="end" id="input_date_end"
+                                                       placeholder="请选择结束时间" required="required"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group row form-big_area">
-                                    <label for="input-6" class="col-sm-2 col-form-label"> 大区</label>
+                                <div class="form-group row form-region-name">
+                                    <label for="input-6" class="col-sm-2 col-form-label"> 行政区</label>
                                     <div class="col-sm-10">
-                                        {#                                                                                    <select class="form-control multiple-select" id="input-6" multiple="multiple"name="intersted" required>#}
-                                        {#                                                                                        <option>Web Development</option>#}
-                                        {#                                                                                        <option>Mobile Development</option>#}
-                                        {#                                                                                        <option>Digital Marketing</option>#}
-                                        {#                                                                                        <option>Graphic Designing</option>#}
-                                        {#                                                                                        <option>Ecommerce Industr</option>#}
-                                        {#                                                                                    </select>#}
-                                        {{ form.land_location(class="form-control multiple-select",id="input-7",multiple="multiple") }}
+                                        {{ form.region_name(class="form-control multiple-select",id="input-6",multiple="multiple") }}
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="input_land_location" class="col-sm-2 col-form-label"
+                                           id="label_input_land_location">土地坐落</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="input_land_location"
+                                               required="required"
+                                               placeholder="请输入公告详情中的土地坐落">
+                                    </div>
+                                </div>
+                                <div class="form-group row assignment_method">
                                     <label for="input-7" class="col-sm-2 col-form-label"> 出让方式 </label>
                                     <div class="col-sm-10">
-                                        {#                                                                                    <select class="form-control" id="input-7" name="budget" required>#}
-                                        {#                                                                                        <option>BUDGET</option>#}
-                                        {#                                                                                        <option>Less then 2000$</option>#}
-                                        {#                                                                                        <option>2000$ - 10000$</option>#}
-                                        {#                                                                                        <option>10000$ - 20000$</option>#}
-                                        {#                                                                                        <option>Above 20000$</option>#}
-                                        {#                                                                                    </select>#}
                                         {{ form.assignment_method(class="form-control multiple-select",id="input-8",multiple="multiple") }}
                                     </div>
                                 </div>
-                                <div class="form-footer">
-                                    <button type="submit" class="btn btn-success"><i
-                                            class="fa fa-check-square-o"></i> 查询
-                                    </button>
-                                    {#                                        {{ form.submit(class="btn btn-success") }}#}
+                                <div class="form-group row assignment_limit">
+                                    <label for="input-8" class="col-sm-2 col-form-label"> 出让年限(年) </label>
+                                    <div class="col-sm-10">
+                                        {{ form.assignment_limit(class="form-control multiple-select",id="input-9",multiple="multiple") }}
+                                    </div>
                                 </div>
-                                {#                                </form>#}
+
+                                <div class="form-group row plan_use">
+                                    <label for="input-8" class="col-sm-2 col-form-label"> 用途分类 </label>
+                                    <div class="col-sm-10">
+                                        {{ form.plan_use_custom(class="form-control multiple-select",id="input-10",multiple="multiple") }}
+                                    </div>
+                                </div>
+                                <div class="form-footer">
+                                    {#                                    <button type="submit" class="btn btn-success"><i#}
+                                    {#                                            class="fa fa-check-square-o"></i> 查询#}
+                                    {#                                    </button>#}
+                                    <button class="btn btn-success fa fa-check-square-o">查询
+                                    </button>
+                                    {#{{ form.submit(class="btn btn-success") }}#}
+                                </div>
+                                {#</form>#}
                             </div>
                         </div>
 
                     </div>
                 </div>
+
                 <div class="row row_table">
+
+                    <!-- Tab panes -->
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header"><i class="fa fa-table"></i>土拍数据展示</div>
@@ -434,34 +226,426 @@
                                         <thead>
                                         <tr>
                                             <th>序列</th>
-                                            <th>大区</th>
+                                            <th>所属区县</th>
+                                            <th>公告编号</th>
+                                            <th>位置</th>
+                                            <th>总面积（平方米）</th>
+                                            <th>建设用地面积（平方米）</th>
+                                            <th>规划建筑面积（平方米）</th>
+                                            <th>用途分类</th>
+                                            {#                                            <th>自定义用途</th>#}
+                                            <th>容积率</th>
+                                            <th>绿化率</th>
+                                            <th>商业比例</th>
+                                            <th>建筑密度</th>
                                             <th>出让方式</th>
-                                            <th>ASSIGNMENT_LIMIT</th>
-                                            <th>DATE_BEGIN</th>
-                                            <th>DATE_END</th>
-                                            <th>PRICE_BEGIN</th>
+                                            <th>出让年限</th>
+                                            <th>起始日期</th>
+                                            <th>截止日期</th>
+                                            <th>起始价（万元）</th>
+                                            <th>保证金（万元）</th>
+                                            {#                                            <th>创建人</th>#}
+                                            {#                                            <th>创建时间</th>#}
+                                            {#                                            <th>修改人</th>#}
+                                            {#                                            <th>修改时间</th>#}
+                                            <th>公告用途</th>
+
                                         </tr>
                                         </thead>
                                         <tfoot>
                                         <tr>
                                             <th>序列</th>
-                                            <th>大区</th>
+                                            <th>所属区县</th>
+                                            <th>公告编号</th>
+
+                                            <th>位置</th>
+                                            <th>总面积（平方米）</th>
+                                            <th>建设用地面积（平方米）</th>
+                                            <th>规划建筑面积（平方米）</th>
+                                            {#                                            <th>规划用途</th>#}
+                                            <th>用途分类</th>
+                                            <th>容积率</th>
+                                            <th>绿化率</th>
+                                            <th>商业比例</th>
+                                            <th>建筑密度</th>
                                             <th>出让方式</th>
-                                            <th>ASSIGNMENT_LIMIT</th>
-                                            <th>DATE_BEGIN</th>
-                                            <th>DATE_END</th>
-                                            <th>PRICE_BEGIN</th>
+                                            <th>出让年限</th>
+                                            <th>起始日期</th>
+                                            <th>截止日期</th>
+                                            <th>起始价（万元）</th>
+                                            <th>保证金（万元）</th>
+                                            {#                                            <th>创建人</th>#}
+                                            {#                                            <th>创建时间</th>#}
+                                            {#                                            <th>修改人</th>#}
+                                            {#                                            <th>修改时间</th>#}
+                                            <th>公告用途</th>
                                         </tr>
                                         </tfoot>
                                     </table>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div><!--End Row-->
                 </div><!-- End Row-->
-
             </div><!--End Row-->
             <!-- End container-fluid-->
         </div>
     </div>
+</div>
+<a href="javaScript:void(0);" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
 </body>
+<script src="/static/assets/js/jquery.min.js"></script>
+<script src="/static/assets/plugins/jquery-validation/js/jquery.validate.min.js"></script>
+<script src="/static/assets/js/popper.min.js"></script>
+<script src="/static/assets/js/bootstrap.min.js"></script>
+<!-- simplebar js -->
+<script src="/static/assets/plugins/simplebar/js/simplebar.js"></script>
+<!-- sidebar-menu js -->
+<script src="/static/assets/js/sidebar-menu.js"></script>
+<!--Bootstrap Touchspin Js-->
+<script src="/static/assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
+<script src="/static/assets/plugins/bootstrap-touchspin/js/bootstrap-touchspin-script.js"></script>
+<!--Select Plugins Js-->
+<script src="/static/assets/plugins/select2/js/select2.min.js"></script>
+<!--Inputtags Js-->
+<script src="/static/assets/plugins/inputtags/js/bootstrap-tagsinput.js"></script>
+<!--Bootstrap Datepicker Js-->
+<script src="/static/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+<!--Multi Select Js-->
+<script src="/static/assets/plugins/jquery-multi-select/jquery.multi-select.js"></script>
+<script src="/static/assets/plugins/jquery-multi-select/jquery.quicksearch.js"></script>
+<!-- Custom scripts -->
+<script src="/static/assets/js/app-script.js"></script>
+<!--Data Tables js-->
+<script src="/static/assets/plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/jszip.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.select.min.js"></script>
+<script src="/static/assets/plugins/bootstrap-datatable/js/dataTables.colReorder.min.js"></script>
+<script src="{{ url_for('static',filename='assets/plugins/notifications/js/lobibox.min.js') }}"></script>
+<script src="{{ url_for('static',filename='assets/plugins/notifications/js/notifications.min.js') }}"></script>
+<script src="{{ url_for('static',filename='assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
+<script>
+    function get_el_list(el_class) {
+        var list = []
+        $(el_class).each(function (i, e) {
+            list[i] = $(el_class)[i].title
+        })
+        return list
+    }
+
+    function anim5_noti_success(value,) {
+        Lobibox.notify('success', {
+            pauseDelayOnHover: true,
+            continueDelayOnInactiveTab: false,
+            position: 'center top',
+            showClass: 'rollIn',
+            hideClass: 'rollOut',
+            icon: 'fa fa-check-circle',
+            width: 600,
+            msg: value,
+            delay: 3000
+        });
+    }
+
+    function anim5_noti_success01(value,) {
+        Lobibox.notify('success', {
+            pauseDelayOnHover: true,
+            continueDelayOnInactiveTab: false,
+            position: 'center top',
+            showClass: 'rollIn',
+            hideClass: 'rollOut',
+            icon: 'fa fa-check-circle',
+            width: 600,
+            msg: value,
+            delay: 1500
+        });
+    }
+
+    function anim4_noti_err(value) {
+        Lobibox.notify('error', {
+            pauseDelayOnHover: true,
+            continueDelayOnInactiveTab: false,
+            icon: 'fa fa-times-circle',
+            position: 'center top',
+            showClass: 'lightSpeedIn',
+            hideClass: 'lightSpeedOut',
+            width: 600,
+            msg: value
+        });
+    }
+
+    function table_ajax() {
+        //Default data table
+        $('#default-datatable').DataTable();
+        var table = $('#example').DataTable({
+            bAutoWidth: true,
+            bProcessing: true,
+            bSort: false,
+            //开启服务端分页
+            serverSide: true,
+            searching: true,  //搜索功能
+            ordering: true,   // 排序功能
+            "lengthMenu": [10, 100, 500, 1000], //一页行数
+            ajax: function (data, callback) {
+                var param = {}
+                var region_name_list = get_el_list('.form-region-name .select2-selection__choice')//行政区
+                var s_day = $('#input_date_begin').val()//公告开始时间
+                var e_day = $('#input_date_end').val()//公告结束时间
+                var land_location = $('#input_land_location').val()//土地坐落
+                var assignment_method_list = get_el_list('.assignment_method .select2-selection__choice')//出让方式
+                var assignment_limit_list = get_el_list('.assignment_limit .select2-selection__choice')//出让年限
+                var plan_use_list = get_el_list('.plan_use .select2-selection__choice')//规划用途
+                param.draw = data.draw;
+                param.start = data.start;
+                param.length = data.length;
+                param.page = param.start / param.length + 1; //计算页码
+                param.order = data.order; //排序方式
+                param.search_value = data.search.value; //搜索内容
+                param.region_name_list = region_name_list;
+                param.land_location = land_location;
+                param.assignment_method_list = assignment_method_list;
+                param.assignment_limit_list = assignment_limit_list;
+                param.plan_use_list = plan_use_list;
+                param.s_day = s_day
+                param.e_day = e_day
+                var paramString = JSON.stringify(param);
+                $.ajax({
+                    type: "post",
+                    url: "{{ url_for('datamanage.landSellSearchTableAdder01') }}",
+                    data: paramString,
+                    datatype: 'json',
+                    success: function (res) { //res后端返回的参数
+                        var returnData = {};
+                        returnData.draw = res.draw; // 计数器
+                        returnData.recordsTotal = res.recordsTotal;//返回数据全部记录
+                        returnData.recordsFiltered = res.recordsFiltered;//过滤后记录
+                        returnData.data = res.data; // 数据对象
+                        console.log(returnData.data);
+                        callback(returnData)
+                        if (returnData.data.length == 0 && res.search_value == "") {
+                            anim3_noti(value = "操作成功,但是查询不到相关数据！")
+                        } else if (res.search_value == "") {
+                            anim5_noti_success01(value = "操作成功,已为您更新数据！")
+                        }
+
+                    },
+                    error: function (err) {
+                        if (err.responseText.toString().search("OverSpeed") != -1) {
+                            anim4_noti_err("请勿过高频率操作！")
+                        } else if (err.responseText.toString().search("Pass") != -1) {
+                        } else {
+                            anim4_noti_err("请求错误！")
+                        }
+                    }
+                })
+
+            },
+            lengthChange: false,
+            //设置首页尾页
+            pagingType: "full_numbers",
+            //设置按钮
+            buttons: ['pageLength', 'copy', 'excel', 'print', 'colvis', 'selectAll', 'selectNone'],
+            dom: 'Blfrtip',
+            //表格行选中
+            select: {
+                style: 'multi'
+            },
+            //拖动列开启
+            colReorder: true,
+            //序号自增长
+            // fnDrawCallback: function () {
+            //     var api = this.api();
+            //     var startIndex = api.context[0]._iDisplayStart;//获取到本页开始的条数
+            //     api.column(0).nodes().each(function (cell, i) {
+            //         //此处 startIndex + i + 1;会出现翻页序号不连续，主要是因为startIndex 的原因,去掉即可。
+            //         cell.innerHTML = startIndex + i + 1;
+            //         //cell.innerHTML = i + 1;
+            //     });
+            // }
+            // ,
+            language: {
+                "buttons": {
+                    "pageLength": "显示 %d 行",
+                    "excel": "<i class='fa fa-file-excel-o'></i>&nbsp;导出Excel",
+                    "copy": "复制",
+                    "pdf": "<i class='fa fa-file-pdf-o'></i>&nbsp;导出PDF",
+                    "print": "打印",
+                    "colvis": "设置列不可见",
+                    "selectAll": "全选",
+                    "selectNone": "取消全选"
+                },
+                "decimal": "",
+                "emptyTable": "表中数据为空",
+                "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "infoFiltered": "(由 _MAX_ 项结果过滤)",
+                "InfoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "显示 _MENU_ 项结果",
+                "loadingRecords": "载入中...",
+                "processing": "处理中...",
+                "search": "搜索所有字段:",
+                "zeroRecords": "没有匹配结果",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上一页",
+                    "sNext": "下一页",
+                    "sLast": "尾页"
+                },
+                "Aria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                },
+                "select": {
+                    "rows": {
+                        "_": "<div class='row_select_span1'>已选中 %d 行</div>",
+                        "0": "<div class='row_select_span'>点击一行选中</div>",
+                        //"1":"<div class='row_select_span1'>只选中了一行</div>"
+                    }
+                },
+            }
+        });
+        return table
+    }
+
+    $('.btn-success').click(function () {
+        if ($('.row_table').css("display") == "none") {
+            table_ajax()
+        } else {
+            $('#example').DataTable().draw(true);
+        }
+        $('.row_table').css('display', 'block');
+
+    });
+    $(document).ready(function () {
+        //table.buttons().container().prependTo('#example_wrapper #example_filter');
+        $('#default-datepicker').datepicker({
+            todayHighlight: true
+        });
+        $('#autoclose-datepicker').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        $('#inline-datepicker').datepicker({
+            todayHighlight: true
+        });
+
+        $('#dateragne-picker .input-daterange').datepicker({});
+
+        $('.single-select').select2();
+        $('.multiple-select').select2();
+        //multiselect start
+        $('#my_multi_select1').multiSelect();
+        $('#my_multi_select2').multiSelect({
+            selectableOptgroup: true
+        });
+        $('#my_multi_select3').multiSelect({
+            selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+            selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+            afterInit: function (ms) {
+                var that = this,
+                    $selectableSearch = that.$selectableUl.prev(),
+                    $selectionSearch = that.$selectionUl.prev(),
+                    selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+                    selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+                that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+                    .on('keydown', function (e) {
+                        if (e.which === 40) {
+                            that.$selectableUl.focus();
+                            return false;
+                        }
+                    });
+
+                that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+                    .on('keydown', function (e) {
+                        if (e.which == 40) {
+                            that.$selectionUl.focus();
+                            return false;
+                        }
+                    });
+            },
+            afterSelect: function () {
+                this.qs1.cache();
+                this.qs2.cache();
+            },
+            afterDeselect: function () {
+                this.qs1.cache();
+                this.qs2.cache();
+            }
+        });
+
+        $('.custom-header').multiSelect({
+            selectableHeader: "<div class='custom-header'>Selectable items</div>",
+            selectionHeader: "<div class='custom-header'>Selection items</div>",
+            selectableFooter: "<div class='custom-header'>Selectable footer</div>",
+            selectionFooter: "<div class='custom-header'>Selection footer</div>"
+        });
+        $("#personal-info").validate();
+
+        // validate signup form on keyup and submit
+        $("#signupForm").validate({
+            rules: {
+                firstname: "required",
+                lastname: "required",
+                username: {
+                    required: true,
+                    minlength: 2
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                confirm_password: {
+                    required: true,
+                    minlength: 5,
+                    equalTo: "#password"
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                contactnumber: {
+                    required: true,
+                    minlength: 10
+                },
+                topic: {
+                    required: "#newsletter:checked",
+                    minlength: 2
+                },
+                agree: "required"
+            },
+            messages: {
+                firstname: "Please enter your firstname",
+                lastname: "Please enter your lastname",
+                username: {
+                    required: "Please enter a username",
+                    minlength: "Your username must consist of at least 2 characters"
+                },
+                password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 5 characters long"
+                },
+                confirm_password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 5 characters long",
+                    equalTo: "Please enter the same password as above"
+                },
+                email: "Please enter a valid email address",
+                contactnumber: "Please enter your 10 digit number",
+                agree: "Please accept our policy",
+                topic: "Please select at least 2 topics"
+            }
+        });
+    });
+</script>
+<html>
