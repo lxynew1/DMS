@@ -57,7 +57,7 @@ def objSearchValue(num: int, vlaue: str, data: List[str], obj):
     for i in obj:
         if str(i).__contains__(vlaue):
             list = [
-                str(num) + " <a href='/datamanage/landSellDeal?fid=" + obj.FID + "' class='up btn btn-default btn-xs'><i class='fa fa-arrow-up'></i> 编辑</a>",
+                str(num) + " <a href='/datamanage/land_sell_deal?fid=" + obj.FID + "' class='up btn btn-default btn-xs'><i class='fa fa-arrow-up'></i> 编辑</a>",
                 obj.REGION_NAME,  # 区县代码
                 obj.NOTICE_NUM,  # 公告编号
                 obj.LAND_LOCATION,  # 位置
