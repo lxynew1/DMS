@@ -119,4 +119,4 @@ def landSellAdderSave():
 #土地成交页面
 @datamanage.route('/land_sell_deal')
 def landSellDeal():
-    return render_template('dataManage.land_sell_deal.html')
+    return render_template('dataManage/land_sell_deal.html')
