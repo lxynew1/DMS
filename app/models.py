@@ -73,6 +73,7 @@ class LAND_SELL_INFO(db.Model):
     CREATE_TIME = db.Column(db.DateTime, nullable=False, comment='创建时间')
     MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
     MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
+    CRAWL_FID = db.Column(db.String(50), nullable=True, comment='爬虫的FID值')
 
 
 class LAND_SELL_INFO_TEST_LXY(db.Model):
