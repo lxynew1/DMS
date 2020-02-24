@@ -42,6 +42,7 @@ def landSellAdder():
                            standard_use_dict=standard_use_dict)
 
 
+#校验公告编号是否重复
 @datamanage.route('/api/notice_no/is_repetition')
 def noticeNoIsRepetition():
     # 默认返回内容
@@ -64,6 +65,7 @@ def reformatDate(date_str):
     date_list=date_str.split('/')
     return date_list[-1]+'-'+date_list[0]+'-'+date_list[1]
 
+#保存土地拍卖信息
 @datamanage.route('/api/land_sell_adder/save')
 def landSellAdderSave():
     return_dict = {'return_code': '200', 'return_info': '', 'result': True}
@@ -113,3 +115,8 @@ def landSellAdderSave():
     return json.dumps(return_dict, ensure_ascii=False)
 
 
+
+#土地成交页面
+@datamanage.route('/land_sell_deal')
+def landSellDeal():
+    return render_template('dataManage.land_sell_deal.html')
