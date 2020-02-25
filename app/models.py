@@ -74,7 +74,7 @@ class LAND_SELL_INFO(db.Model):
     MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
     MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
     CRAWL_FID = db.Column(db.String(50), nullable=True, comment='爬虫的FID值')
-
+    IS_ONE = db.Column(db.String(10), nullable=True, comment='是否为独立地块，1为是，0为否')
 
 class LAND_SELL_INFO_TEST_LXY(db.Model):
     __tablename__ = 'LAND_SELL_INFO_TEST_LXY'
@@ -102,6 +102,26 @@ class LAND_SELL_INFO_TEST_LXY(db.Model):
     MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
     MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
     CRAWL_FID = db.Column(db.String(50), nullable=True, comment='爬虫唯一值，一般为官网FID')
+    IS_ONE = db.Column(db.String(10), nullable=True, comment='是否为独立地块，1为是，0为否')
+
+#土地地块详细信息
+class LAND_PARCEL_DETAIL(db.Model):
+    __tablename__ = 'LAND_PARCEL_DETAIL'
+    FID = db.Column(db.String(50), primary_key=True, comment='随机UUID')
+    PARENT_FID = db.Column(db.String(50), nullable=False, comment='公告编号ID')
+    PARCEL_NO = db.Column(db.String(50), nullable=False, comment='公告编号ID')
+    TOTAL_AREA = db.Column(db.Float, nullable=False, comment='总面积（平方米）')
+    CONSTRUCTION_AREA = db.Column(db.Float, nullable=False, comment='建设用地面积（平方米）')
+    PLAN_BUILD_AREA = db.Column(db.Float, nullable=False, comment='规划建筑面积（平方米）')
+    PLAN_USE = db.Column(db.String(100), nullable=False, comment='规划用途')
+    FLOOR_AREA_RATIO = db.Column(db.String(50), nullable=False, comment='容积率')
+    GREENING_RATE = db.Column(db.String(50), nullable=False, comment='绿化率')
+    BUILDING_DENSITY = db.Column(db.String(50), nullable=False, comment='建筑密度')
+    ASSIGNMENT_LIMIT = db.Column(db.String(50), nullable=False, comment='出让年限')
+    CREATE_BY = db.Column(db.String(50), nullable=False, comment='创建人')
+    CREATE_TIME = db.Column(db.DateTime, nullable=False, comment='创建时间')
+    MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
+    MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
 
 
 class USER_CALENDAR(db.Model):
@@ -148,3 +168,4 @@ class DICT_HREF(db.Model):
     PY_STATE = db.Column(db.String(50), nullable=True, comment='脚本开启状态，0为未开启，1为已开启')
     PY_NEXT_TIME = db.Column(db.DateTime(50), nullable=True, comment='脚本下次运行时间')
     REGION_CODE = db.Column(db.String(20), nullable=False, comment='行政区代码')
+

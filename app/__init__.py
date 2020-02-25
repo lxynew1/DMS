@@ -12,7 +12,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
-# 限制访问频率
+
 limiter = Limiter(key_func=get_remote_address)
 
 def create_app(config_name='development'):
@@ -23,6 +23,7 @@ def create_app(config_name='development'):
     login_manager.init_app(app)
     from .api import api_models
     api_models.init_app(app=app)
+
     with app.test_request_context():
         db.create_all()
 

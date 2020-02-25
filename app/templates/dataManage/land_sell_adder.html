@@ -50,14 +50,14 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group row" id="input_notice_no_title">
-                                    <label for="input_notice_no" class="col-sm-2 col-form-label"
-                                           id="label_input_notice_no">地块编号</label>
+                                <div class="form-group row" id="div_parcel_no">
+                                    <label for="input_parcel_no" class="col-sm-2 col-form-label"
+                                           id="label_input_parcel_no">地块编号</label>
                                     <div class="col-sm-10" id="div_notice_no">
                                         <input type="text" onkeyup=" this.value=this.value.replace(/[^\w-]/g,'') "
-                                               class="form-control" id="input_notice_no"
+                                               class="form-control" id="input_parcel_no"
                                                placeholder="请输入由字母、数字、横线或下划线组成的地块编号" required="required"
-                                               onclick='is_checked()'>
+                                        >
                                     </div>
                                 </div>
 
@@ -236,7 +236,7 @@
                                                 required="required">
                                             <option value="-1">请选择</option>
                                             {% for key,value in custom_use_dict.items() %}
-                                                <option value="{{ key }}">{{ value }}</option>
+                                                <option value="{{ value }}">{{ value }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -477,6 +477,7 @@
             $("#standard_use_code option:selected").each(function () {
                 standard_use_code = standard_use_code + $(this).text() + ';'
             });
+
             var state = '0';
             var input_list = {
                 input_notice_no: input_notice_no,
@@ -499,6 +500,19 @@
                 select_region_code: select_region_code,
                 select_assignment_method: select_assignment_method,
                 select_plan_use_custom: select_plan_use_custom
+            }
+            if (state == '0') {
+                var checkbox_state = $('#div_parcel_no').attr("hidden")
+                if (checkbox_state != "hidden") {
+                    var input_parcel_no = $(" #input_parcel_no ").val();
+                    if (input_parcel_no == "") {
+                        console.log("234")
+                        $("#submit_info").html('请填写地块编号，如不为独立地块，请取消勾选框')
+                        $("#submit_info").css("color", "red")
+                        $('#submit_data').css('cursor', 'not-allowed')
+                        state = '1'
+                    }
+                }
             }
             if (state == '0') {
                 for (i in input_list) {
@@ -542,6 +556,15 @@
 
 
         function saveData() {
+            var is_one = "0"
+            var input_parcel_no = ""
+            {#判定是否独立地块值#}
+            var checkbox_state = $('#div_parcel_no').attr("hidden")
+                if (checkbox_state != "hidden") {
+                    is_one = "1"
+                    input_parcel_no = $(" #input_parcel_no ").val()
+                    console.log("111"+input_parcel_no)
+                    }
             var input_notice_no = $(" #input_notice_no ").val()
             var select_region_code = $('#select_region_code option:selected').val();
             var input_land_location = $(" #input_land_location ").val();
@@ -572,6 +595,8 @@
                         type: "GET",
                         url: "{{ url_for('datamanage.landSellAdderSave') }}",
                         data: {
+                            is_one:is_one,
+                            input_parcel_no : input_parcel_no,
                             input_notice_no: input_notice_no,
                             select_region_code: select_region_code,
                             input_land_location: input_land_location,
@@ -641,8 +666,13 @@
         $(document).ready(function () {
             console.log('111')
             $('#success').click(function () {
-                var checkbox = $('#success').attr("checked")
-                console.log(checkbox)
+                var checkbox_state = $('#div_parcel_no').attr("hidden")
+                if (checkbox_state == "hidden") {
+                    $('#div_parcel_no').attr("hidden", false);
+                }
+                else {
+                    $('#div_parcel_no').attr("hidden", true);
+                }
             })
         });
     </script>
