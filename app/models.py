@@ -111,7 +111,6 @@ class LAND_PARCEL_DETAIL(db.Model):
     PARENT_FID = db.Column(db.String(50), nullable=False, comment='公告编号ID')
     PARCEL_NO = db.Column(db.String(50), nullable=False, comment='公告编号ID')
     TOTAL_AREA = db.Column(db.Float, nullable=False, comment='总面积（平方米）')
-    CONSTRUCTION_AREA = db.Column(db.Float, nullable=False, comment='建设用地面积（平方米）')
     PLAN_BUILD_AREA = db.Column(db.Float, nullable=False, comment='规划建筑面积（平方米）')
     PLAN_USE = db.Column(db.String(100), nullable=False, comment='规划用途')
     FLOOR_AREA_RATIO = db.Column(db.String(50), nullable=False, comment='容积率')

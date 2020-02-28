@@ -1,0 +1,462 @@
+{% extends 'headers.html' %}
+
+{% block detail %}
+    <link href="{{ url_for('static',filename='assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static',filename='assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}"
+          rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename='assets/plugins/jquery-multi-select/multi-select.css') }}" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/plugins/notifications/css/lobibox.min.css') }}"/>
+    <link href="{{ url_for('static',filename='assets/plugins/switchery/css/switchery.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url_for('static',filename='assets/plugins/bootstrap-switch/bootstrap-switch.min.css') }}"
+    <div class="clearfix"></div>
+
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <!-- Breadcrumb-->
+            <div class="row pt-2 pb-2">
+                <div class="col-sm-9">
+                    <h4 class="page-title">地块信息录入</h4>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('datamanage.landSellAdder') }}">土拍公告录入</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">地块信息录入</li>
+                    </ol>
+                </div>
+                <div class="col-sm-3">
+                    <div class="btn-group float-sm-right">
+                        <button type="button" class="btn btn-primary waves-effect waves-light"><i
+                                class="fa fa-cog mr-1"></i> Setting
+                        </button>
+                        <button type="button"
+                                class="btn btn-primary dropdown-toggle dropdown-toggle-split waves-effect waves-light"
+                                data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a href="javaScript:void();" class="dropdown-item">Action</a>
+                            <a href="javaScript:void();" class="dropdown-item">Another action</a>
+                            <a href="javaScript:void();" class="dropdown-item">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="javaScript:void();" class="dropdown-item">Separated link</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">公告编号：{{ notice_no }}（单位：平方米、万元、年、%）</h5>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">序号</th>
+                                        <th scope="col">地块编号</th>
+                                        <th scope="col">面积</th>
+                                        <th scope="col">规划用途</th>
+                                        <th scope="col">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for i in range(parcel_detail_list|length) %}
+                                        <tr>
+                                            <th scope="row" vertical-align="middle">{{ i+1 }}</th>
+                                            <td :sytle="{vertical-align:'middle'}">{{ parcel_detail_list[i][0] }}</td>
+                                            <td vertical-align="middle">{{ parcel_detail_list[i][1] }}</td>
+                                            <td vertical-align="middle">{{ parcel_detail_list[i][2] }}</td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-outline-primary waves-effect waves-light">暂未开放
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                    </tbody>
+
+
+                                </table>
+
+                            </div>
+                            {% if parcel_detail_list|length==0 %}
+                                {% if land_sell_info_fid == None %}
+                                    <div class="row">
+                                        <hr/>
+                                    </div>
+                                    <div class="alert alert-icon-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <div class="alert-icon icon-part-danger">
+                                            <i class="fa fa-times"></i>
+                                        </div>
+                                        <div class="alert-message">
+                                            <span><strong>错误!</strong> URL中给定的公告信息 <a href="javascript:void();"
+                                                                                      class="alert-link">FID参数值不存在或未定义！</a></span>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="row">
+                                        <hr/>
+                                    </div>
+                                    <div class="row">
+                                        <div class="alert alert-outline-warning alert-dismissible mb-0 col-lg-12"
+                                             role="alert">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <div class="alert-icon">
+                                                <i class="fa fa-exclamation-triangle"></i>
+                                            </div>
+                                            <div class="alert-message">
+                                            <span><strong>提示!</strong> 暂无数据！ <a href="javascript:void();"
+                                                                                class="alert-link">可使用下方新增地块按钮新增数据！</a></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <hr>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if land_sell_info_fid != None %}
+                                <div class="row">
+                                    <div class="col-lg-1"></div>
+                                    <div class="col-lg-2">
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal_is_go_on_parcel">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content border-success">
+                                                    <div class="modal-header bg-success">
+                                                        <h5 class="modal-title text-white">录入地块信息</h5>
+                                                        <button type="button" class="close text-white"
+                                                                data-dismiss="modal"
+                                                                aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form>
+                                                        <div class="modal-body">
+                                                            <div class="form-group row" id="div_parcel_no">
+                                                                <label for="input_parcel_no"
+                                                                       class="col-sm-3 col-form-label"
+                                                                       id="label_input_parcel_no">地块编号</label>
+                                                                <div class="col-sm-9" id="div_notice_no">
+                                                                    <input type="text"
+                                                                           onkeyup=" this.value=this.value.replace(/[^\w-]/g,'') "
+                                                                           class="form-control" id="input_parcel_no"
+                                                                           placeholder="请输入由字母、数字、横线或下划线组成的地块编号"
+                                                                           required="required"
+                                                                    >
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label for="input_assignment_limit"
+                                                                       class="col-sm-3 col-form-label"
+                                                                       id="label_input_assignment_limit">出让年限</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control"
+                                                                           id="input_assignment_limit"
+                                                                           placeholder="请输入出让年限" required="required">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row" id="input_total_area_title">
+                                                                <label for="input_total_area"
+                                                                       class="col-sm-3 col-form-label"
+                                                                       id="label_input_total_area">地块面积</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control"
+                                                                           id="input_total_area"
+                                                                           placeholder="请输入总面积"
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.]/g,'') "
+                                                                           required="required">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label for="select_plan_use"
+                                                                       class="col-sm-3 col-form-label"
+                                                                       id="label_select_plan_use">标准用途</label>
+                                                                <div class="col-sm-9">
+                                                                    <select class="form-control single-select"
+                                                                            id="select_plan_use"
+                                                                            required="required">
+                                                                        <option value="-1">请选择</option>
+                                                                        {% for key,value in standard_use_dict.items() %}
+                                                                            <option value="{{ value }}">{{ value }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row" id="input_a">
+                                                                <label for="input_plan_area"
+                                                                       class="col-sm-3 col-form-label"
+                                                                       id="label_input_plan_area">规划建筑面积</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control"
+                                                                           id="input_plan_area"
+                                                                           placeholder="请输入规划建筑面积" required="required"
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.]/g,'') ">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                <label for="input_floor_area_ratio"
+                                                                       class="col-sm-3 col-form-label"
+                                                                       id="label_input_floor_area_ratio">容积率</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control"
+                                                                           id="input_floor_area_ratio"
+                                                                           placeholder="请输入容积率" required="required"
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                <label for="input_building_density"
+                                                                       class="col-sm-3 col-form-label"
+                                                                       id="label_input_building_density">建筑密度</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control"
+                                                                           id="input_building_density"
+                                                                           placeholder="请输入建筑密度" required="required"
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group row">
+                                                                <label for="input_greening_rate"
+                                                                       class="col-sm-3 col-form-label"
+                                                                       id="label_input_greening_rate">绿化率</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control"
+                                                                           id="input_greening_rate"
+                                                                           placeholder="请输入绿化率" required="required"
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                                                </div>
+
+                                                            </div>
+
+
+                                                        </div>
+                                                    </form>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" value="{{ land_sell_info_fid }}"
+                                                               id="input_land_sell_info_fid">
+                                                        <span id="submit_info"></span>
+                                                        <span id="save_info"></span>
+                                                        <button type="button" class="btn btn-success" id="button_go_on"
+                                                                style="cursor: not-allowed"
+                                                                onmousemove="check_select()"
+                                                                onclick="return saveData()">
+                                                            <i
+                                                                    class="fa fa-check-square-o"></i>
+                                                            保存
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!-- ModalEnd -->
+                                        <button type="button" class="btn btn-success waves-effect waves-light m-1"
+                                                onclick="$('#modal_is_go_on_parcel').modal()">新增地块
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+
+    <!-- simplebar js -->
+    <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
+    <!-- sidebar-menu js -->
+    <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
+
+    <!-- Custom scripts -->
+    <script>
+        function check_select() {
+            var input_parcel_no = $(" #input_parcel_no ").val()
+            var input_assignment_limit = $(" #input_assignment_limit ").val();
+            var input_total_area = $(" #input_total_area ").val();
+            var input_plan_area = $(" #input_plan_area ").val();
+            var input_floor_area_ratio = $(" #input_floor_area_ratio ").val();
+            var input_building_density = $(" #input_building_density ").val();
+            var input_greening_rate = $(" #input_greening_rate ").val();
+            var select_plan_use = $('#select_plan_use option:selected').val();
+
+            var state = '0';
+            var input_list = {
+                input_parcel_no: input_parcel_no,
+                input_assignment_limit: input_assignment_limit,
+                input_total_area: input_total_area,
+                input_plan_area: input_plan_area,
+                input_floor_area_ratio: input_floor_area_ratio,
+                input_building_density: input_building_density,
+                input_greening_rate: input_greening_rate,
+            }
+            var select_list = {
+                select_plan_use: select_plan_use,
+            }
+
+            if (state == '0') {
+                for (i in input_list) {
+                    if (input_list[i] == "") {
+                        var info = $("#label_" + i).html()
+                        $("#submit_info").html('请填写' + info)
+                        $("#submit_info").css("color", "red")
+                        $('#button_go_on').css('cursor', 'not-allowed')
+                        state = '1'
+                        break
+                    }
+                }
+            }
+            if (state == '0') {
+                for (i in select_list) {
+                    if (select_list[i] == '-1') {
+                        var info = $("#label_" + i).html()
+                        $("#submit_info").html('请选择' + info)
+                        $("#submit_info").css("color", "red")
+                        $('#button_go_on').css('cursor', 'not-allowed')
+                        state = '1'
+                        break
+                    }
+                }
+            }
+            if (state == '0') {
+                $("#submit_info").html('')
+                $('#button_go_on').removeAttr('style')
+            }
+        }
+
+        function saveData() {
+            var input_land_sell_info_fid = $(" #input_land_sell_info_fid ").val();
+            var input_parcel_no = $(" #input_parcel_no ").val();
+            var input_assignment_limit = $(" #input_assignment_limit ").val();
+            var input_total_area = $(" #input_total_area ").val();
+            var input_plan_area = $(" #input_plan_area ").val();
+            var input_floor_area_ratio = $(" #input_floor_area_ratio ").val();
+            var input_building_density = $(" #input_building_density ").val();
+            var input_greening_rate = $(" #input_greening_rate ").val();
+            var select_plan_use = $('#select_plan_use option:selected').val();
+
+            if ($('#button_go_on').css('cursor') == 'not-allowed') {
+                return false
+            }
+            else {
+                $.ajax({
+                        type: "GET",
+                        url: "{{ url_for('datamanage.landParcelDetailSave') }}",
+                        data: {
+                            input_land_sell_info_fid: input_land_sell_info_fid,
+                            input_parcel_no: input_parcel_no,
+                            input_assignment_limit: input_assignment_limit,
+                            input_total_area: input_total_area,
+                            input_plan_area: input_plan_area,
+                            input_floor_area_ratio: input_floor_area_ratio,
+                            input_building_density: input_building_density,
+                            input_greening_rate: input_greening_rate,
+                            select_plan_use: select_plan_use
+                        },
+                        dataType: "json",
+                        success:
+                            function (data) {
+                                if (data.return_code == '200') {
+                                    console.log('111')
+                                    anim5_noti(value = '保存成功！即将刷新页面')
+                                    var t=setTimeout("location.reload()",5000);
+                                    {#setTimeout('window.location.reload()', 5000);#}
+
+                                }
+                                else if (data.return_code == '1000') {
+                                    anim4_noti(data.return_info)
+                                }
+                            }
+                    }
+                )
+                return false
+            }
+
+        }
+    </script>
+    <script src="{{ url_for('static',filename='assets/js/app-script.js') }}"></script>
+
+    <!--Bootstrap Touchspin Js-->
+    <script src="{{ url_for('static',filename='assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/bootstrap-touchspin/js/bootstrap-touchspin-script.js') }}"></script>
+
+    <!--Select Plugins Js-->
+    <script src="{{ url_for('static',filename='assets/plugins/select2/js/select2.min.js') }}"></script>
+    <!--Inputtags Js-->
+    <script src="{{ url_for('static',filename='assets/plugins/inputtags/js/bootstrap-tagsinput.js') }}"></script>
+
+    <script src="{{ url_for('static',filename='assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+
+    <script>
+        $('#default-datepicker').datepicker({
+            todayHighlight: true
+        });
+        $('#autoclose-datepicker').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        $('#inline-datepicker').datepicker({
+            todayHighlight: true
+        });
+
+        $('#dateragne-picker .input-daterange').datepicker({});
+
+    </script>
+
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-multi-select/jquery.multi-select.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-multi-select/jquery.quicksearch.js') }}"></script>
+
+
+
+
+{#    自定义js函数_end#}
+    <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+
+    <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+
+    <!-- simplebar js -->
+    <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
+    <!-- sidebar-menu js -->
+    <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
+
+    <!-- Custom scripts -->
+
+    <script src="{{ url_for('static',filename='assets/plugins/notifications/js/lobibox.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notifications.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
+
+    <!--Switchery Js-->
+    <script src="{{ url_for('static',filename='assets/plugins/switchery/js/switchery.min.js') }}"></script>
+
+
+    <!--Bootstrap Switch Buttons-->
+    <script src="{{ url_for('static',filename='assets/plugins/bootstrap-switch/bootstrap-switch.min.js') }}"></script>
+
+{% endblock %}

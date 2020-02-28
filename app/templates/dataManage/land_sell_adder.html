@@ -44,7 +44,7 @@
                                     <div class="col-sm-10">
                                         <div class="icheck-material-success">
                                             <input type="checkbox" id="success" checked/>
-                                            <label for="success">该公告编号下是否有且只有一个地块</label>
+                                            <label for="success">勾选表示：该公告编号下是否有且只有一个地块（需填写地块编号）；未勾选表示：该公告编号下有多个地块（公告信息保存后可选择添加地块）</label>
                                         </div>
 
                                     </div>
@@ -275,9 +275,41 @@
                                             </div>
                                         </div>
                             </form>
+
                         </div>
                     </div>
 
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal_is_go_on_parcel">
+                        <div class="modal-dialog">
+                            <div class="modal-content border-success">
+                                <div class="modal-header bg-success">
+                                    <h5 class="modal-title text-white">是否继续录入地块数据？</h5>
+                                    <button type="button" class="close text-white" data-dismiss="modal"
+                                            aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>您录入的公告信息已经<span class="text-success">保存成功</span>!</p>
+                                    <p>请选择是否继续录入该公告的地块信息?</p>
+                                    <p>选择<span class="badge badge-success ">继续</span>，将会新建该公告信息的地块信息录入界面!</p>
+                                    <p>选择<span class="badge badge-danger ">关闭</span>，您可以后续在土拍数据查询编辑中录入！</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i
+                                            class="fa fa-times"></i> 关闭
+                                    </button>
+                                    <button type="button" class="btn btn-success" id="button_go_on" onclick="openNewHref()"><i class="fa fa-check-square-o"></i>
+                                        继续
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ModalEnd -->
 
                 </div>
             </div><!--End Row-->
@@ -394,64 +426,6 @@
         });
 
     </script>
-    {#自定义js函数#}
-    {#    <script>#}
-    {#        function checkout(type, limit) {#}
-    {##}
-    {#            var input_value = $("#" + type).val()#}
-    {##}
-    {#            if (limit == 'a1') {#}
-    {#数据类型a1为字母和数字，校验不通过则在input标签上级标签后显示报错信息#}
-    {#                if (!/[0-9A-Za-z]+/.test(input_value)) {#}
-    {#                    var key = $("#" + type + '_key').val()#}
-    {#                    var title = $("#" + type).parent().attr('id')#}
-    {#                    console.log('title ' + title)#}
-    {#                    while (true) {#}
-    {#                        if (!title.startsWith('input') || title.length == 0) {#}
-    {#                            title = $("#" + title).parent().attr('id')#}
-    {#                        }#}
-    {#                        else {#}
-    {#                            break#}
-    {#                        }#}
-    {#                    }#}
-    {#                    $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +#}
-    {#                        "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +#}
-    {#                        "                                <div class=\"alert-icon contrast-alert\">\n" +#}
-    {#                        "                                    <i class=\"fa fa-times\"></i>\n" +#}
-    {#                        "                                </div>\n" +#}
-    {#                        "                                <div class=\"alert-message\">\n" +#}
-    {#                        "                                    <span><strong>注意!</strong> 此处只允许输入字母和数字!或检查是否为空！</span>\n" +#}
-    {#                        "                                </div>\n" +#}
-    {#                        "                            </div>").insertAfter("#" + title);#}
-    {#                }#}
-    {#            }#}
-    {#            else if (limit = '1') {#}
-    {#                if (!/[\d]/g.test(input_value)) {#}
-    {#                    var key = $("#" + type + '_key').val()#}
-    {#                    var title = $("#" + type).parent().attr('id')#}
-    {#                    console.log('title ' + title)#}
-    {#                    while (true) {#}
-    {#                        if (!title.startsWith('input') || title.length == 0) {#}
-    {#                            title = $("#" + title).parent().attr('id')#}
-    {#                        }#}
-    {#                        else {#}
-    {#                            break#}
-    {#                        }#}
-    {#                    }#}
-    {#                    $("<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">\n" +#}
-    {#                        "                                <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n" +#}
-    {#                        "                                <div class=\"alert-icon contrast-alert\">\n" +#}
-    {#                        "                                    <i class=\"fa fa-times\"></i>\n" +#}
-    {#                        "                                </div>\n" +#}
-    {#                        "                                <div class=\"alert-message\">\n" +#}
-    {#                        "                                    <span><strong>注意!</strong> 此处只允许输入数字!或检查是否为空！</span>\n" +#}
-    {#                        "                                </div>\n" +#}
-    {#                        "                            </div>").insertAfter("#" + title);#}
-    {#                }#}
-    {#            }#}
-    {#        }#}
-    {##}
-    {#    </script>#}
 
     <script>
         function check_select() {
@@ -553,18 +527,22 @@
 
 
         }
-
+        function openNewHref() {
+            var fid = $('#button_go_on').val()
+            var href = '/datamanage/land_parcel_detail?fid=' + fid
+            window.open(href)
+        }
 
         function saveData() {
             var is_one = "0"
             var input_parcel_no = ""
             {#判定是否独立地块值#}
             var checkbox_state = $('#div_parcel_no').attr("hidden")
-                if (checkbox_state != "hidden") {
-                    is_one = "1"
-                    input_parcel_no = $(" #input_parcel_no ").val()
-                    console.log("111"+input_parcel_no)
-                    }
+            if (checkbox_state != "hidden") {
+                is_one = "1"
+                input_parcel_no = $(" #input_parcel_no ").val()
+                console.log("111" + input_parcel_no)
+            }
             var input_notice_no = $(" #input_notice_no ").val()
             var select_region_code = $('#select_region_code option:selected').val();
             var input_land_location = $(" #input_land_location ").val();
@@ -595,8 +573,8 @@
                         type: "GET",
                         url: "{{ url_for('datamanage.landSellAdderSave') }}",
                         data: {
-                            is_one:is_one,
-                            input_parcel_no : input_parcel_no,
+                            is_one: is_one,
+                            input_parcel_no: input_parcel_no,
                             input_notice_no: input_notice_no,
                             select_region_code: select_region_code,
                             input_land_location: input_land_location,
@@ -622,7 +600,16 @@
                             function (data) {
                                 if (data.return_code == '200') {
                                     console.log('111')
-                                    anim5_noti(value = '保存成功！')
+                                    var fid = data.return_info
+                                    if (is_one == "1"){
+                                        anim5_noti(value = '保存成功！')
+                                    }
+                                    else {
+                                        $('#modal_is_go_on_parcel').modal()
+                                        {% set fid = fid %}
+                                        $('#button_go_on').attr('value',fid)
+                                    }
+
                                 }
                                 else if (data.return_code == '1000') {
                                     console.log(data.return_info)
