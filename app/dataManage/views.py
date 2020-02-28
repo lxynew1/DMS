@@ -81,11 +81,10 @@ def landSellAdderSave():
         return_dict['return_code'] = '1000'
         return_dict['return_info'] = '公告编号重复，请检查后输入！'
         return_dict['result'] = False
-    elif parcel_no != '':
-        if LAND_PARCEL_DETAIL.query.filter(LAND_PARCEL_DETAIL.PARCEL_NO == parcel_no).count() >= 1:
-            return_dict['return_code'] = '1000'
-            return_dict['return_info'] = '地块编号重复，请检查后输入！'
-            return_dict['result'] = False
+    elif LAND_PARCEL_DETAIL.query.filter(LAND_PARCEL_DETAIL.PARCEL_NO == parcel_no).count() >= 1:
+        return_dict['return_code'] = '1000'
+        return_dict['return_info'] = '地块编号重复，请检查后输入！'
+        return_dict['result'] = False
     else:
         fid = str(uuid1())
         land_sell_info = LAND_SELL_INFO(
