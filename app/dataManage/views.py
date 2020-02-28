@@ -76,11 +76,12 @@ def landSellAdderSave():
         return json.dumps(return_dict, ensure_ascii=False)  # ensure_ascii=False才能输出中文
     get_data = request.args.to_dict()
     notice_no = get_data.get("input_notice_no")
+    parcel_no = get_data.get("input_parcel_no")
     if LAND_SELL_INFO.query.filter(LAND_SELL_INFO.NOTICE_NUM == notice_no).count() >= 1:
         return_dict['return_code'] = '1000'
         return_dict['return_info'] = '公告编号重复，请检查后输入！'
         return_dict['result'] = False
-    elif get_data.get("input_parcel_no") != '':
+    elif parcel_no != '':
         if LAND_PARCEL_DETAIL.query.filter(LAND_PARCEL_DETAIL.PARCEL_NO == parcel_no).count() >= 1:
             return_dict['return_code'] = '1000'
             return_dict['return_info'] = '地块编号重复，请检查后输入！'
