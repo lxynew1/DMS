@@ -64,8 +64,8 @@ def objSearchValue(num: int, vlaue: str, data: List[str], obj):
                 obj.TOTAL_AREA,  # 总面积（平方米）
                 obj.CONSTRUCTION_AREA,  # 建设用地面积（平方米）
                 obj.PLAN_BUILD_AREA,  # 规划建筑面积（平方米）
-                obj.USE_NAME,  # 用途分类
-                # obj.PLAN_USE_CUSTOM,  # 自定义用途
+                # obj.USE_NAME,  # 用途分类
+                obj.PLAN_USE_CUSTOM,  # 自定义用途
                 obj.FLOOR_AREA_RATIO,  # 容积率
                 obj.GREENING_RATE,  # 绿化率
                 obj.BUSSINESS_PROPORTION,  # 商业比例
@@ -98,8 +98,8 @@ def landSellSearchTableAdder():
                     "TOTAL_AREA",
                     "CONSTRUCTION_AREA",
                     "PLAN_BUILD_AREA",
-                    "USE_NAME",
-                    # "PLAN_USE_CUSTOM",
+                    # "USE_NAME",
+                    "PLAN_USE_CUSTOM",
                     "FLOOR_AREA_RATIO",
                     "GREENING_RATE",
                     "BUSSINESS_PROPORTION",
@@ -142,8 +142,9 @@ def landSellSearchTableAdder():
         land_location = '%' + land_search_data['land_location'] + '%'
         assignment_method_list = land_search_data['assignment_method_list']  # 出让方式
         assignment_limit_list = land_search_data['assignment_limit_list']  # 出让年限
-        plan_use_list = [w.USE_CODE for w in DICT_LAND_USE.query.filter(
-            DICT_LAND_USE.USE_NAME.in_(land_search_data['plan_use_list'])).all()]  # 用途分类
+        # plan_use_list = [w.USE_CODE for w in DICT_LAND_USE.query.filter(
+        #     DICT_LAND_USE.USE_NAME.in_(land_search_data['plan_use_list'])).all()]  # 用途分类
+        plan_use_list = land_search_data['plan_use_list']
         order = land_search_data['order']  # 排序方式
 
         # 查询条件定义
@@ -185,9 +186,6 @@ def landSellSearchTableAdder():
             pagination = LAND_SELL_INFO.query \
                 .join(DICT_REGION,
                       LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE) \
-                .join(DICT_LAND_USE,
-                      LAND_SELL_INFO.PLAN_USE_CUSTOM == DICT_LAND_USE.USE_CODE
-                      ) \
                 .with_entities(
                 LAND_SELL_INFO.FID,
                 LAND_SELL_INFO.NOTICE_NUM,
@@ -196,7 +194,8 @@ def landSellSearchTableAdder():
                 LAND_SELL_INFO.CONSTRUCTION_AREA,
                 LAND_SELL_INFO.PLAN_BUILD_AREA,
                 LAND_SELL_INFO.NOTICE_USE,
-                DICT_LAND_USE.USE_NAME,
+                # DICT_LAND_USE.USE_NAME,
+                LAND_SELL_INFO.PLAN_USE_CUSTOM,
                 LAND_SELL_INFO.PLAN_USE_CUSTOM,
                 LAND_SELL_INFO.FLOOR_AREA_RATIO,
                 LAND_SELL_INFO.GREENING_RATE,
@@ -229,9 +228,6 @@ def landSellSearchTableAdder():
             pagination = LAND_SELL_INFO.query \
                 .join(DICT_REGION,
                       LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE) \
-                .join(DICT_LAND_USE,
-                      LAND_SELL_INFO.PLAN_USE_CUSTOM == DICT_LAND_USE.USE_CODE
-                      ) \
                 .with_entities(
                 LAND_SELL_INFO.FID,
                 LAND_SELL_INFO.NOTICE_NUM,
@@ -240,8 +236,9 @@ def landSellSearchTableAdder():
                 LAND_SELL_INFO.CONSTRUCTION_AREA,
                 LAND_SELL_INFO.PLAN_BUILD_AREA,
                 LAND_SELL_INFO.NOTICE_USE,
-                DICT_LAND_USE.USE_NAME,
+                # DICT_LAND_USE.USE_NAME,
                 LAND_SELL_INFO.PLAN_USE_CUSTOM,
+            LAND_SELL_INFO.PLAN_USE_CUSTOM,
                 LAND_SELL_INFO.FLOOR_AREA_RATIO,
                 LAND_SELL_INFO.GREENING_RATE,
                 LAND_SELL_INFO.BUSSINESS_PROPORTION,
@@ -296,8 +293,8 @@ def landSellSearchTableAdder01():
                     "TOTAL_AREA",
                     "CONSTRUCTION_AREA",
                     "PLAN_BUILD_AREA",
-                    "USE_NAME",
-                    # "PLAN_USE_CUSTOM",
+                    # "USE_NAME",
+                    "PLAN_USE_CUSTOM",
                     "FLOOR_AREA_RATIO",
                     "GREENING_RATE",
                     "BUSSINESS_PROPORTION",
@@ -340,8 +337,9 @@ def landSellSearchTableAdder01():
         land_location = '%' + land_search_data['land_location'] + '%'
         assignment_method_list = land_search_data['assignment_method_list']  # 出让方式
         assignment_limit_list = land_search_data['assignment_limit_list']  # 出让年限
-        plan_use_list = [w.USE_CODE for w in DICT_LAND_USE.query.filter(
-            DICT_LAND_USE.USE_NAME.in_(land_search_data['plan_use_list'])).all()]  # 用途分类
+        # plan_use_list = [w.USE_CODE for w in DICT_LAND_USE.query.filter(
+        #     DICT_LAND_USE.USE_NAME.in_(land_search_data['plan_use_list'])).all()]  # 用途分类
+        plan_use_list = land_search_data['plan_use_list']
         order = land_search_data['order']  # 排序方式
 
         # 查询条件定义

@@ -1,0 +1,177 @@
+{% extends "headers.html" %}
+{% block script %}
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+    <!-- simplebar js -->
+    <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
+    <!-- sidebar-menu js -->
+    <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
+    <!-- Custom scripts -->
+    <script src="{{ url_for('static',filename='assets/js/app-script.js') }}"></script>
+    <!-- Chart js -->
+    <script src="{{ url_for('static',filename='assets/plugins/Chart.js/Chart.min.js') }}"></script>
+    <!-- Easy Pie Chart JS -->
+    <script src="{{ url_for('static',filename='assets/plugins/jquery.easy-pie-chart/jquery.easypiechart.min.js') }}"></script>
+    <!-- Knob Chart -->
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-knob/excanvas.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/plugins/jquery-knob/jquery.knob.js') }}"></script>
+
+    <script src='/static/assets/plugins/fullcalendar/js/moment.min.js'></script>
+    <script src='/static/assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
+    {#	<script src="/static/assets/plugins/fullcalendar/js/fullcalendar-custom-script.js"></script>#}
+    <script src='/static/assets/plugins/fullcalendar/js/zh-cn.js'></script>
+    <script src='/static/assets/dateparse/dateparse.js'></script>
+{#    <script src='/static/assets/plugins/fullcalendar/js/bootstrap.min.js'></script>#}
+    <script>
+        var date = new Date();
+        var ajax = function () {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ url_for('calendar.get_user_json') }}",
+                    data: {UID: "{{ current_user.id }}"},
+                    dataType: "json",
+                    success: function (data) {
+                        resolve(data.return_info)
+                    },
+                    error: function (error) {
+                        reject(error)
+                    }
+                })
+            })
+        };
+        $(document).ready(function () {
+            ajax().then(function (res) {
+                $('#calendar').fullCalendar({
+                    defaultDate: date,
+                    timeFormat: 'HH:mm',  //定义表格中显示的时间格式如：22：30，默认格式为HH(:mm)效果是整点的时候自动隐藏分钟，例如23：00会显示成23
+                    displayEventEnd: true,  //显示事件的结束时间，默认是false
+                    aspectRatio: 1,     //设置日历单元格显示的宽高比,数值越小越窄高
+                    navLinks: true, // can click day/week names to navigate views
+                    eventLimit: true, // allow "more" link when too many events
+                    editable: true,     //允许编辑
+                    eventStartEditable: true,   //允许直接在界面中编辑事件的开始时间
+                    eventDurationEditable: true,    //允许编辑事件的时长
+                    selectable: true,
+                    selectHelper: true,
+                    select: function (start, end) {
+                        var title = prompt('新增日志:');
+                        if (title) {
+                            var eventData = {
+                                title: title,
+                                start: start,
+                                end: end,
+                            };
+                            console.log(start.toISOString());
+                            $.ajax({
+                                type: "get",
+                                url: "{{ url_for('calendar.store_user_calendar') }}",
+                                data: {
+                                    title: title,
+                                    start: start.toISOString(),
+                                    end: end.toISOString(),
+                                    UID: "{{ current_user.id }}",
+                                    url: '#'
+                                },
+                                success: function (res) {
+                                    alert("保存成功！")
+
+                                }
+                            })
+                            $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+                        }
+                        $('#calendar').fullCalendar('unselect');
+                    },
+                    editable: true,
+                    eventLimit: true, // allow "more" link when too many events
+                    events: res,
+                    eventMouseover: function (calEvent, jsEvent, view) {//鼠标在日程区块上时触发
+                        $(this).css('background-color', 'gray');
+                    },
+                    eventMouseout: function (calEvent, jsEvent, view) {//鼠标从日程区块离开时触发
+                        $(this).css('background-color', '#0089AE');
+                    },
+                    customButtons: {
+                        myCustomButton: {
+                            text: 'custom!',
+                            click: function () {
+                                alert('clicked the custom button!');
+                            }
+                        }
+                    },
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
+                    buttonText: {
+                        month: '月',
+                        week: '周',
+                        day: '日'
+                    },
+                    eventClick: function (event, element) {
+                        event.title = "CLICKED!";
+                        alert(event.id)
+                        $('#calendar').fullCalendar('updateEvent', event);
+                        {#$('#calendar').fullCalendar('removeEvents', event.id);#}
+                    }
+                });
+            });
+        })
+    </script>
+{% endblock %}
+{% block link %}
+    {{ super() }}
+    <link href='/static/assets/plugins/fullcalendar/css/fullcalendar.css' rel='stylesheet'/>
+    <!-- simplebar CSS-->
+    <link href="/static/assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+{% endblock %}
+{% block detail %}
+    <div class="content-wrapper">
+        <div class="container-fluid">
+
+            <!-- Breadcrumb-->
+            <div class="row pt-2 pb-2">
+                <div class="col-sm-9">
+                    <h4 class="page-title">工作表</h4>
+                    {#                    <ol class="breadcrumb">#}
+                    {#                        <li class="breadcrumb-item"><a href="javaScript:void();">Fobia</a></li>#}
+                    {#                        <li class="breadcrumb-item"><a href="javaScript:void();">Calendar</a></li>#}
+                    {#                        <li class="breadcrumb-item active" aria-current="page">Calendar</li>#}
+                    {#                    </ol>#}
+                </div>
+                <div class="col-sm-3">
+                    {#                    <div class="btn-group float-sm-right">#}
+                    {#                        <button type="button" class="btn btn-primary waves-effect waves-light"><i#}
+                    {#                                class="fa fa-cog mr-1"></i> Setting#}
+                    {#                        </button>#}
+                    {#                        <button type="button"#}
+                    {#                                class="btn btn-primary dropdown-toggle dropdown-toggle-split waves-effect waves-light"#}
+                    {#                                data-toggle="dropdown">#}
+                    {#                            <span class="caret"></span>#}
+                    {#                        </button>#}
+                    {#                        <div class="dropdown-menu">#}
+                    {#                            <a href="javaScript:void();" class="dropdown-item">Action</a>#}
+                    {#                            <a href="javaScript:void();" class="dropdown-item">Another action</a>#}
+                    {#                            <a href="javaScript:void();" class="dropdown-item">Something else here</a>#}
+                    {#                            <div class="dropdown-divider"></div>#}
+                    {#                            <a href="javaScript:void();" class="dropdown-item">Separated link</a>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                </div>
+            </div>
+            <!-- End Breadcrumb-->
+            <div id='calendar'></div>
+
+        </div>
+        <!-- End container-fluid-->
+    </div>
+    <!--Start Back To Top Button-->
+    {#    <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>#}
+    <!--End Back To Top Button-->
+{% endblock %}
+
