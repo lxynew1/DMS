@@ -14,8 +14,12 @@ from ..models import ENTERPISE_INFO, LAND_SELL_DEAL, R_SELLDEAL_ENTERPISE,LAND_S
 @login_required
 @datamanage.route('/land_sell_deal')
 def landSellDeal():
-    db.create_all()
+
     land_sell_info_fid = request.values.get('fid')
+    try:
+        notice_no = LAND_SELL_INFO.query.filter(LAND_SELL_INFO.FID == land_sell_info_fid).first().NOTICE_NUM
+    except:
+        notice_no = "无"
     is_deal = LAND_SELL_DEAL.query.filter(LAND_SELL_DEAL.PARENT_FID == land_sell_info_fid).count()
     land_sell_info_fid_count=LAND_SELL_INFO.query.filter(LAND_SELL_INFO.FID == land_sell_info_fid).count()
     print(is_deal)
@@ -34,7 +38,8 @@ def landSellDeal():
                            enterprise_dict=enterprise_dict,
                            top_enterprise_dict=top_enterprise_dict,
                            is_deal=is_deal,
-                           land_sell_info_fid_count=land_sell_info_fid_count)
+                           land_sell_info_fid_count=land_sell_info_fid_count,
+                           notice_no=notice_no)
 
 
 # 保存成交数据
