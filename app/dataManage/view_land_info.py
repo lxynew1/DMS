@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 
 from app import db
 from . import datamanage
-from ..models import DICT_REGION, DICT_LAND_USE, LAND_SELL_INFO, LAND_PARCEL_DETAIL
+from ..models import DICT_REGION, DICT_LAND_USE, LAND_SELL_INFO, LAND_PARCEL_DETAIL, ENTERPISE_INFO
 
 
 # 土拍公告录入界面
@@ -121,7 +121,6 @@ def landSellAdderSave():
                     PARENT_FID=fid,
                     PARCEL_NO=get_data.get('input_parcel_no'),
                     TOTAL_AREA=get_data.get('input_total_area'),
-                    CONSTRUCTION_AREA=get_data.get('input_construction_area'),
                     PLAN_BUILD_AREA=get_data.get('input_plan_area'),
                     PLAN_USE=get_data.get('standard_use_code'),
                     FLOOR_AREA_RATIO=get_data.get('input_floor_area_ratio'),
@@ -161,7 +160,7 @@ def landParcelDetail():
                            i.FID]
         parcel_detail_list.append(one_parcel_list)
     print(land_sell_info_fid)
-    #标准用途分类
+    # 标准用途分类
     r_standard_use = DICT_LAND_USE.query.filter(DICT_LAND_USE.GRADE == 'CONSTRUCTION_USE_2').all()
     standard_use_dict = {}
     for i in r_standard_use:
@@ -173,10 +172,10 @@ def landParcelDetail():
                            land_sell_info_fid=land_sell_info_fid,
                            standard_use_dict=standard_use_dict)
 
-#地块数据保存api
+
+# 地块数据保存api
 @datamanage.route('/api/land_parcel_detail/save')
 def landParcelDetailSave():
-
     return_dict = {'return_code': '200', 'return_info': '', 'result': True}
     # 判定参数为空，给返回值赋值
     if request.args is None:
@@ -194,7 +193,7 @@ def landParcelDetailSave():
         land_parcel_detail = LAND_PARCEL_DETAIL(
             FID=fid,
             PARENT_FID=get_data.get('input_land_sell_info_fid'),
-            PARCEL_NO= get_data.get('input_parcel_no'),
+            PARCEL_NO=get_data.get('input_parcel_no'),
             TOTAL_AREA=get_data.get('input_total_area'),
             PLAN_BUILD_AREA=get_data.get('input_plan_area'),
             PLAN_USE=get_data.get('select_plan_use'),
@@ -216,7 +215,8 @@ def landParcelDetailSave():
             return_dict['result'] = False
     return json.dumps(return_dict, ensure_ascii=False)
 
-#校验地块编号是否重复
+
+# 校验地块编号是否重复
 @datamanage.route('/api/parcel_no/is_repetition')
 def parcelNoIsRepetition():
     # 默认返回内容
@@ -235,8 +235,6 @@ def parcelNoIsRepetition():
     return json.dumps(return_dict, ensure_ascii=False)
 
 
-# 土地成交页面
-@datamanage.route('/land_sell_deal')
-def landSellDeal():
 
-    return render_template('dataManage/land_sell_deal.html')
+
+

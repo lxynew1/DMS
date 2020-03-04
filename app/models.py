@@ -76,6 +76,8 @@ class LAND_SELL_INFO(db.Model):
     CRAWL_FID = db.Column(db.String(50), nullable=True, comment='爬虫的FID值')
     IS_ONE = db.Column(db.String(10), nullable=True, comment='是否为独立地块，1为是，0为否')
 
+
+
 class LAND_SELL_INFO_TEST_LXY(db.Model):
     __tablename__ = 'LAND_SELL_INFO_TEST_LXY'
     FID = db.Column(db.String(50), primary_key=True, comment='随机UUID')
@@ -122,6 +124,19 @@ class LAND_PARCEL_DETAIL(db.Model):
     MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
     MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
 
+class LAND_SELL_DEAL(db.Model):
+    __tablename__ = 'LAND_SELL_DEAL'
+    FID = db.Column(db.String(50), primary_key=True, comment='随机UUID')
+    PARENT_FID = db.Column(db.String(50), nullable=False, comment='公告编号ID')
+    DEAL_PRICE = db.Column(db.Float, nullable=False, comment='成交价（万元）')
+    DEAL_ASSIGNMENT_METHOD = db.Column(db.String(50), nullable=False, comment='出让方式')
+    DATE_DEAL = db.Column(db.String(50), nullable=False, comment='成交日期')
+    CREATE_BY = db.Column(db.String(50), nullable=False, comment='创建人')
+    CREATE_TIME = db.Column(db.DateTime, nullable=False, comment='创建时间')
+    MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
+    MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
+
+
 
 class USER_CALENDAR(db.Model):
     __tablename__ = 'USER_CALENDAR'
@@ -167,4 +182,28 @@ class DICT_HREF(db.Model):
     PY_STATE = db.Column(db.String(50), nullable=True, comment='脚本开启状态，0为未开启，1为已开启')
     PY_NEXT_TIME = db.Column(db.DateTime(50), nullable=True, comment='脚本下次运行时间')
     REGION_CODE = db.Column(db.String(20), nullable=False, comment='行政区代码')
+
+class ENTERPISE_INFO(db.Model):
+    #企业信息
+    __tablename__ = 'ENTERPISE_INFO'
+    FID = db.Column(db.String(50), primary_key=True, comment='随机uuid')
+    NAME= db.Column(db.String(50), nullable=False, comment='企业名称，请填写工商局注册的全称')
+    TOP_LEVEL = db.Column(db.String(255), nullable=False, comment='所属派系')
+    CREATE_BY = db.Column(db.String(50), nullable=False, comment='创建人')
+    CREATE_TIME = db.Column(db.DateTime, nullable=False, comment='创建时间')
+    MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
+    MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
+    IS_FIRST = db.Column(db.String(1), nullable=True, comment='派系是否第一次创建')
+
+class R_SELLDEAL_ENTERPISE(db.Model):
+    #公告和企业的关联关系库
+    __tablename__ = 'R_SELLDEAL_ENTERPISE'
+    FID = db.Column(db.String(50), primary_key=True, comment='随机uuid')
+    DEAL_FID= db.Column(db.String(50), nullable=False, comment='公告信息FID')
+    ENTERPISE_FID = db.Column(db.String(50), nullable=False, comment='企业信息FID')
+    CREATE_BY = db.Column(db.String(50), nullable=False, comment='创建人')
+    CREATE_TIME = db.Column(db.DateTime, nullable=False, comment='创建时间')
+    MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
+    MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
+
 
