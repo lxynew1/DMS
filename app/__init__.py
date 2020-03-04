@@ -46,6 +46,6 @@ def create_app(config_name='development'):
     app.register_blueprint(api_blueprint, url_prefix='/api')
 
     from .wechat import wechat as wechat_blueprint
-    app.register_blueprint(task_blueprint, url_prefix='/wechat')
+    app.register_blueprint(wechat_blueprint, url_prefix='/wechat')
 
     return app

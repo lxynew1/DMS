@@ -11,4 +11,10 @@ from . import wechat
 from ..models import DICT_REGION, DICT_LAND_USE, LAND_SELL_INFO
 
 
+@wechat.route('/index')
+def index():
+    print('111')
+    return render_template('wechat/index.html')
+
+
 
