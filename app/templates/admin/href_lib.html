@@ -121,6 +121,13 @@
                                                 type: 'map',
                                                 mapType: 'chongqing',
                                                 selectedMode: 'single',
+                                                zoom: 1, //当前视角的缩放比例
+                                                roam: true, //是否开启平游或缩放
+
+                                                scaleLimit: { //滚轮缩放的极限控制
+                                                    min: 1,
+                                                    max: 4
+                                                },
                                                 label: {
                                                     normal: {show: true},
                                                     emphasis: {show: true}
@@ -230,11 +237,11 @@
                                                         if (data.return_code == '200') {
 
                                                             for (i in data.return_info[region_name]) {
-                                                                var key=Object.keys(data.return_info[region_name][i])
+                                                                var key = Object.keys(data.return_info[region_name][i])
                                                                 html_text += '<div class="icon" data-code="f111" data-name="balance-wallet">'
                                                                 html_text += '<a href=' + data.return_info[region_name][i][key] + ' target="_blank">'
                                                                 html_text += '<i class="zmdi zmdi-balance-wallet"></i>'
-                                                                html_text += '<span >'+key+'</span></a >'
+                                                                html_text += '<span >' + key + '</span></a >'
                                                                 html_text += '</div>'
                                                             }
                                                             $("#clicked_region").html(html_text)

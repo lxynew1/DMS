@@ -1,13 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <!--如果是IE 就以标准渲染-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <!-- 视窗——————响应式布局 -->
+    <meta name='viewport' content='width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0'>
+
+    <!--当前页面的三要素-->
+    <title>赛信不动产资讯-土交信息</title>
+    <meta name="description" content="关键词、关键字">
+    <meta name="keywords" content="描述">
+
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon"/>
+
+    <!-- 引入CSS文件 -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='wechat/css/index.css') }}">
+
+    <!-- 公共样式 -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='wechat/css/common.css') }}">
+
+    <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.ico') }}" type="image/x-icon">
+    <!-- simplebar CSS-->
+    <link href="{{ url_for('static',filename='assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet"/>
+    <!-- Bootstrap core CSS-->
+    <link href="{{ url_for('static',filename='assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
+    <!-- animate CSS-->
+    <link href="{{ url_for('static',filename='assets/css/animate.css') }}" rel="stylesheet" type="text/css"/>
+    <!-- Icons CSS-->
+    <link href="{{ url_for('static',filename='assets/css/icons.css') }}" rel="stylesheet" type="text/css"/>
+    <!-- Sidebar CSS-->
+    <link href="{{ url_for('static',filename='assets/css/sidebar-menu.css') }}" rel="stylesheet"/>
+    <!-- Custom Style-->
+    <link href="{{ url_for('static',filename='assets/css/app-style.css') }}" rel="stylesheet"/>
+</head>
+
+<body>
+
 <div id='container' class='container'>
     <div class="top">
         <img src="{{ url_for('static',filename='assets/img/wechat.png') }}" alt="" width="100%" class="t_img">
-        <!-- <p>"聚"己之"能" "忧"患与共</p>
-        <span>合力战疫 "奠"定胜局</span>
-        <div class="logo_text">
-            <div class="content">
-                <img src="images/logo.png" alt="">
-                <div>深圳市聚能优电科技有限公司</div>
-            </div>
-        </div> -->
+
     </div>
-</div>
+    <div class="row">
+        <h4 class="col-sm-5">土交地图</h4>
+    </div>
+    <div class="row">
+        <div class="col-sm-12"
+             style="width: 100%;height: 600px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+            <div id="main" style="height: 100%"></div>
+            <script type="text/javascript"
+                    src="{{ url_for('static',filename='echarts/echarts.js') }}"></script>
+            <!-- 引用echarts 3.0版本 -->
+            <script type="text/javascript"
+                    src="{{ url_for('static',filename='echarts/chongqing.js') }}"></script>
+            <!-- 引用自定义市县地图 -->
+            <script type="text/javascript">
+                //初始化ECharts实例
+                var myChart = echarts.init(document.getElementById('main'));
+                var option = {
+                    title: {
+                        text: '重庆市土交信息地图',
+                        subtext: '2020年2月',
+                    },
+
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function (params) {
+                            var res = '';
+                            res += params['data'].name + '</br>';
+                            {#res += '用户数' + ' : ' + params['data'].value2 + '</br>';#}
+                            return res;
+                        }
+                        //formatter: '{b}<br/>{c}'
+                    },//鼠标放在地图上时，显示的内容及样式控制
+                    visualMap: {
+                        show: false,//色系条是否显示
+                        min: 0,
+                        max: 45000,//取其区间值就代表色系inRange中的一种颜色
+                        left: 'left',
+                        top: 'bottom',
+                        text: ['高', '低'], // 文本，默认为数值文本
+                        calculable: true,
+                        inRange: {
+                            color: ['#42a8be', '#00a69c', '#95ea95'],//上色范围
+                        }
+                    },//给地图上色
+                    series: [{
+                        name: '重庆市',
+                        type: 'map',
+                        mapType: 'chongqing',
+                        selectedMode: 'single',
+                        zoom: 1, //当前视角的缩放比例
+                        roam: true, //是否开启平游或缩放
+
+                        scaleLimit: { //滚轮缩放的极限控制
+                            min: 1,
+                            max: 4
+                        },
+                        label: {
+                            normal: {show: true},
+                            emphasis: {show: true}
+                        },
+                        itemStyle: {
+                            normal: {
+                                borderColor: '#fff',
+                                areaColor: '#fff',
+                                borderWidth: 2,
+                            },//正常样式
+                            emphasis: {
+                                areaColor: 'red',
+                                borderWidth: 1,
+                                borderColor: 'yellow',
+                            }//鼠标事件区块样式
+                        },
+                        data: [
+                            {
+                                name: '渝中区',
+                                value: 40500,
+                                value2: 1024,
+                                href: 'http://www.baidu.com'
+                            },
+                            {
+                                name: '万州区',
+                                value: 23000,
+                                value2: 1024,
+                                href: 'http://www.baidu.com'
+                            },
+                            {name: '涪陵区', value: 23000, value2: 1024},
+                            {name: '江津区', value: 23000, value2: 1024},
+                            {name: '合川区', value: 23000, value2: 1024},
+                            {name: '长寿区', value: 23000, value2: 100},
+                            {name: '南川区', value: 0, value2: 100},
+                            {name: '秀山土家族苗族自治县', value: 0, value2: 100},
+                            {name: '石柱土家族自治县', value: 0, value2: 100},
+                            {name: '酉阳土家族苗族自治县', value: 0, value2: 100},
+                            {name: '彭水苗族土家族自治县', value: 0, value2: 100},
+                            {name: '巫溪县', value: 0, value2: 100},
+                            {name: '巫山县', value: 0, value2: 100},
+                            {name: '奉节县', value: 0, value2: 100},
+                            {name: '云阳县', value: 0, value2: 100},
+                            {name: '开州区', value: 0, value2: 100},
+                            {name: '忠县', value: 0, value2: 100},
+                            {name: '武隆区', value: 0, value2: 100},
+                            {name: '垫江县', value: 0, value2: 100},
+                            {name: '丰都县', value: 0, value2: 100},
+                            {name: '城口县', value: 0, value2: 100},
+                            {name: '梁平区', value: 0, value2: 100},
+                            {name: '璧山区', value: 0, value2: 100},
+                            {name: '荣昌区', value: 0, value2: 100},
+                            {name: '大足区', value: 0, value2: 100},
+                            {name: '铜梁区', value: 0, value2: 100},
+                            {name: '潼南区', value: 0, value2: 100},
+                            {name: '綦江区', value: 0, value2: 100},
+                            {name: '长寿区', value: 0, value2: 100},
+                            {name: '黔江区', value: 23000, value2: 100},
+                            {#{name: '巴南区', value: 0, value2: 100},#}
+                            {#{name: '渝北区', value: 0, value2: 100},#}
+                            {#{name: '万盛区', value: 0, value2: 100},#}
+                            {#{name: '北碚区', value: 0, value2: 100},#}
+                            {#{name: '南岸区', value: 0, value2: 100},#}
+                            {#{name: '九龙坡区', value: 0, value2: 100},#}
+                            {#{name: '沙坪坝区', value: 0, value2: 100},#}
+                            {#{name: '江北区', value: 0, value2: 100},#}
+                            {#{name: '大渡口区', value: 0, value2: 100},#}
+                            {#{name: '渝中区', value: 23000, value2: 100},#}
+                            {name: '永川区', value: 23000, value2: 100},
+                        ],//value的值是上面visualMap属性中设置的颜色色系区间的值，即0~45000
+                        label: {
+                            normal: {
+                                show: true,
+                                formatter: function (val) {
+                                    var area_content = '{a|' + val.name + '}';
+                                    return area_content.split("-").join("\n");
+                                },//让series 中的文字进行换行
+                                rich: {
+                                    a: {
+                                        color: 'black'
+                                    },
+                                    b: {
+                                        color: 'yellow',
+                                        fontFamily: 'Microsoft YaHei',
+                                        fontSize: 14,
+                                    }
+                                },//富文本样式,就是上面的formatter中'{a|'和'{b|'
+                            },
+                            emphasis: {show: true}
+                        },//地图中文字内容及样式控制
+                    }]
+                };
+                console.log(option)
+                myChart.setOption(option, true);
+                myChart.on('click', function (params) {
+                    var region_name = params['data'].name
+                    var html_text = '<h6>' + region_name + '</h6>'
+                    console.log(params);//此处写点击事件内容
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ url_for('admin.hrefLibRegionData') }}",
+                        data: {region_name: region_name},
+                        dataType: "json",
+                        success:
+                            function (data) {
+                                console.log(data.return_code)
+                                console.log(data.return_info[region_name])
+                                if (data.return_code == '200') {
+
+                                    for (i in data.return_info[region_name]) {
+                                        var key = Object.keys(data.return_info[region_name][i])
+                                        html_text += '<div class="icon" data-code="f111" data-name="balance-wallet">'
+                                        html_text += '<a href=' + data.return_info[region_name][i][key] + ' target="_blank">'
+                                        html_text += '<i class="zmdi zmdi-balance-wallet"></i>'
+                                        html_text += '<span >' + key + '</span></a >'
+                                        html_text += '</div>'
+                                    }
+                                    $("#clicked_region").html(html_text)
+                                }
+                            }
+
+
+                    })
+                })
+                ;//点击事件，此事件还可以用到柱状图等其他地图
+            </script>
+        </div>
+        <!-- 引入响应式布局的rem根标签 -->
+        <script>
+            (function (win, doc) {
+                var docEl = doc.documentElement || document.body;//获取HTML标签
+                var container = doc.getElementById('container');//container元素
+                //判断是移动端设备还是PC,移动 就采用'orientationchange',横竖屏事件，PC端就采用onresize，窗口改变时间
+                var resize = 'onorientationchange' in win ? 'orientationchange' : 'resize';
+
+                function rem() {
+                    docEl.style.fontSize = 100 * (container.clientWidth / 750) + 'px';
+                }
+
+                //监听'DOMContent事件:DOM加载完成执行,如果DOMContent事件，那么执行rem函数
+                doc.addEventListener('DOMContentLoaded', rem, false);
+
+                //win下监听resize事件,如果resize事件，那么执行rem函数
+                win.addEventListener(resize, rem, false);
+            })(window, document);
+        </script>
+
+        <script type='text/javascript' src='{{ url_for('static',filename='/wechat/js/jquery-3.2.1.js') }}'></script>
+        <script type='text/javascript' src='{{ url_for('static',filename='/wechat/js/echarts.js') }}'></script>
+        <script type='text/javascript' src='{{ url_for('static',filename='/wechat/js/china.js') }}'></script>
+
+        <script type='text/javascript' src='{{ url_for('static',filename='/wechat/js/index.js') }}'></script>
+
+        <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+
+        <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+
+        <!-- simplebar js -->
+        <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
+        <!-- sidebar-menu js -->
+        <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
+
+        <!-- Custom scripts -->
+
+        <script src="{{ url_for('static',filename='assets/plugins/notifications/js/lobibox.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notifications.min.js') }}"></script>
+        <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
+
+        <!--Switchery Js-->
+        <script src="{{ url_for('static',filename='assets/plugins/switchery/js/switchery.min.js') }}"></script>
+</body>

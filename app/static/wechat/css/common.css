@@ -1,0 +1,35 @@
+    .t_common .tit_common {
+        background: #f3f0f0;
+        height: 0.7rem;
+        line-height: 0.7rem;
+        /* padding-left:0.1rem; */
+    }
+
+    /* .t_common .tit_common .tit_icon {
+        display: inline-block;
+        width: 0.1rem;
+        height: 0.32rem;
+        background: rgb(56, 128, 220);
+        vertical-align: middle;
+        margin: 0 0.15rem 0 0.3rem;
+    } */
+
+    .t_common .tit_common .tit_con {
+        display: inline-block;
+        height: 0.7rem;
+        line-height: 0.7rem;
+        /* vertical-align: middle; */
+        font-family: MicrosoftYaHei-Bold;
+        font-size: 0.28rem;
+        color: #233E6A;
+        letter-spacing: 1px;
+        font-weight: 900;
+        /* position:absolute; */
+        /* left:0.45rem; */
+        /* top:0; */
+        /* font-size: 0.28rem; */
+        /* height:0.7rem; */
+        /* line-height:0.7rem; */
+        
+
+    }
