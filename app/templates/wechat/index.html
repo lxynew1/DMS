@@ -35,6 +35,9 @@
     <link href="{{ url_for('static',filename='assets/css/sidebar-menu.css') }}" rel="stylesheet"/>
     <!-- Custom Style-->
     <link href="{{ url_for('static',filename='assets/css/app-style.css') }}" rel="stylesheet"/>
+    <style>
+
+    </style>
 </head>
 
 <body>
@@ -49,7 +52,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12"
-             style="width: 100%;height: 600px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+             style="width: 100%;height: 780px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
             <div id="main" style="height: 100%"></div>
             <script type="text/javascript"
                     src="{{ url_for('static',filename='echarts/echarts.js') }}"></script>
@@ -63,7 +66,7 @@
                 var option = {
                     title: {
                         text: '重庆市土交信息地图',
-                        subtext: '2020年2月',
+                        subtext: '统计范围：2020年2月',
                     },
 
                     tooltip: {
@@ -76,6 +79,7 @@
                         }
                         //formatter: '{b}<br/>{c}'
                     },//鼠标放在地图上时，显示的内容及样式控制
+
                     visualMap: {
                         show: false,//色系条是否显示
                         min: 0,
@@ -93,12 +97,11 @@
                         type: 'map',
                         mapType: 'chongqing',
                         selectedMode: 'single',
-                        zoom: 1, //当前视角的缩放比例
+                        zoom: 1.2, //当前视角的缩放比例
                         roam: true, //是否开启平游或缩放
-
                         scaleLimit: { //滚轮缩放的极限控制
                             min: 1,
-                            max: 4
+                            max: 2
                         },
                         label: {
                             normal: {show: true},
@@ -107,7 +110,7 @@
                         itemStyle: {
                             normal: {
                                 borderColor: '#fff',
-                                areaColor: '#fff',
+                                areaColor: '#FFFAFA',
                                 borderWidth: 2,
                             },//正常样式
                             emphasis: {
@@ -157,16 +160,16 @@
                             {name: '綦江区', value: 0, value2: 100},
                             {name: '长寿区', value: 0, value2: 100},
                             {name: '黔江区', value: 23000, value2: 100},
-                            {#{name: '巴南区', value: 0, value2: 100},#}
-                            {#{name: '渝北区', value: 0, value2: 100},#}
-                            {#{name: '万盛区', value: 0, value2: 100},#}
-                            {#{name: '北碚区', value: 0, value2: 100},#}
-                            {#{name: '南岸区', value: 0, value2: 100},#}
-                            {#{name: '九龙坡区', value: 0, value2: 100},#}
-                            {#{name: '沙坪坝区', value: 0, value2: 100},#}
-                            {#{name: '江北区', value: 0, value2: 100},#}
-                            {#{name: '大渡口区', value: 0, value2: 100},#}
-                            {#{name: '渝中区', value: 23000, value2: 100},#}
+                            {name: '巴南区', value: 0, value2: 100},
+                            {name: '渝北区', value: 0, value2: 100},
+                            {name: '万盛区', value: 0, value2: 100},
+                            {name: '北碚区', value: 0, value2: 100},
+                            {name: '南岸区', value: 0, value2: 100},
+                            {name: '九龙坡区', value: 0, value2: 100},
+                            {name: '沙坪坝区', value: 0, value2: 100},
+                            {name: '江北区', value: 0, value2: 100},
+                            {name: '大渡口区', value: 0, value2: 100},
+                            {name: '渝中区', value: 23000, value2: 100},
                             {name: '永川区', value: 23000, value2: 100},
                         ],//value的值是上面visualMap属性中设置的颜色色系区间的值，即0~45000
                         label: {
@@ -226,47 +229,53 @@
                 ;//点击事件，此事件还可以用到柱状图等其他地图
             </script>
         </div>
-        <!-- 引入响应式布局的rem根标签 -->
-        <script>
-            (function (win, doc) {
-                var docEl = doc.documentElement || document.body;//获取HTML标签
-                var container = doc.getElementById('container');//container元素
-                //判断是移动端设备还是PC,移动 就采用'orientationchange',横竖屏事件，PC端就采用onresize，窗口改变时间
-                var resize = 'onorientationchange' in win ? 'orientationchange' : 'resize';
-
-                function rem() {
-                    docEl.style.fontSize = 100 * (container.clientWidth / 750) + 'px';
-                }
-
-                //监听'DOMContent事件:DOM加载完成执行,如果DOMContent事件，那么执行rem函数
-                doc.addEventListener('DOMContentLoaded', rem, false);
-
-                //win下监听resize事件,如果resize事件，那么执行rem函数
-                win.addEventListener(resize, rem, false);
-            })(window, document);
-        </script>
-
-        <script type='text/javascript' src='{{ url_for('static',filename='/wechat/js/jquery-3.2.1.js') }}'></script>
-        <script type='text/javascript' src='{{ url_for('static',filename='/wechat/js/echarts.js') }}'></script>
-        <script type='text/javascript' src='{{ url_for('static',filename='/wechat/js/china.js') }}'></script>
-
-        <script type='text/javascript' src='{{ url_for('static',filename='/wechat/js/index.js') }}'></script>
-
-        <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
-
-        <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
-
-        <!-- simplebar js -->
-        <script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
-        <!-- sidebar-menu js -->
-        <script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
-
-        <!-- Custom scripts -->
-
-        <script src="{{ url_for('static',filename='assets/plugins/notifications/js/lobibox.min.js') }}"></script>
-        <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notifications.min.js') }}"></script>
-        <script src="{{ url_for('static',filename='assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
-
-        <!--Switchery Js-->
-        <script src="{{ url_for('static',filename='assets/plugins/switchery/js/switchery.min.js') }}"></script>
+    </div>
+    <div class="t_common">
+        <span class="tit_con">趋势</span>
+    </div>
+</div>
 </body>
+
+<!-- 引入响应式布局的rem根标签 -->
+<script>
+    (function (win, doc) {
+        var docEl = doc.documentElement || document.body;//获取HTML标签
+        var container = doc.getElementById('container');//container元素
+        //判断是移动端设备还是PC,移动 就采用'orientationchange',横竖屏事件，PC端就采用onresize，窗口改变时间
+        var resize = 'onorientationchange' in win ? 'orientationchange' : 'resize';
+
+        function rem() {
+            docEl.style.fontSize = 100 * (container.clientWidth / 750) + 'px';
+        }
+
+        //监听'DOMContent事件:DOM加载完成执行,如果DOMContent事件，那么执行rem函数
+        doc.addEventListener('DOMContentLoaded', rem, false);
+
+        //win下监听resize事件,如果resize事件，那么执行rem函数
+        win.addEventListener(resize, rem, false);
+    })(window, document);
+</script>
+
+<script type='text/javascript' src='{{ url_for('static',filename='wechat/js/jquery-3.2.1.js') }}'></script>
+<script type='text/javascript' src='{{ url_for('static',filename='wechat/js/echarts.js') }}'></script>
+<script type='text/javascript' src='{{ url_for('static',filename='wechat/js/china.js') }}'></script>
+
+<script type='text/javascript' src='{{ url_for('static',filename='wechat/js/index.js') }}'></script>
+
+<script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+
+<script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+
+<!-- simplebar js -->
+<script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>
+<!-- sidebar-menu js -->
+<script src="{{ url_for('static',filename='assets/js/sidebar-menu.js') }}"></script>
+
+<!-- Custom scripts -->
+
+<script src="{{ url_for('static',filename='assets/plugins/notifications/js/lobibox.min.js') }}"></script>
+<script src="{{ url_for('static',filename='assets/plugins/notifications/js/notifications.min.js') }}"></script>
+<script src="{{ url_for('static',filename='assets/plugins/notifications/js/notification-custom-script.js') }}"></script>
+
+<!--Switchery Js-->
+<script src="{{ url_for('static',filename='assets/plugins/switchery/js/switchery.min.js') }}"></script>
