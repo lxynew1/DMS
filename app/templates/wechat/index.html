@@ -42,7 +42,7 @@
 
 <body>
 
-<div id='container' class='container'>
+<div id='container' class='container' style="padding-left: 0px;padding-right: 0px">
     <div class="top">
         <img src="{{ url_for('static',filename='assets/img/wechat.png') }}" alt="" width="100%" class="t_img">
 
@@ -262,6 +262,7 @@
                                     <script type="text/javascript">
                                         // 基于准备好的dom，初始化echarts实例
                                         var myChart = echarts.init(document.getElementById('main'));
+                                        window.onresize = myChart.resize;
 
                                         // 指定图表的配置项和数据
                                         var option = {
@@ -285,6 +286,7 @@
                                                     saveAsImage: {}
                                                 }
                                             },
+
                                             xAxis: {
                                                 type: 'category',
                                                 boundaryGap: false,
