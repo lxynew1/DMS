@@ -1,3 +1,10 @@
+    .custom_title{
+        color: #0a1219;
+        height: 0.7rem;
+        line-height: 0.7rem;
+        font-size: 36px;
+    }
+
     .t_common .tit_common {
         background: #f3f0f0;
         height: 0.7rem;

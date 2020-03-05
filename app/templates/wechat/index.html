@@ -47,12 +47,12 @@
         <img src="{{ url_for('static',filename='assets/img/wechat.png') }}" alt="" width="100%" class="t_img">
 
     </div>
-    <div class="row">
-        <h4 class="col-sm-5">土交地图</h4>
+    <div class="t_common">
+        <span class="custom_title">土交地图</span>
     </div>
     <div class="row">
         <div class="col-sm-12"
-             style="width: 100%;height: 780px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+             style="width: 100%;height: 450px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
             <div id="main" style="height: 100%"></div>
             <script type="text/javascript"
                     src="{{ url_for('static',filename='echarts/echarts.js') }}"></script>
@@ -101,7 +101,7 @@
                         roam: true, //是否开启平游或缩放
                         scaleLimit: { //滚轮缩放的极限控制
                             min: 1,
-                            max: 2
+                            max: 3
                         },
                         label: {
                             normal: {show: true},
@@ -176,7 +176,7 @@
                             normal: {
                                 show: true,
                                 formatter: function (val) {
-                                    var area_content = '{a|' + val.name + '}';
+                                    var area_content = '{a|' + val.name.slice(0,2) + '}';
                                     return area_content.split("-").join("\n");
                                 },//让series 中的文字进行换行
                                 rich: {
@@ -231,7 +231,7 @@
         </div>
     </div>
     <div class="t_common">
-        <span class="tit_con">趋势</span>
+        <span class="custom_title">趋势</span>
     </div>
 </div>
 </body>
