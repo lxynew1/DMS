@@ -254,9 +254,9 @@
                                     </script>
                                 </div>
                             </div>
-                            <div class="row" style="margin-top: 5px;">
+                            <div class="row" style="margin-top: 10px;">
                                 <div class="col-sm-12"
-                                     style="width: 100%;height: 450px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+                                     style="width: 100%;height: 400px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
 
                                     <div id="main" style="width: 100%;height:100%;"></div>
                                     <script type="text/javascript">
@@ -267,13 +267,14 @@
                                         // 指定图表的配置项和数据
                                         var option = {
                                             title: {
-                                                text: '走势'
+                                                text: '出让与成交走势'
                                             },
                                             tooltip: {
                                                 trigger: 'axis'
                                             },
                                             legend: {
-                                                data: ['主城区出让', '主城区成交', '区县出让', '区县成交']
+                                                {#y: 'bottom',#}
+                                                data: ['主城区出让', '主城区成交', '', '区县出让', '区县成交']
                                             },
                                             grid: {
                                                 left: '3%',
@@ -322,6 +323,117 @@
                                                     data: [820, 932, 901, 934, 1290, 1330, 1320]
                                                 }
 
+                                            ]
+                                        };
+
+
+                                        // 使用刚指定的配置项和数据显示图表。
+                                        myChart.setOption(option);
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col-sm-12"
+                                     style="width: 100%;height: 400px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+
+                                    <div id="trend" style="width: 100%;height:100%;"></div>
+                                    <script type="text/javascript">
+                                        // 基于准备好的dom，初始化echarts实例
+                                        var myChart = echarts.init(document.getElementById('trend'));
+                                        window.onresize = myChart.resize;
+
+                                        // 指定图表的配置项和数据
+                                        var option = {
+                                            title: {
+                                                text: '土地用途占比'
+                                            },
+                                            tooltip: {
+                                                trigger: 'item',
+                                                formatter: '{a} <br/>{b}: {c} ({d}%)'
+                                            },
+                                            legend: {
+                                                orient: 'vertical',
+                                                left: 10,
+                                                top:50,
+                                                data: ['直达', '营销广告', '搜索引擎', '邮件营销', '联盟广告', '视频广告', '百度', '谷歌', '必应', '其他']
+                                            },
+                                            series: [
+                                                {
+                                                    name: '访问来源',
+                                                    type: 'pie',
+                                                    selectedMode: 'single',
+                                                    radius: [0, '30%'],
+
+                                                    label: {
+                                                        position: 'inner'
+                                                    },
+                                                    labelLine: {
+                                                        show: false
+                                                    },
+                                                    data: [
+                                                        {value: 335, name: '直达', selected: true},
+                                                        {value: 679, name: '营销广告'},
+                                                        {value: 1548, name: '搜索引擎'}
+                                                    ]
+                                                },
+                                                {
+                                                    name: '访问来源',
+                                                    type: 'pie',
+                                                    radius: ['40%', '55%'],
+                                                    label: {
+                                                        formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                                                        backgroundColor: '#eee',
+                                                        borderColor: '#aaa',
+                                                        borderWidth: 1,
+                                                        borderRadius: 4,
+                                                        // shadowBlur:3,
+                                                        // shadowOffsetX: 2,
+                                                        // shadowOffsetY: 2,
+                                                        // shadowColor: '#999',
+                                                        // padding: [0, 7],
+                                                        rich: {
+                                                            a: {
+                                                                color: '#999',
+                                                                lineHeight: 22,
+                                                                align: 'center'
+                                                            },
+                                                            // abg: {
+                                                            //     backgroundColor: '#333',
+                                                            //     width: '100%',
+                                                            //     align: 'right',
+                                                            //     height: 22,
+                                                            //     borderRadius: [4, 4, 0, 0]
+                                                            // },
+                                                            hr: {
+                                                                borderColor: '#aaa',
+                                                                width: '100%',
+                                                                borderWidth: 0.5,
+                                                                height: 0
+                                                            },
+                                                            b: {
+                                                                fontSize: 16,
+                                                                lineHeight: 33
+                                                            },
+                                                            per: {
+                                                                color: '#eee',
+                                                                backgroundColor: '#334455',
+                                                                padding: [2, 4],
+                                                                borderRadius: 2
+                                                            }
+                                                        }
+                                                    },
+                                                    data: [
+                                                        {value: 335, name: '直达'},
+                                                        {value: 310, name: '邮件营销'},
+                                                        {value: 234, name: '联盟广告'},
+                                                        {value: 135, name: '视频广告'},
+                                                        {value: 1048, name: '百度'},
+                                                        {value: 251, name: '谷歌'},
+                                                        {value: 147, name: '必应'},
+                                                        {value: 102, name: '其他'}
+                                                    ]
+                                                }
                                             ]
                                         };
 
