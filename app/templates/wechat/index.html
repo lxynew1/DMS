@@ -75,7 +75,7 @@
                             <div class="row">
                                 <div class="col-sm-12"
                                      style="width: 100%;height: 450px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
-                                    <div id="main" style="height: 100%"></div>
+                                    <div id="map" style="height: 100%"></div>
                                     <script type="text/javascript"
                                             src="{{ url_for('static',filename='echarts/echarts.js') }}"></script>
                                     <!-- 引用echarts 3.0版本 -->
@@ -84,7 +84,7 @@
                                     <!-- 引用自定义市县地图 -->
                                     <script type="text/javascript">
                                         //初始化ECharts实例
-                                        var myChart = echarts.init(document.getElementById('main'));
+                                        var myChart = echarts.init(document.getElementById('map'));
                                         var option = {
                                             title: {
                                                 text: '重庆市土交信息地图',
@@ -254,6 +254,81 @@
                                     </script>
                                 </div>
                             </div>
+                            <div class="row" style="margin-top: 5px;">
+                                <div class="col-sm-12"
+                                     style="width: 100%;height: 450px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+
+                                    <div id="main" style="width: 600px;height:400px;"></div>
+                                    <script type="text/javascript">
+                                        // 基于准备好的dom，初始化echarts实例
+                                        var myChart = echarts.init(document.getElementById('main'));
+
+                                        // 指定图表的配置项和数据
+                                        var option = {
+                                            title: {
+                                                text: '走势'
+                                            },
+                                            tooltip: {
+                                                trigger: 'axis'
+                                            },
+                                            legend: {
+                                                data: ['主城区出让', '主城区成交', '区县出让', '区县成交']
+                                            },
+                                            grid: {
+                                                left: '3%',
+                                                right: '4%',
+                                                bottom: '3%',
+                                                containLabel: true
+                                            },
+                                            toolbox: {
+                                                feature: {
+                                                    saveAsImage: {}
+                                                }
+                                            },
+                                            xAxis: {
+                                                type: 'category',
+                                                boundaryGap: false,
+                                                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                                            },
+                                            yAxis: {
+                                                type: 'value'
+                                            },
+                                            series: [
+
+                                                {
+                                                    name: '主城区出让',
+                                                    type: 'line',
+                                                    stack: '总量',
+                                                    data: [120, 132, 101, 134, 90, 230, 210]
+                                                },
+                                                {
+                                                    name: '主城区成交',
+                                                    type: 'line',
+                                                    stack: '总量',
+                                                    data: [220, 182, 191, 234, 290, 330, 310]
+                                                },
+                                                {
+                                                    name: '区县出让',
+                                                    type: 'line',
+                                                    stack: '总量',
+                                                    data: [320, 332, 301, 334, 390, 330, 320]
+                                                },
+                                                {
+                                                    name: '区县成交',
+                                                    type: 'line',
+                                                    stack: '总量',
+                                                    data: [820, 932, 901, 934, 1290, 1330, 1320]
+                                                }
+
+                                            ]
+                                        };
+
+
+                                        // 使用刚指定的配置项和数据显示图表。
+                                        myChart.setOption(option);
+                                    </script>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -299,9 +374,7 @@
 
     </div><!--End Row-->
 
-    <div class="t_common">
-        <span class="custom_title">趋势</span>
-    </div>
+
 </div>
 </body>
 
