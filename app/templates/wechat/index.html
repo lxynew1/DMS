@@ -54,7 +54,8 @@
                 <div class="card mb-2">
                     <div class="card-header">
                         <button class="btn btn-link shadow-none" data-toggle="collapse" data-target="#collapse-1"
-                                aria-expanded="true" aria-controls="collapse-1">
+                                aria-expanded="true" aria-controls="collapse-1"
+                        style="font-size: 1.70rem">
                             土交地图
                         </button>
                     </div>
@@ -62,15 +63,7 @@
                     <div id="collapse-1" class="collapse show" data-parent="#accordion1">
                         <div class="card-body">
                             <div class="card-title text-uppercase">
-                                <button type="button" class="btn btn-light btn-square waves-effect waves-light m-1">
-                                    本月
-                                </button>
-                                <button type="button" class="btn btn-light btn-square waves-effect waves-light m-1">
-                                    上月
-                                </button>
-                                <button type="button" class="btn btn-light btn-square waves-effect waves-light m-1">
-                                    上年
-                                </button>
+
                             </div>
                             <div class="row">
                                 <div class="col-sm-12"
@@ -106,7 +99,7 @@
                                                 show: true,//色系条是否显示
                                                 min: 0,
                                                 max: 45000,//取其区间值就代表色系inRange中的一种颜色
-                                                left: 'left',
+                                                right: 'right',
                                                 top: 'bottom',
                                                 text: ['高', '低'], // 文本，默认为数值文本
                                                 calculable: true,
@@ -254,6 +247,19 @@
                                     </script>
                                 </div>
                             </div>
+                            <div class="row" style="margin-top: 5px">
+                                <button type="button" class="btn btn-light btn-square waves-effect waves-light m-1">
+                                    本月
+                                </button>
+                                <button type="button" class="btn btn-light btn-square waves-effect waves-light m-1">
+                                    上月
+                                </button>
+                                <button type="button" class="btn btn-light btn-square waves-effect waves-light m-1">
+                                    上年
+                                </button>
+                            </div>
+                            <hr>
+
                             <div class="row" style="margin-top: 10px;">
                                 <div class="col-sm-12"
                                      style="width: 100%;height: 400px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
@@ -291,7 +297,7 @@
                                             xAxis: {
                                                 type: 'category',
                                                 boundaryGap: false,
-                                                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                                                data: ['2019/09', '2019/10', '2019/11', '2019/12', '2020/01', '2020/02', '2020/03']
                                             },
                                             yAxis: {
                                                 type: 'value'
@@ -346,17 +352,17 @@
                                         // 指定图表的配置项和数据
                                         var option = {
                                             title: {
-                                                text: '土地用途占比'
+                                                text: '土地用途面积占比'
                                             },
                                             tooltip: {
                                                 trigger: 'item',
                                                 formatter: '{a} <br/>{b}: {c} ({d}%)'
                                             },
                                             legend: {
-                                                orient: 'vertical',
+                                                {#orient: 'vertical',#}
                                                 left: 10,
-                                                top:50,
-                                                data: ['直达', '营销广告', '搜索引擎', '邮件营销', '联盟广告', '视频广告', '百度', '谷歌', '必应', '其他']
+                                                bottom:10,
+                                                data: ['主城', '区县', '主城-住宅用地', '主城-商业用地', '主城-其他用地', '区县-住宅用地', '区县-商业用地', '区县-其他用地']
                                             },
                                             series: [
                                                 {
@@ -372,9 +378,8 @@
                                                         show: false
                                                     },
                                                     data: [
-                                                        {value: 335, name: '直达', selected: true},
-                                                        {value: 679, name: '营销广告'},
-                                                        {value: 1548, name: '搜索引擎'}
+                                                        {value: 1335, name: '主城'},
+                                                        {value: 679, name: '区县'},
                                                     ]
                                                 },
                                                 {
@@ -424,14 +429,12 @@
                                                         }
                                                     },
                                                     data: [
-                                                        {value: 335, name: '直达'},
-                                                        {value: 310, name: '邮件营销'},
-                                                        {value: 234, name: '联盟广告'},
-                                                        {value: 135, name: '视频广告'},
-                                                        {value: 1048, name: '百度'},
-                                                        {value: 251, name: '谷歌'},
-                                                        {value: 147, name: '必应'},
-                                                        {value: 102, name: '其他'}
+                                                        {value: 335, name: '主城-住宅用地'},
+                                                        {value: 500, name: '主城-商业用地'},
+                                                        {value: 500, name: '主城-其他用地'},
+                                                        {value: 200, name: '区县-住宅用地'},
+                                                        {value: 200, name: '区县-商业用地'},
+                                                        {value: 279, name: '区县-其他用地'},
                                                     ]
                                                 }
                                             ]
