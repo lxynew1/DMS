@@ -262,14 +262,14 @@
                                             <span class="t_heal">平均地价</span>
                                         </div>
                                         <ul class="content">
-                                             <li class="c_line">
-                                <div class="line_first">
-                                    <span class="c_area" style="text-align:center;">全球</span>
-                                    <span class="c_confirm">20623</span>
-                                    <span class="c_dead">427</span>
-                                    <span class="c_heal">657</span>
-                                </div>
-                            </li>
+                                            <li class="c_line">
+                                                <div class="line_first">
+                                                    <span class="c_area" style="text-align:center;">重庆市</span>
+                                                    <span class="c_confirm">20623</span>
+                                                    <span class="c_dead">427</span>
+                                                    <span class="c_heal">657</span>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -483,23 +483,139 @@
                                     </script>
                                 </div>
                             </div>
+                            <hr>
+
                         </div>
                     </div>
                 </div>
                 <div class="card mb-2">
                     <div class="card-header">
                         <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"
-                                data-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
-                            Accordion Group Item #2
+                                data-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2"
+                                style="font-size: 1.20rem">
+                            风云榜
                         </button>
                     </div>
                     <div id="collapse-2" class="collapse show" data-parent="#accordion1">
                         <div class="card-body">
-                            <div class="card-title text-uppercase">Some title example here</div>
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad
-                            squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa
-                            nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid
-                            single-origin coffee nulla assumenda shoreditch et.
+                            <div class="card-title text-uppercase">
+                                <i aria-hidden="true" class="fa fa-map" style="color: #3b5998"></i>&ensp; 重庆市区县土地成交单价排行榜
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12"
+                                     style="width: 100%;height: 550px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+                                    <div id="map_1" style="height: 100%"></div>
+                                    <script type="text/javascript"
+                                            src="{{ url_for('static',filename='echarts/echarts.js') }}"></script>
+                                    <!-- 引用echarts 3.0版本 -->
+                                    <script type="text/javascript"
+                                            src="{{ url_for('static',filename='echarts/chongqing.js') }}"></script>
+                                    <!-- 引用自定义市县地图 -->
+                                    <script type="text/javascript">
+                                        //初始化ECharts实例
+                                        var myChart = echarts.init(document.getElementById('map_1'));
+                                        var data = [
+                                            [5000, 10000, 6785.71],
+                                            [4500, 9500, 6425],
+                                            [4000, 9000, 6825],
+                                            [3000, 6500, 4463.33],
+                                            [2500, 5600, 3793.83],
+                                            [2000, 4000, 3060],
+                                            [2000, 4000, 3222.33],
+                                            [2500, 4000, 3133.33],
+                                            [1800, 4000, 3100],
+                                            [2000, 3500, 2750],
+                                            [2000, 3000, 2500],
+                                            [1800, 3000, 2433.33],
+                                            [2000, 2700, 2375],
+                                            [1500, 2800, 2150],
+                                            [1500, 2300, 2100],
+                                            [1600, 3500, 2057.14],
+                                            [1500, 2600, 2037.5],
+                                            [1500, 2417.54, 1905.85],
+                                            [1500, 2000, 1775],
+                                            [1500, 1800, 1650]
+                                        ];
+                                        var cities = ['两江新区', '江北', '渝中', '沙坪坝', '南岸', '九龙坡', '大渡口', '巴南', '北碚', '江津', '璧山', '涪陵', '万州', '长寿', '永川', '合川', '铜梁', '黔江', '荣昌'];
+                                        var barHeight = 50;
+
+                                        option = {
+                                            title: {
+                                                {#text: '在中国租个房子有多贵？',#}
+                                                subtext: '全重庆均价前二十的区县'
+                                            },
+                                            legend: {
+                                                show: true,
+                                                orient: 'vertical',
+                                                left:10,
+                                                bottom:45,
+                                                data: ['价格范围', '均值']
+                                            },
+                                            grid: {
+                                                top: 100
+                                            },
+                                            angleAxis: {
+                                                type: 'category',
+                                                data: cities
+                                            },
+                                            tooltip: {
+                                                show: true,
+                                                formatter: function (params) {
+                                                    var id = params.dataIndex;
+                                                    return cities[id] + '<br>最低：' + data[id][0] + '<br>最高：' + data[id][1] + '<br>平均：' + data[id][2];
+                                                }
+                                            },
+                                            radiusAxis: {},
+                                            polar: {},
+                                            series: [{
+                                                type: 'bar',
+                                                itemStyle: {
+                                                    color: 'transparent'
+                                                },
+                                                data: data.map(function (d) {
+                                                    return d[0];
+                                                }),
+                                                coordinateSystem: 'polar',
+                                                stack: '最大最小值',
+                                                silent: true
+                                            }, {
+                                                type: 'bar',
+                                                data: data.map(function (d) {
+                                                    return d[1] - d[0];
+                                                }),
+                                                coordinateSystem: 'polar',
+                                                name: '价格范围',
+                                                stack: '最大最小值'
+                                            }, {
+                                                type: 'bar',
+                                                itemStyle: {
+                                                    color: 'transparent'
+                                                },
+                                                data: data.map(function (d) {
+                                                    return d[2] - barHeight;
+                                                }),
+                                                coordinateSystem: 'polar',
+                                                stack: '均值',
+                                                silent: true,
+                                                z: 10
+                                            }, {
+                                                type: 'bar',
+                                                data: data.map(function (d) {
+                                                    return barHeight * 2;
+                                                }),
+                                                coordinateSystem: 'polar',
+                                                name: '均值',
+                                                stack: '均值',
+                                                barGap: '-100%',
+                                                z: 10
+                                            }]
+                                        };
+
+
+                                        myChart.setOption(option);
+                                    </script>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
