@@ -243,10 +243,9 @@ li{list-style:none;}
     }
     .table_pro .title span{
         float:left;
-        height:0.6rem;
-        line-height:0.6rem;
+        height:3rem;
         text-align:center;
-        font-size:0.25rem;
+        font-size:1.7rem;
         font-weight:bolder;
         width:20%;
     }
