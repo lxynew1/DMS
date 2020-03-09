@@ -38,6 +38,11 @@
     <!-- Custom Style-->
     <link href="{{ url_for('static',filename='assets/css/app-style.css') }}" rel="stylesheet"/>
 
+    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+    <script src="https://unpkg.com/swiper/js/swiper.js"></script>
+    <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+
     <style>
 
     </style>
@@ -46,8 +51,35 @@
 <body style="overflow-x: hidden;">
 
 <div id='container' class='container' style="padding-left: 0px;padding-right: 0px">
-    <div class="top">
-        <img src="{{ url_for('static',filename='assets/img/wechat.png') }}" alt="" width="100%" class="t_img">
+    <div id="demo" class="carousel slide" data-ride="carousel">
+
+        <!-- 指示符 -->
+        <ul class="carousel-indicators">
+            <li data-target="#demo" data-slide-to="0" class="active"></li>
+            <li data-target="#demo" data-slide-to="1"></li>
+            <li data-target="#demo" data-slide-to="2"></li>
+        </ul>
+
+        <!-- 轮播图片 -->
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://static.runoob.com/images/mix/img_fjords_wide.jpg">
+            </div>
+            <div class="carousel-item">
+                <img src="https://static.runoob.com/images/mix/img_nature_wide.jpg">
+            </div>
+            <div class="carousel-item">
+                <img src="https://static.runoob.com/images/mix/img_mountains_wide.jpg">
+            </div>
+        </div>
+
+        <!-- 左右切换按钮 -->
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
 
     </div>
 
@@ -629,52 +661,85 @@
                             <div class="row">
                                 <div class="col-sm-12"
                                      style="width: 100%;height: 500px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="pricing-table">
-                                                <div class="card">
-                                                    <div class="card-body text-center">
-                                                        <div class="price-title">PERSONAL</div>
-                                                        <h2 class="price text-info">
-                                                            <small class="currency">$</small>
-                                                            199
-                                                        </h2>
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item"><b>4 GB</b> Ram</li>
-                                                            <li class="list-group-item"><b>80 GB</b> Disk Space</li>
-                                                            <li class="list-group-item">Monthly Backups</li>
-                                                            <li class="list-group-item">Email Support</li>
-                                                            <li class="list-group-item">24X7 Support</li>
-                                                        </ul>
-                                                        <a href="javascript:void();"
-                                                           class="btn btn-primary my-3 btn-round">查看更多</a>
+                                    {#                                    <div class="row">#}
+                                    {#                                        <div class="col-sm-12">#}
+                                    {#                                            <div class="pricing-table">#}
+                                    {#                                                <div class="card">#}
+                                    {#                                                    <div class="card-body text-center">#}
+                                    {#                                                        <div class="price-title">PERSONAL</div>#}
+                                    {#                                                        <h2 class="price text-info">#}
+                                    {#                                                            <small class="currency">$</small>#}
+                                    {#                                                            199#}
+                                    {#                                                        </h2>#}
+                                    {#                                                        <ul class="list-group list-group-flush">#}
+                                    {#                                                            <li class="list-group-item"><b>4 GB</b> Ram</li>#}
+                                    {#                                                            <li class="list-group-item"><b>80 GB</b> Disk Space</li>#}
+                                    {#                                                            <li class="list-group-item">Monthly Backups</li>#}
+                                    {#                                                            <li class="list-group-item">Email Support</li>#}
+                                    {#                                                            <li class="list-group-item">24X7 Support</li>#}
+                                    {#                                                        </ul>#}
+                                    {#                                                        <a href="javascript:void();"#}
+                                    {#                                                           class="btn btn-primary my-3 btn-round">查看更多</a>#}
+                                    {#                                                    </div>#}
+                                    {#                                                </div>#}
+                                    {#                                            </div>#}
+                                    {#                                        </div>#}
+                                    {##}
+                                    {#                                    </div>#}
+                                    <div class="swiper-container">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="pricing-table">
+                                                            <div class="card">
+                                                                <div class="card-body text-center">
+                                                                    <div class="price-title">PERSONAL</div>
+                                                                    <h2 class="price text-info">
+                                                                        <small class="currency">$</small>
+                                                                        199
+                                                                    </h2>
+                                                                    <ul class="list-group list-group-flush">
+                                                                        <li class="list-group-item"><b>4 GB</b> Ram</li>
+                                                                        <li class="list-group-item"><b>80 GB</b> Disk
+                                                                            Space
+                                                                        </li>
+                                                                        <li class="list-group-item">Monthly Backups</li>
+                                                                        <li class="list-group-item">Email Support</li>
+                                                                        <li class="list-group-item">24X7 Support</li>
+                                                                    </ul>
+                                                                    <a href="javascript:void();"
+                                                                       class="btn btn-primary my-3 btn-round">查看更多</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
                                                 </div>
                                             </div>
+                                            <div class="swiper-slide">Slide 2</div>
+                                            <div class="swiper-slide">Slide 3</div>
+                                            <div class="swiper-slide">Slide 4</div>
+                                            <div class="swiper-slide">Slide 5</div>
+                                            <div class="swiper-slide">Slide 6</div>
+                                            <div class="swiper-slide">Slide 7</div>
+                                            <div class="swiper-slide">Slide 8</div>
+                                            <div class="swiper-slide">Slide 9</div>
+                                            <div class="swiper-slide">Slide 10</div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="pricing-table">
-                                                <div class="card">
-                                                    <div class="card-body text-center">
-                                                        <div class="price-title">PERSONAL</div>
-                                                        <h2 class="price text-info">
-                                                            <small class="currency">$</small>
-                                                            199
-                                                        </h2>
-                                                        <ul class="list-group list-group-flush">
-                                                            <li class="list-group-item"><b>4 GB</b> Ram</li>
-                                                            <li class="list-group-item"><b>80 GB</b> Disk Space</li>
-                                                            <li class="list-group-item">Monthly Backups</li>
-                                                            <li class="list-group-item">Email Support</li>
-                                                            <li class="list-group-item">24X7 Support</li>
-                                                        </ul>
-                                                        <a href="javascript:void();"
-                                                           class="btn btn-primary my-3 btn-round">查看更多</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <!-- Add Arrows -->
+                                        <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
                                     </div>
+                                    <script>
+                                        var swiper = new Swiper('.swiper-container', {
+                                            navigation: {
+                                                nextEl: '.swiper-button-next',
+                                                prevEl: '.swiper-button-prev',
+                                            },
+                                        });
+                                    </script>
+
 
                                 </div>
 
