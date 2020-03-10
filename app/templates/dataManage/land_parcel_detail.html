@@ -202,12 +202,12 @@
                                                             <div class="form-group row">
                                                                 <label for="input_floor_area_ratio"
                                                                        class="col-sm-3 col-form-label"
-                                                                       id="label_input_floor_area_ratio">容积率</label>
+                                                                       id="label_input_floor_area_ratio">可建面积或容积率</label>
                                                                 <div class="col-sm-9">
                                                                     <input type="text" class="form-control"
                                                                            id="input_floor_area_ratio"
-                                                                           placeholder="请输入容积率" required="required"
-                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤]/g,'') ">
+                                                                           placeholder="请输入可建面积或容积率" required="required"
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤()-\[\]]/g,'') ">
                                                                 </div>
                                                             </div>
 
@@ -219,7 +219,7 @@
                                                                     <input type="text" class="form-control"
                                                                            id="input_building_density"
                                                                            placeholder="请输入建筑密度" required="required"
-                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤]/g,'') ">
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤()-\[\]]/g,'') ">
                                                                 </div>
                                                             </div>
 
@@ -231,7 +231,7 @@
                                                                     <input type="text" class="form-control"
                                                                            id="input_greening_rate"
                                                                            placeholder="请输入绿化率" required="required"
-                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤]/g,'') ">
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤()-\[\]]/g,'') ">
                                                                 </div>
 
                                                             </div>
