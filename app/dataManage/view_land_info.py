@@ -14,6 +14,7 @@ from ..models import DICT_REGION, DICT_LAND_USE, LAND_SELL_INFO, LAND_PARCEL_DET
 @datamanage.route('/land_sell_adder')
 @login_required
 def landSellAdder():
+    db.create_all()
     # 添加分区信息
     r_region = DICT_REGION.query.filter(DICT_REGION.TYPE != '0').all()
     region_dict = {}
