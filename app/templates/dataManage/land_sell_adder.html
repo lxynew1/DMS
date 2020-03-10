@@ -158,7 +158,7 @@
                                     <div class="col-sm-4" id="div_plan_con">
                                         <input type="text" class="form-control" id="input_construction_area"
                                                placeholder="请输入建设用地面积" required="required"
-                                               onkeyup=" this.value=this.value.replace(/[^\d.]/g,'') "
+                                               onkeyup=" this.value=this.value.replace(/[^\d.<>=≥≤]/g,'') "
                                         >
                                     </div>
                                     <label for="input_plan_area" class="col-sm-2 col-form-label"
@@ -166,16 +166,16 @@
                                     <div class="col-sm-4">
                                         <input type="text" class="form-control" id="input_plan_area"
                                                placeholder="请输入规划建筑面积" required="required"
-                                               onkeyup=" this.value=this.value.replace(/[^\d.]/g,'') ">
+                                               onkeyup=" this.value=this.value.replace(/[^\d.<>=≥≤]/g,'') ">
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="input_floor_area_ratio" class="col-sm-2 col-form-label"
-                                           id="label_input_floor_area_ratio">容积率</label>
+                                           id="label_input_floor_area_ratio">可建面积或容积率</label>
                                     <div class="col-sm-4">
                                         <input type="text" class="form-control" id="input_floor_area_ratio"
-                                               placeholder="请输入容积率（按规划要求替换为==）" required="required"
+                                               placeholder="请输入可建面积或容积率（按规划要求替换为==）" required="required"
                                                onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤]/g,'') ">
                                     </div>
                                     <label for="input_building_density" class="col-sm-2 col-form-label"

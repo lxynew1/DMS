@@ -142,9 +142,8 @@
                                                                        id="label_input_parcel_no">地块编号</label>
                                                                 <div class="col-sm-9" id="div_notice_no">
                                                                     <input type="text"
-                                                                           onkeyup=" this.value=this.value.replace(/[^\w-]/g,'') "
                                                                            class="form-control" id="input_parcel_no"
-                                                                           placeholder="请输入由字母、数字、横线或下划线组成的地块编号"
+                                                                           placeholder="请输入地块编号"
                                                                            required="required"
                                                                     >
                                                                 </div>
@@ -196,7 +195,7 @@
                                                                     <input type="text" class="form-control"
                                                                            id="input_plan_area"
                                                                            placeholder="请输入规划建筑面积" required="required"
-                                                                           onkeyup=" this.value=this.value.replace(/[^\d.]/g,'') ">
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.<>=≥≤]/g,'') ">
                                                                 </div>
                                                             </div>
 
@@ -208,7 +207,7 @@
                                                                     <input type="text" class="form-control"
                                                                            id="input_floor_area_ratio"
                                                                            placeholder="请输入容积率" required="required"
-                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤]/g,'') ">
                                                                 </div>
                                                             </div>
 
@@ -220,7 +219,7 @@
                                                                     <input type="text" class="form-control"
                                                                            id="input_building_density"
                                                                            placeholder="请输入建筑密度" required="required"
-                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤]/g,'') ">
                                                                 </div>
                                                             </div>
 
@@ -232,7 +231,7 @@
                                                                     <input type="text" class="form-control"
                                                                            id="input_greening_rate"
                                                                            placeholder="请输入绿化率" required="required"
-                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=]/g,'') ">
+                                                                           onkeyup=" this.value=this.value.replace(/[^\d.%<>=≥≤]/g,'') ">
                                                                 </div>
 
                                                             </div>
