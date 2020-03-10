@@ -40,6 +40,30 @@
 
     <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+    <style type="text/css">
+
+
+        .headv {
+            position: fixed;
+            top: 0;
+            width: 750px;
+            z-index: 10;
+        }
+
+        .headv > div {
+            float: left;
+            padding: 20px;
+            cursor: pointer;
+            width: 250px;
+            text-align:center;
+            font-size:18px;
+            color: #305880;
+        }
+
+        .headv-check {
+            border-bottom: 1px solid red;
+        }
+    </style>
     <script src="https://unpkg.com/swiper/js/swiper.js"></script>
     <script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
 
@@ -51,6 +75,8 @@
 <body style="overflow-x: hidden;">
 
 <div id='container' class='container' style="padding-left: 0px;padding-right: 0px">
+
+
     <div id="demo" class="carousel slide" data-ride="carousel">
 
         <!-- 指示符 -->
@@ -82,9 +108,20 @@
         </a>
 
     </div>
+    <!--监听导航-->
 
-    <div class="row" style="margin-top: 10px">
-        <div class="col-lg-12">
+        <div class="x12 headv">
+
+            <div>土交地图</div>
+            <div>风云榜</div>
+            <div>即时资讯</div>
+
+
+    </div>
+    <!--监听导航end-->
+    <!--监听内容-->
+    <div class="x12 nav-list">
+        <div class="nav1 x12">
             <div id="accordion1">
                 <div class="card mb-2">
                     <div class="card-header">
@@ -523,227 +560,232 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-2">
-                    <div class="card-header">
-                        <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"
-                                data-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2"
-                                style="font-size: 1.20rem">
-                            风云榜
-                        </button>
-                    </div>
-                    <div id="collapse-2" class="collapse show" data-parent="#accordion1">
-                        <div class="card-body">
-                            <div class="card-title text-uppercase">
-                                <i aria-hidden="true" class="fa fa-map" style="color: #3b5998"></i>&ensp; 重庆市区县土地成交单价排行榜
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12"
-                                     style="width: 100%;height: 450px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
-                                    <div id="map_1" style="height: 100%"></div>
-                                    <script type="text/javascript"
-                                            src="{{ url_for('static',filename='echarts/echarts.js') }}"></script>
-                                    <!-- 引用echarts 3.0版本 -->
-                                    <script type="text/javascript"
-                                            src="{{ url_for('static',filename='echarts/chongqing.js') }}"></script>
-                                    <!-- 引用自定义市县地图 -->
-                                    <script type="text/javascript">
-                                        //初始化ECharts实例
-                                        var myChart = echarts.init(document.getElementById('map_1'));
-                                        var data = [
-                                            [5000, 10000, 6785.71],
-                                            [4500, 9500, 6425],
-                                            [4000, 9000, 6825],
-                                            [3000, 6500, 4463.33],
-                                            [2500, 5600, 3793.83],
-                                            [2000, 4000, 3060],
-                                            [2000, 4000, 3222.33],
-                                            [2500, 4000, 3133.33],
-                                            [1800, 4000, 3100],
-                                            [2000, 3500, 2750],
-                                            [2000, 3000, 2500],
-                                            [1800, 3000, 2433.33],
-                                            [2000, 2700, 2375],
-                                            [1500, 2800, 2150],
-                                            [1500, 2300, 2100],
-                                            [1600, 3500, 2057.14],
-                                            [1500, 2600, 2037.5],
-                                            [1500, 2417.54, 1905.85],
-                                            [1500, 2000, 1775],
-                                            [1500, 1800, 1650]
-                                        ];
-                                        var cities = ['两江新区', '江北', '渝中', '沙坪坝', '南岸', '九龙坡', '大渡口', '巴南', '北碚', '江津', '璧山', '涪陵', '万州', '长寿', '永川', '合川', '铜梁', '黔江', '荣昌'];
-                                        var barHeight = 50;
 
-                                        option = {
-                                            title: {
-                                                {#text: '在中国租个房子有多贵？',#}
-                                                subtext: '全重庆均价前二十的区县'
-                                            },
-                                            legend: {
-                                                show: true,
-                                                orient: 'vertical',
-                                                left: 10,
-                                                bottom: 20,
-                                                data: ['价格范围', '均值']
-                                            },
-                                            grid: {
-                                                top: 100
-                                            },
-                                            angleAxis: {
-                                                type: 'category',
-                                                data: cities
-                                            },
-                                            tooltip: {
-                                                show: true,
-                                                formatter: function (params) {
-                                                    var id = params.dataIndex;
-                                                    return cities[id] + '<br>最低：' + data[id][0] + '<br>最高：' + data[id][1] + '<br>平均：' + data[id][2];
-                                                }
-                                            },
-                                            radiusAxis: {},
-                                            polar: {},
-                                            series: [{
-                                                type: 'bar',
-                                                itemStyle: {
-                                                    color: 'transparent'
-                                                },
-                                                data: data.map(function (d) {
-                                                    return d[0];
-                                                }),
-                                                coordinateSystem: 'polar',
-                                                stack: '最大最小值',
-                                                silent: true
-                                            }, {
-                                                type: 'bar',
-                                                data: data.map(function (d) {
-                                                    return d[1] - d[0];
-                                                }),
-                                                coordinateSystem: 'polar',
-                                                name: '价格范围',
-                                                stack: '最大最小值'
-                                            }, {
-                                                type: 'bar',
-                                                itemStyle: {
-                                                    color: 'transparent'
-                                                },
-                                                data: data.map(function (d) {
-                                                    return d[2] - barHeight;
-                                                }),
-                                                coordinateSystem: 'polar',
-                                                stack: '均值',
-                                                silent: true,
-                                                z: 10
-                                            }, {
-                                                type: 'bar',
-                                                data: data.map(function (d) {
-                                                    return barHeight * 2;
-                                                }),
-                                                coordinateSystem: 'polar',
-                                                name: '均值',
-                                                stack: '均值',
-                                                barGap: '-100%',
-                                                z: 10
-                                            }]
-                                        };
-
-
-                                        myChart.setOption(option);
-                                    </script>
-                                </div>
-                            </div>
+            </div>
+        </div>
+        <div class="nav2 x12">
+            <div class="card mb-2">
+                <div class="card-header">
+                    <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"
+                            data-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2"
+                            style="font-size: 1.20rem">
+                        风云榜
+                    </button>
+                </div>
+                <div id="collapse-2" class="collapse show" data-parent="#accordion1">
+                    <div class="card-body">
+                        <div class="card-title text-uppercase">
+                            <i aria-hidden="true" class="fa fa-map" style="color: #3b5998"></i>&ensp; 重庆市区县土地成交单价排行榜
                         </div>
-                    </div>
-                    <div id="collapse-2" class="collapse show" data-parent="#accordion1">
-                        <div class="card-body">
-                            <div class="card-title text-uppercase">
-                                <i aria-hidden="true" class="fa fa-map" style="color: #3b5998"></i>&ensp; TOP10榜单
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12"
-                                     style="width: 100%;height: 500px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
-                                    {#                                    <div class="row">#}
-                                    {#                                        <div class="col-sm-12">#}
-                                    {#                                            <div class="pricing-table">#}
-                                    {#                                                <div class="card">#}
-                                    {#                                                    <div class="card-body text-center">#}
-                                    {#                                                        <div class="price-title">PERSONAL</div>#}
-                                    {#                                                        <h2 class="price text-info">#}
-                                    {#                                                            <small class="currency">$</small>#}
-                                    {#                                                            199#}
-                                    {#                                                        </h2>#}
-                                    {#                                                        <ul class="list-group list-group-flush">#}
-                                    {#                                                            <li class="list-group-item"><b>4 GB</b> Ram</li>#}
-                                    {#                                                            <li class="list-group-item"><b>80 GB</b> Disk Space</li>#}
-                                    {#                                                            <li class="list-group-item">Monthly Backups</li>#}
-                                    {#                                                            <li class="list-group-item">Email Support</li>#}
-                                    {#                                                            <li class="list-group-item">24X7 Support</li>#}
-                                    {#                                                        </ul>#}
-                                    {#                                                        <a href="javascript:void();"#}
-                                    {#                                                           class="btn btn-primary my-3 btn-round">查看更多</a>#}
-                                    {#                                                    </div>#}
-                                    {#                                                </div>#}
-                                    {#                                            </div>#}
-                                    {#                                        </div>#}
-                                    {##}
-                                    {#                                    </div>#}
-                                    <div class="swiper-container">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide">
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div class="pricing-table">
-                                                            <div class="card">
-                                                                <div class="card-body text-center">
-                                                                    <div class="price-title">PERSONAL</div>
-                                                                    <h2 class="price text-info">
-                                                                        <small class="currency">$</small>
-                                                                        199
-                                                                    </h2>
-                                                                    <ul class="list-group list-group-flush">
-                                                                        <li class="list-group-item"><b>4 GB</b> Ram</li>
-                                                                        <li class="list-group-item"><b>80 GB</b> Disk
-                                                                            Space
-                                                                        </li>
-                                                                        <li class="list-group-item">Monthly Backups</li>
-                                                                        <li class="list-group-item">Email Support</li>
-                                                                        <li class="list-group-item">24X7 Support</li>
-                                                                    </ul>
-                                                                    <a href="javascript:void();"
-                                                                       class="btn btn-primary my-3 btn-round">查看更多</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                        <div class="row">
+                            <div class="col-sm-12"
+                                 style="width: 100%;height: 450px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+                                <div id="map_1" style="height: 100%"></div>
+                                <script type="text/javascript"
+                                        src="{{ url_for('static',filename='echarts/echarts.js') }}"></script>
+                                <!-- 引用echarts 3.0版本 -->
+                                <script type="text/javascript"
+                                        src="{{ url_for('static',filename='echarts/chongqing.js') }}"></script>
+                                <!-- 引用自定义市县地图 -->
+                                <script type="text/javascript">
+                                    //初始化ECharts实例
+                                    var myChart = echarts.init(document.getElementById('map_1'));
+                                    var data = [
+                                        [5000, 10000, 6785.71],
+                                        [4500, 9500, 6425],
+                                        [4000, 9000, 6825],
+                                        [3000, 6500, 4463.33],
+                                        [2500, 5600, 3793.83],
+                                        [2000, 4000, 3060],
+                                        [2000, 4000, 3222.33],
+                                        [2500, 4000, 3133.33],
+                                        [1800, 4000, 3100],
+                                        [2000, 3500, 2750],
+                                        [2000, 3000, 2500],
+                                        [1800, 3000, 2433.33],
+                                        [2000, 2700, 2375],
+                                        [1500, 2800, 2150],
+                                        [1500, 2300, 2100],
+                                        [1600, 3500, 2057.14],
+                                        [1500, 2600, 2037.5],
+                                        [1500, 2417.54, 1905.85],
+                                        [1500, 2000, 1775],
+                                        [1500, 1800, 1650]
+                                    ];
+                                    var cities = ['两江新区', '江北', '渝中', '沙坪坝', '南岸', '九龙坡', '大渡口', '巴南', '北碚', '江津', '璧山', '涪陵', '万州', '长寿', '永川', '合川', '铜梁', '黔江', '荣昌'];
+                                    var barHeight = 50;
 
-                                                </div>
-                                            </div>
-                                            <div class="swiper-slide">Slide 2</div>
-                                            <div class="swiper-slide">Slide 3</div>
-                                            <div class="swiper-slide">Slide 4</div>
-                                            <div class="swiper-slide">Slide 5</div>
-                                            <div class="swiper-slide">Slide 6</div>
-                                            <div class="swiper-slide">Slide 7</div>
-                                        </div>
-                                        <!-- Add Arrows -->
-                                            <div class="swiper-pagination"></div>
-
-                                    </div>
-                                    <script>
-                                        var swiper = new Swiper('.swiper-container', {
-                                            pagination: {
-                                                el: '.swiper-pagination',
+                                    option = {
+                                        title: {
+                                            {#text: '在中国租个房子有多贵？',#}
+                                            subtext: '全重庆均价前二十的区县'
+                                        },
+                                        legend: {
+                                            show: true,
+                                            orient: 'vertical',
+                                            left: 10,
+                                            bottom: 20,
+                                            data: ['价格范围', '均值']
+                                        },
+                                        grid: {
+                                            top: 100
+                                        },
+                                        angleAxis: {
+                                            type: 'category',
+                                            data: cities
+                                        },
+                                        tooltip: {
+                                            show: true,
+                                            formatter: function (params) {
+                                                var id = params.dataIndex;
+                                                return cities[id] + '<br>最低：' + data[id][0] + '<br>最高：' + data[id][1] + '<br>平均：' + data[id][2];
+                                            }
+                                        },
+                                        radiusAxis: {},
+                                        polar: {},
+                                        series: [{
+                                            type: 'bar',
+                                            itemStyle: {
+                                                color: 'transparent'
                                             },
-                                        });
-                                    </script>
+                                            data: data.map(function (d) {
+                                                return d[0];
+                                            }),
+                                            coordinateSystem: 'polar',
+                                            stack: '最大最小值',
+                                            silent: true
+                                        }, {
+                                            type: 'bar',
+                                            data: data.map(function (d) {
+                                                return d[1] - d[0];
+                                            }),
+                                            coordinateSystem: 'polar',
+                                            name: '价格范围',
+                                            stack: '最大最小值'
+                                        }, {
+                                            type: 'bar',
+                                            itemStyle: {
+                                                color: 'transparent'
+                                            },
+                                            data: data.map(function (d) {
+                                                return d[2] - barHeight;
+                                            }),
+                                            coordinateSystem: 'polar',
+                                            stack: '均值',
+                                            silent: true,
+                                            z: 10
+                                        }, {
+                                            type: 'bar',
+                                            data: data.map(function (d) {
+                                                return barHeight * 2;
+                                            }),
+                                            coordinateSystem: 'polar',
+                                            name: '均值',
+                                            stack: '均值',
+                                            barGap: '-100%',
+                                            z: 10
+                                        }]
+                                    };
 
 
-                                </div>
-
+                                    myChart.setOption(option);
+                                </script>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div id="collapse-2" class="collapse show" data-parent="#accordion1">
+                    <div class="card-body">
+                        <div class="card-title text-uppercase">
+                            <i aria-hidden="true" class="fa fa-map" style="color: #3b5998"></i>&ensp; TOP10榜单
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12"
+                                 style="width: 100%;height: 500px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
+                                {#                                    <div class="row">#}
+                                {#                                        <div class="col-sm-12">#}
+                                {#                                            <div class="pricing-table">#}
+                                {#                                                <div class="card">#}
+                                {#                                                    <div class="card-body text-center">#}
+                                {#                                                        <div class="price-title">PERSONAL</div>#}
+                                {#                                                        <h2 class="price text-info">#}
+                                {#                                                            <small class="currency">$</small>#}
+                                {#                                                            199#}
+                                {#                                                        </h2>#}
+                                {#                                                        <ul class="list-group list-group-flush">#}
+                                {#                                                            <li class="list-group-item"><b>4 GB</b> Ram</li>#}
+                                {#                                                            <li class="list-group-item"><b>80 GB</b> Disk Space</li>#}
+                                {#                                                            <li class="list-group-item">Monthly Backups</li>#}
+                                {#                                                            <li class="list-group-item">Email Support</li>#}
+                                {#                                                            <li class="list-group-item">24X7 Support</li>#}
+                                {#                                                        </ul>#}
+                                {#                                                        <a href="javascript:void();"#}
+                                {#                                                           class="btn btn-primary my-3 btn-round">查看更多</a>#}
+                                {#                                                    </div>#}
+                                {#                                                </div>#}
+                                {#                                            </div>#}
+                                {#                                        </div>#}
+                                {##}
+                                {#                                    </div>#}
+                                <div class="swiper-container">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="pricing-table">
+                                                        <div class="card">
+                                                            <div class="card-body text-center">
+                                                                <div class="price-title">PERSONAL</div>
+                                                                <h2 class="price text-info">
+                                                                    <small class="currency">$</small>
+                                                                    199
+                                                                </h2>
+                                                                <ul class="list-group list-group-flush">
+                                                                    <li class="list-group-item"><b>4 GB</b> Ram</li>
+                                                                    <li class="list-group-item"><b>80 GB</b> Disk
+                                                                        Space
+                                                                    </li>
+                                                                    <li class="list-group-item">Monthly Backups</li>
+                                                                    <li class="list-group-item">Email Support</li>
+                                                                    <li class="list-group-item">24X7 Support</li>
+                                                                </ul>
+                                                                <a href="javascript:void();"
+                                                                   class="btn btn-primary my-3 btn-round">查看更多</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide">Slide 2</div>
+                                        <div class="swiper-slide">Slide 3</div>
+                                        <div class="swiper-slide">Slide 4</div>
+                                        <div class="swiper-slide">Slide 5</div>
+                                        <div class="swiper-slide">Slide 6</div>
+                                        <div class="swiper-slide">Slide 7</div>
+                                    </div>
+                                    <!-- Add Arrows -->
+                                    <div class="swiper-pagination"></div>
+
+                                </div>
+                                <script>
+                                    var swiper = new Swiper('.swiper-container', {
+                                        pagination: {
+                                            el: '.swiper-pagination',
+                                        },
+                                    });
+                                </script>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="nav3 x12">
             <div class="card">
                 <div class="card-header">
                     <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"
@@ -799,7 +841,9 @@
                 </div>
             </div>
         </div>
+
     </div>
+    <!--监听内容end-->
 
 
 </div><!--End Row-->
@@ -820,6 +864,16 @@
 <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
 
 <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
+
+<script src="{{ url_for('static',filename='wechat/js/hScroll.js') }}"></script>
+<script type="text/javascript">
+    //初始化
+    new hScroll({
+        nav1: '.headv>div', //导航对应的元素
+        nav2: '.nav-list>div', //监听的元素
+        checkClass: 'headv-check' //选中的样式
+    });
+</script>
 
 {#<!-- simplebar js -->#}
 {#<script src="{{ url_for('static',filename='assets/plugins/simplebar/js/simplebar.js') }}"></script>#}
