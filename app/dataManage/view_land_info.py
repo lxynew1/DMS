@@ -144,6 +144,7 @@ def landSellAdderSave():
 
 
 # 地块录入界面
+@login_required
 @datamanage.route('/land_parcel_detail')
 def landParcelDetail():
     land_sell_info_fid = request.values.get('fid')
