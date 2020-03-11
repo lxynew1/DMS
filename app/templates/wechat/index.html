@@ -48,6 +48,7 @@
             top: 0;
             width: 750px;
             z-index: 10;
+            {#background-color: #3b5998;#}
         }
 
         .headv > div {
@@ -56,8 +57,8 @@
             padding: 10px;
             cursor: pointer;
             width: 16%;
-            text-align:center;
-            font-size:14px;
+            text-align: center;
+            font-size: 14px;
             color: #305880;
         }
 
@@ -111,11 +112,11 @@
     </div>
     <!--监听导航-->
 
-        <div class="x12 headv">
+    <div class="x12 headv" id="nav_hidden">
 
-            <div>土交地图</div>
-            <div>风云榜</div>
-            <div>即时资讯</div>
+        <div>土交地图</div>
+        <div>风云榜</div>
+        <div>即时资讯</div>
 
 
     </div>
@@ -873,6 +874,19 @@
         nav1: '.headv>div', //导航对应的元素
         nav2: '.nav-list>div', //监听的元素
         checkClass: 'headv-check' //选中的样式
+    });
+</script>
+
+<script>
+    $(window).scroll(function () {
+
+        if ($(window).scrollTop() < 350) {
+            {#alert('bottom!!');#}
+            $('#nav_hidden').attr("hidden", true);
+        }
+        else {
+            $('#nav_hidden').attr("hidden", false);
+        }
     });
 </script>
 
