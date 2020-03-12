@@ -48,7 +48,7 @@
             top: 0;
             width: 750px;
             z-index: 10;
-            {#background-color: #3b5998;#}
+            background-color: #ffffff;
         }
 
         .headv > div {
@@ -88,10 +88,10 @@
             <li data-target="#demo" data-slide-to="2"></li>
         </ul>
 
-        <!-- 轮播图片 -->
+{#        <!-- 轮播图片 -->#}
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="https://static.runoob.com/images/mix/img_fjords_wide.jpg">
+                <img src="{{ url_for('static',filename='assets/img/hImg.png') }}" style="width: 100%">
             </div>
             <div class="carousel-item">
                 <img src="https://static.runoob.com/images/mix/img_nature_wide.jpg">
@@ -112,7 +112,7 @@
     </div>
     <!--监听导航-->
 
-    <div class="x12 headv" id="nav_hidden">
+    <div class="x12 headv" id="nav_hidden" hidden="hidden">
 
         <div>土交地图</div>
         <div>风云榜</div>
@@ -127,11 +127,12 @@
             <div id="accordion1">
                 <div class="card mb-2">
                     <div class="card-header">
-                        <button class="btn btn-link shadow-none" data-toggle="collapse" data-target="#collapse-1"
-                                aria-expanded="true" aria-controls="collapse-1"
-                                style="font-size: 1.20rem">
-                            土交地图
-                        </button>
+{#                        <button class="btn btn-link shadow-none" data-toggle="collapse" data-target="#collapse-1"#}
+{#                                aria-expanded="true" aria-controls="collapse-1"#}
+{#                                style="font-size: 1.20rem">#}
+{#                            土交地图#}
+{#                        </button>#}
+                        <h4 style="color: #3b5998">土交地图</h4>
                     </div>
 
                     <div id="collapse-1" class="collapse show" data-parent="#accordion1">
@@ -568,11 +569,12 @@
         <div class="nav2 x12">
             <div class="card mb-2">
                 <div class="card-header">
-                    <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"
-                            data-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2"
-                            style="font-size: 1.20rem">
-                        风云榜
-                    </button>
+{#                    <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"#}
+{#                            data-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2"#}
+{#                            style="font-size: 1.20rem">#}
+{#                        风云榜#}
+{#                    </button>#}
+                    <h4 style="color: #3b5998">风云榜</h4>
                 </div>
                 <div id="collapse-2" class="collapse show" data-parent="#accordion1">
                     <div class="card-body">
@@ -699,7 +701,7 @@
                 <div id="collapse-2" class="collapse show" data-parent="#accordion1">
                     <div class="card-body">
                         <div class="card-title text-uppercase">
-                            <i aria-hidden="true" class="fa fa-map" style="color: #3b5998"></i>&ensp; TOP10榜单
+                            <i aria-hidden="true" class="fa fa-map" style="color: #3b5998"></i>&ensp; TOP10榜单——主城区土地溢价率
                         </div>
                         <div class="row">
                             <div class="col-sm-12"
@@ -790,11 +792,12 @@
         <div class="nav3 x12">
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"
-                            data-target="#collapse-3" aria-expanded="false" aria-controls="collapse-3"
-                            style="font-size: 1.20rem">
-                        即时资讯
-                    </button>
+{#                    <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"#}
+{#                            data-target="#collapse-3" aria-expanded="false" aria-controls="collapse-3"#}
+{#                            style="font-size: 1.20rem">#}
+{#                        即时资讯#}
+{#                    </button>#}
+                    <h4 style="color: #3b5998">即时资讯</h4>
                 </div>
                 <div id="collapse-3" class="collapse show" data-parent="#accordion1">
                     <div class="card-body">
