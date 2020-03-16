@@ -161,9 +161,16 @@
                             var end = +echarts.number.parseDate((+year + 1) + '-01-01');
                             var dayTime = 3600 * 24 * 1000;
                             var data = [];
+                            console.log(year)
+                            console.log(date)
+                            console.log(end)
+                            console.log(dayTime)
+                            console.log(pathes.length)
                             for (var time = date; time < end; time += dayTime) {
                                 var items = [];
                                 var eventCount = Math.round(Math.random() * pathes.length);
+                                console.log(eventCount)
+
                                 for (var i = 0; i < eventCount; i++) {
                                     items.push(Math.round(Math.random() * (pathes.length - 1)));
                                 }
@@ -172,6 +179,7 @@
                                     items.join('|')
                                 ]);
                             }
+                            console.log(data)
                             return data;
                         }
 
@@ -227,6 +235,11 @@
                         option = {
 
                             tooltip: {},
+                            legend: {
+                                {#orient: 'vertical',#}
+                                left: 10,
+                                bottom: 1,
+                            },
                             calendar: [{
                                 left: 'center',
                                 top: 'middle',
@@ -240,7 +253,7 @@
                                 monthLabel: {
                                     show: false
                                 },
-                                range: '2017-04'
+                                range: '2017-05'
                             }],
                             series: [{
                                 type: 'custom',
@@ -275,50 +288,47 @@
     </div>
 
 
-    <div style="margin-top: 5px;font-size: 14px;color: rgb(128, 133, 134);font-family:Microsoft YaHei">
-        上月成交面积概览（万平方米、%）
-    </div>
-    <div class="row" style="margin-top: 5px">
-        <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-3">
-                    {#                    <div style="color: rgb(234, 51, 35);font-size: 12px;text-align:center;height: 16px">万平方米</div>#}
-                    <div style="color: rgb(234, 51, 35);font-size: 18px;text-align:center;height: 59px;vertical-align: middle; padding: 2px">
-                        37.66
-                    </div>
-                    <div class="text" style="color: rgb(63, 79, 98);font-size: 15px;text-align:center">住宅</div>
-                </div>
-                <div class="col-xs-3">
-                    {#                    <div class="color2">较昨日+<span class="add_num2">110</span></div>#}
-                    <div style="color: rgb(231, 161, 60);font-size: 18px;text-align:center;height: 60px">10.12</div>
-                    <div class="text" style="color: rgb(63, 79, 98);font-size: 15px;text-align:center">非住宅</div>
-                </div>
-                <div class="col-xs-3">
-                    {#                    <div class="color2">较昨日+<span class="add_num2">110</span></div>#}
-                    <div style="color: rgb(231, 161, 60);font-size: 18px;text-align:center;height: 60px">-11</div>
-                    <div class="text" style="color: rgb(63, 79, 98);font-size: 15px;text-align:center">环比</div>
-                </div>
-                <div class="col-xs-3">
-                    {#                    <div class="color2">较昨日+<span class="add_num2">110</span></div>#}
-                    <div style="color: rgb(231, 161, 60);font-size: 18px;text-align:center;height: 60px">-3.6</div>
-                    <div class="text" style="color: rgb(63, 79, 98);font-size: 15px;text-align:center">同比</div>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    {#    <div style="margin-top: 5px;font-size: 14px;color: rgb(128, 133, 134);font-family:Microsoft YaHei">#}
+    {#        上月成交面积概览（万平方米、%）#}
+    {#    </div>#}
+    {#    <div class="row" style="margin-top: 5px">#}
+    {#        <div class="col-xs-12">#}
+    {#            <div class="row">#}
+    {#                <div class="col-xs-3">#}
+    {#                    <div style="color: rgb(234, 51, 35);font-size: 12px;text-align:center;height: 16px">万平方米</div>#}
+    {#                    <div style="color: rgb(234, 51, 35);font-size: 18px;text-align:center;height: 59px;vertical-align: middle; padding: 2px">#}
+    {#                        37.66#}
+    {#                    </div>#}
+    {#                    <div class="text" style="color: rgb(63, 79, 98);font-size: 15px;text-align:center">住宅</div>#}
+    {#                </div>#}
+    {#                <div class="col-xs-3">#}
+    {#                    <div class="color2">较昨日+<span class="add_num2">110</span></div>#}
+    {#                    <div style="color: rgb(231, 161, 60);font-size: 18px;text-align:center;height: 60px">10.12</div>#}
+    {#                    <div class="text" style="color: rgb(63, 79, 98);font-size: 15px;text-align:center">非住宅</div>#}
+    {#                </div>#}
+    {#                <div class="col-xs-3">#}
+    {#                    <div class="color2">较昨日+<span class="add_num2">110</span></div>#}
+    {#                    <div style="color: rgb(231, 161, 60);font-size: 18px;text-align:center;height: 60px">-11</div>#}
+    {#                    <div class="text" style="color: rgb(63, 79, 98);font-size: 15px;text-align:center">环比</div>#}
+    {#                </div>#}
+    {#                <div class="col-xs-3">#}
+    {#                    <div class="color2">较昨日+<span class="add_num2">110</span></div>#}
+    {#                    <div style="color: rgb(231, 161, 60);font-size: 18px;text-align:center;height: 60px">-3.6</div>#}
+    {#                    <div class="text" style="color: rgb(63, 79, 98);font-size: 15px;text-align:center">同比</div>#}
+    {#                </div>#}
+    {##}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
 
     <div class="x12 nav-list" style="margin-top: 15px;">
         <div class="nav1 x12">
             <div id="accordion1">
                 <div class="card mb-2">
                     <div class="card-header">
-                        {#                        <button class="btn btn-link shadow-none" data-toggle="collapse" data-target="#collapse-1"#}
-                        {#                                aria-expanded="true" aria-controls="collapse-1"#}
-                        {#                                style="font-size: 1.20rem">#}
-                        {#                            土交地图#}
-                        {#                        </button>#}
-                        {#                        <h4 style="color: #3b5998">交易总览</h4>#}
+                               <div class="card-title text-uppercase" style="font-size: 18px">
+                                <i aria-hidden="true" class="fa fa-window-restore" style="color: #3b5998;"></i>&ensp;交易总览
+                            </div>
                         <p style="font-size: 12px;color: #cdcdcd;margin-top:12px">*提示：可点击右边时钟选择按钮进行自定义查询</p>
 
                     </div>
@@ -805,12 +815,9 @@
         <div class="nav2 x12">
             <div class="card mb-2">
                 <div class="card-header">
-                    {#                    <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"#}
-                    {#                            data-target="#collapse-2" aria-expanded="false" aria-controls="collapse-2"#}
-                    {#                            style="font-size: 1.20rem">#}
-                    {#                        风云榜#}
-                    {#                    </button>#}
-                    {#                    <h4 style="color: #3b5998">风云榜</h4>#}
+                    <div class="card-title text-uppercase" style="font-size: 18px">
+                                <i aria-hidden="true" class="fa fa-window-restore" style="color: #3b5998;"></i>&ensp;风云榜
+                            </div>
                 </div>
                 <div id="collapse-2" class="collapse show" data-parent="#accordion1">
                     <div class="card-body">
@@ -1028,12 +1035,9 @@
         <div class="nav3 x12">
             <div class="card">
                 <div class="card-header">
-                    {#                    <button class="btn btn-link shadow-none collapsed" data-toggle="collapse"#}
-                    {#                            data-target="#collapse-3" aria-expanded="false" aria-controls="collapse-3"#}
-                    {#                            style="font-size: 1.20rem">#}
-                    {#                        即时资讯#}
-                    {#                    </button>#}
-                    {#                    <h4 style="color: #3b5998">即时资讯</h4>#}
+                    <div class="card-title text-uppercase" style="font-size: 18px">
+                                <i aria-hidden="true" class="fa fa-window-restore" style="color: #3b5998;"></i>&ensp;即时资讯
+                            </div>
                 </div>
                 <div id="collapse-3" class="collapse show" data-parent="#accordion1">
                     <div class="card-body">
