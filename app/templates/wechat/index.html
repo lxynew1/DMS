@@ -156,20 +156,15 @@
                         ];
 
                         function getVirtulData(year) {
-                            year = year || '2017';
+                            year = year || '2020';
                             var date = +echarts.number.parseDate(year + '-01-01');
                             var end = +echarts.number.parseDate((+year + 1) + '-01-01');
                             var dayTime = 3600 * 24 * 1000;
                             var data = [];
-                            console.log(year)
-                            console.log(date)
-                            console.log(end)
-                            console.log(dayTime)
-                            console.log(pathes.length)
+
                             for (var time = date; time < end; time += dayTime) {
                                 var items = [];
                                 var eventCount = Math.round(Math.random() * pathes.length);
-                                console.log(eventCount)
 
                                 for (var i = 0; i < eventCount; i++) {
                                     items.push(Math.round(Math.random() * (pathes.length - 1)));
@@ -181,15 +176,16 @@
                             }
                             console.log(data)
                             return data;
+
                         }
 
                         function renderItem(params, api) {
                             var cellPoint = api.coord(api.value(0));
                             var cellWidth = params.coordSys.cellWidth;
                             var cellHeight = params.coordSys.cellHeight;
-
                             var value = api.value(1);
                             var events = value && value.split('|');
+
 
                             if (isNaN(cellPoint[0]) || isNaN(cellPoint[1])) {
                                 return;
@@ -228,13 +224,24 @@
                                     textFont: api.font({fontSize: 14})
                                 }
                             });
-
                             return group;
                         }
 
-                        option = {
 
-                            tooltip: {},
+                        option = {
+                            title: {
+                                                {#text: '重庆市土交信息地图',#}
+                                                subtext: '*提示：灰色表示当天有出让公告，红色表示当天有成交',
+                                            },
+                            tooltip: {
+                                trigger: 'item',
+                                formatter: function (params) {
+                                    var res = '';
+                                    res += params['data'] + '111</br>';
+                                    res += '<a href="http://www.baidu.com">详情</a>'
+                                    return res;
+                                }
+                            },
                             legend: {
                                 {#orient: 'vertical',#}
                                 left: 10,
@@ -253,14 +260,14 @@
                                 monthLabel: {
                                     show: false
                                 },
-                                range: '2017-05'
+                                range: '2020-03'
                             }],
                             series: [{
                                 type: 'custom',
                                 coordinateSystem: 'calendar',
                                 renderItem: renderItem,
                                 dimensions: [null, {type: 'ordinal'}],
-                                data: getVirtulData(2017)
+                                data: getVirtulData(2020)
                             }]
                         };
                         myChart.setOption(option);
@@ -326,9 +333,9 @@
             <div id="accordion1">
                 <div class="card mb-2">
                     <div class="card-header">
-                               <div class="card-title text-uppercase" style="font-size: 18px">
-                                <i aria-hidden="true" class="fa fa-window-restore" style="color: #3b5998;"></i>&ensp;交易总览
-                            </div>
+                        <div class="card-title text-uppercase" style="font-size: 18px">
+                            <i aria-hidden="true" class="fa fa-window-restore" style="color: #3b5998;"></i>&ensp;交易总览
+                        </div>
                         <p style="font-size: 12px;color: #cdcdcd;margin-top:12px">*提示：可点击右边时钟选择按钮进行自定义查询</p>
 
                     </div>
@@ -532,7 +539,6 @@
                                                 },//地图中文字内容及样式控制
                                             }]
                                         };
-                                        console.log(option)
                                         myChart.setOption(option, true);
                                         myChart.on('click', function (params) {
                                             var region_name = params['data'].name
@@ -545,8 +551,7 @@
                                                 dataType: "json",
                                                 success:
                                                     function (data) {
-                                                        console.log(data.return_code)
-                                                        console.log(data.return_info[region_name])
+
                                                         if (data.return_code == '200') {
 
                                                             for (i in data.return_info[region_name]) {
@@ -816,8 +821,8 @@
             <div class="card mb-2">
                 <div class="card-header">
                     <div class="card-title text-uppercase" style="font-size: 18px">
-                                <i aria-hidden="true" class="fa fa-window-restore" style="color: #3b5998;"></i>&ensp;风云榜
-                            </div>
+                        <i aria-hidden="true" class="fa fa-window-restore" style="color: #3b5998;"></i>&ensp;风云榜
+                    </div>
                 </div>
                 <div id="collapse-2" class="collapse show" data-parent="#accordion1">
                     <div class="card-body">
@@ -1036,8 +1041,8 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title text-uppercase" style="font-size: 18px">
-                                <i aria-hidden="true" class="fa fa-window-restore" style="color: #3b5998;"></i>&ensp;即时资讯
-                            </div>
+                        <i aria-hidden="true" class="fa fa-window-restore" style="color: #3b5998;"></i>&ensp;即时资讯
+                    </div>
                 </div>
                 <div id="collapse-3" class="collapse show" data-parent="#accordion1">
                     <div class="card-body">
