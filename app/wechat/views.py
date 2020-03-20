@@ -24,7 +24,7 @@ def calendarData():
         return json.dumps(return_dict, ensure_ascii=False)  # ensure_ascii=False才能输出中文
     get_data = request.args.to_dict()
     year = get_data.get('year')
-    month = get_data.get('month')
+    month = get_data.get('month').zfill(2)
     year_month = '{0}-{1}'.format(year, month)
     print(year_month)
     # 查询公告日期
@@ -53,7 +53,7 @@ def calendarData():
         land_info_dict[i.DATE_BEGIN] = detail_dict_begin
 
     # 查询成交日期
-    result_end = result_begin = LAND_SELL_INFO.query.join(DICT_REGION,
+    result_end  = LAND_SELL_INFO.query.join(DICT_REGION,
                                                           LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE).with_entities(
         LAND_SELL_INFO.DATE_BEGIN,
         LAND_SELL_INFO.DATE_END,
