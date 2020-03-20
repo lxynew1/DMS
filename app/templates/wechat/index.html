@@ -1221,9 +1221,11 @@
                     var return_info = data["return_info"]
                     for (var key in return_info) {
                         var tag = return_info[key]["tag"]
-                        //按标准替换
-                        var insert_notice_deal_detail=$("insert_notice_deal_detail")
-                        var html=$("<div>test</div>")
+                        //删除insert_notice_deal_detail所有子元素
+                        $("#insert_notice_deal_detail").empty();
+                        //重新给insert_notice_deal_detail添加子元素
+                        var insert_notice_deal_detail = $("#insert_notice_deal_detail")
+                        var html = "<div>公告编号：{notice_no}</div>".format({notice_no: return_info["notice"]["notice_num"]})
                         insert_notice_deal_detail.append(html)
                         $('#notice_deal_detail').modal()
 
