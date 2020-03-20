@@ -100,7 +100,9 @@ def noticeDealDetail():
         return_dict['return_info'] = '传入参数为空'
     else:
         get_data = request.args.to_dict()
-        date = get_data.get("date").replace('|','-')
+        temp_date = get_data.get("date")
+        date = temp_date[0,4]+temp_date[4,6]+temp_date[6,8]
+        print(date)
         begin_list = []
         result_begin = LAND_SELL_INFO.query.join(DICT_REGION,
                                                  LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE).with_entities(

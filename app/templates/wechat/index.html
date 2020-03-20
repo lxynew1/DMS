@@ -307,7 +307,7 @@
                                 trigger: 'item',
                                 formatter: function (params) {
                                     var res = '';
-                                    var custom_date = params['data'][0].replace('-','|')
+                                    var custom_date = params['data'][0].replace('-','').replace('-','')
                                     res += params['data'][0] + '</br>';
                                     res += '<a onclick="queryNoticeDealDetail('+custom_date+') "><span style="color:blue;">公告和成交详情</span></a>'
                                     return res;
