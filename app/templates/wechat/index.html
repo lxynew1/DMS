@@ -122,7 +122,7 @@
 
     </div>
     <!--监听导航end-->
-    <!-- Modal -->
+    <!-- Modal 公告和成交详情 -->
     <div class="modal fade" id="notice_deal_detail">
         <div class="modal-dialog">
             <div class="modal-content border-success">
@@ -133,20 +133,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group row">
-                            <label for="select_assignment_method"
-                                   class="col-sm-2 col-form-label"
-                                   id="label_input_date_deal">成交日期</label>
-                            <div class="col-sm-10">
-                                <input type="text" id="input_date_deal"
-                                       class="form-control"
-                                       placeholder="请选择成交时间"
-                                >
-                            </div>
-                        </div>
-                    </form>
+                <div class="modal-body" id="insert_notice_deal_detail">
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><i
@@ -307,9 +295,14 @@
                                 trigger: 'item',
                                 formatter: function (params) {
                                     var res = '';
-                                    var custom_date = params['data'][0].replace('-','').replace('-','')
+                                    var custom_date = params['data'][0].replace('-', '').replace('-', '')
                                     res += params['data'][0] + '</br>';
-                                    res += '<a onclick="queryNoticeDealDetail('+custom_date+') "><span style="color:blue;">公告和成交详情</span></a>'
+                                    if (params['data'][1] == '') {
+                                        res += '无公告信息'
+                                    }
+                                    else {
+                                        res += '<a onclick="queryNoticeDealDetail(' + custom_date + ') "><span style="color:blue;">公告和成交详情</span></a>'
+                                    }
                                     return res;
                                 }
                             },
@@ -1220,7 +1213,7 @@
             async: false,
             url: "{{ url_for('wechat.noticeDealDetail') }}",
             data: {
-                date:custom_date
+                date: custom_date
             },
             dataType: "json",
             success:
@@ -1229,6 +1222,10 @@
                     for (var key in return_info) {
                         var tag = return_info[key]["tag"]
                         //按标准替换
+                        var insert_notice_deal_detail=$("insert_notice_deal_detail")
+                        var html=$("<div>test</div>")
+                        insert_notice_deal_detail.append(html)
+                        $('#notice_deal_detail').modal()
 
                     }
                 }
