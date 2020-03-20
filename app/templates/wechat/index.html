@@ -122,6 +122,48 @@
 
     </div>
     <!--监听导航end-->
+    <!-- Modal -->
+    <div class="modal fade" id="notice_deal_detail">
+        <div class="modal-dialog">
+            <div class="modal-content border-success">
+                <div class="modal-header bg-success">
+                    <h5 class="modal-title text-white">自定义查询</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="select_assignment_method"
+                                   class="col-sm-2 col-form-label"
+                                   id="label_input_date_deal">成交日期</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="input_date_deal"
+                                       class="form-control"
+                                       placeholder="请选择成交时间"
+                                >
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i
+                            class="fa fa-times"></i> 关闭
+                    </button>
+                    <button type="button" class="btn btn-success" id="button_go_on"
+                            onclick="openNewHref()"><i class="fa fa-check-square-o"></i>
+                        查询
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ModalEnd -->
+
     <!--监听内容-->
     <div id="collapse-1" class="collapse show" data-parent="#accordion1">
         <div class="card-body">
@@ -265,8 +307,8 @@
                                 trigger: 'item',
                                 formatter: function (params) {
                                     var res = '';
-                                    res += params['data'][2] + '111</br>';
-                                    res += '<a onclick="$(\'#modal_is_go_on_parcel\').modal()">详情</a>'
+                                    res += params['data'][0] + '</br>';
+                                    res += '<a onclick="queryNoticeDealDetail('+params['data'][0]+') "><span style="color:blue;">公告和成交详情</span></a>'
                                     return res;
                                 }
                             },
@@ -1169,6 +1211,28 @@
             $('#nav_hidden').attr("hidden", false);
         }
     });
+</script>
+<script>
+    function queryNoticeDealDetail(date) {
+        $.ajax({
+            type: "GET",
+            async: false,
+            url: "{{ url_for('wechat.noticeDealDetail') }}",
+            data: {
+                date:date
+            },
+            dataType: "json",
+            success:
+                function (data) {
+                    var return_info = data["return_info"]
+                    for (var key in return_info) {
+                        var tag = return_info[key]["tag"]
+                        //按标准替换
+
+                    }
+                }
+        });
+    }
 </script>
 
 {#<!-- simplebar js -->#}
