@@ -307,8 +307,9 @@
                                 trigger: 'item',
                                 formatter: function (params) {
                                     var res = '';
+                                    var custom_date = params['data'][0].replace('-','|')
                                     res += params['data'][0] + '</br>';
-                                    res += '<a onclick="queryNoticeDealDetail('+params['data'][0]+') "><span style="color:blue;">公告和成交详情</span></a>'
+                                    res += '<a onclick="queryNoticeDealDetail('+custom_date+') "><span style="color:blue;">公告和成交详情</span></a>'
                                     return res;
                                 }
                             },
@@ -1213,13 +1214,13 @@
     });
 </script>
 <script>
-    function queryNoticeDealDetail(date) {
+    function queryNoticeDealDetail(custom_date) {
         $.ajax({
             type: "GET",
             async: false,
             url: "{{ url_for('wechat.noticeDealDetail') }}",
             data: {
-                date:date
+                date:custom_date
             },
             dataType: "json",
             success:
