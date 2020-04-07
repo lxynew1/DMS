@@ -206,4 +206,34 @@ class R_SELLDEAL_ENTERPISE(db.Model):
     MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
     MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
 
+class FILE_PATH(db.Model):
+    #文件库
+    __tablename__ = 'FILE_PATH'
+    FID = db.Column(db.String(50), primary_key=True, comment='随机uuid')
+    TYPE = db.Column(db.String(200), nullable=False, comment='文件类型，1：软件，2：项目文档')
+    TITLE= db.Column(db.String(200), nullable=False, comment='文件名称')
+    DESCRIPTION = db.Column(db.String(500), nullable=False, comment='详情描述')
+    PATH = db.Column(db.String(200), nullable=False, comment='系统路径')
+    DOWNLOAD_TIMES = db.Column(db.Integer(), nullable=False, comment='下载次数')
+    CREATE_BY = db.Column(db.String(50), nullable=False, comment='创建人')
+    CREATE_TIME = db.Column(db.DateTime, nullable=False, comment='创建时间')
+
+class GEO_PARCEL(db.Model):
+    #地块坐标串
+    __tablename__ = 'GEO_PARCEL'
+    FID = db.Column(db.String(50), primary_key=True, comment='随机uuid')
+    PARCEL_FID = db.Column(db.String(50), nullable=False, comment='地块ID')
+    GEO_LIST = db.Column(db.String(2000), nullable=False, comment='列表形式的坐标串,高德直显')
+    GEO_CENTER = db.Column(db.String(200), nullable=False, comment='中心点的坐标值')
+    GEO_N = db.Column(db.String(200), nullable=False, comment='最北值')
+    GEO_S = db.Column(db.String(200), nullable=False, comment='最南值')
+    GEO_W = db.Column(db.String(200), nullable=False, comment='最西值')
+    GEO_E = db.Column(db.String(200), nullable=False, comment='最东值')
+    GEO_JSON = db.Column(db.String(2000), nullable=True, comment='JSON形式的坐标串')
+    CREATE_BY = db.Column(db.String(50), nullable=False, comment='创建人')
+    CREATE_TIME = db.Column(db.DateTime, nullable=False, comment='创建时间')
+    MODIFIER_BY = db.Column(db.String(50), nullable=True, comment='修改人')
+    MODIFIER_TIME = db.Column(db.DateTime, nullable=True, comment='修改时间')
+
+
 

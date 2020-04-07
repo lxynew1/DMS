@@ -2,9 +2,11 @@ import json
 
 from flask import render_template, request
 from flask_login import login_required
+from sqlalchemy import and_, func
+from collections import defaultdict
 
 from . import wechat
-from ..global_fun import allDay
+from ..global_fun import allDay, allRegion
 # from .forms import LoginForm
 from ..models import DICT_REGION, LAND_SELL_INFO
 
@@ -102,7 +104,7 @@ def noticeDealDetail():
         get_data = request.args.to_dict()
         temp_date = get_data.get("date")
         print(temp_date)
-        date = temp_date[0:4]+'-'+temp_date[4:6]+'-'+temp_date[6:8]
+        date = temp_date[0:4] + '-' + temp_date[4:6] + '-' + temp_date[6:8]
         print(date)
         begin_list = []
         result_begin = LAND_SELL_INFO.query.join(DICT_REGION,
@@ -129,9 +131,9 @@ def noticeDealDetail():
             notice_dict["region_name"] = i.REGION_NAME
             begin_list.append(notice_dict)
 
-        deal_list=[]
+        deal_list = []
         result_deal = LAND_SELL_INFO.query.join(DICT_REGION,
-                                                 LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE).with_entities(
+                                                LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE).with_entities(
             LAND_SELL_INFO.NOTICE_NUM,
             LAND_SELL_INFO.LAND_LOCATION,
             LAND_SELL_INFO.TOTAL_AREA,
@@ -153,8 +155,35 @@ def noticeDealDetail():
             notice_dict["date_end"] = i.DATE_END
             notice_dict["region_name"] = i.REGION_NAME
             deal_list.append(notice_dict)
-        all_dict = {'notice':begin_list,'deal':deal_list}
+        all_dict = {'notice': begin_list, 'deal': deal_list}
         print(all_dict)
     return_dict['return_info'] = all_dict
 
+    return json.dumps(return_dict, ensure_ascii=False)
+
+
+@wechat.route('/api/table_data')
+def tableData():
+    return_dict = {'return_code': '200', 'return_info': '', 'result_begin': True}
+    if request.args is None:
+        return_dict['return_code'] = '50004'
+        return_dict['return_info'] = '传入参数为空'
+    else:
+        get_data = request.args.to_dict()
+        date_begin = get_data.get("date_begin")
+        date_end = get_data.get("date_end")
+        all_region_dict = allRegion()
+        result = LAND_SELL_INFO.query.join(DICT_REGION,
+                                           LAND_SELL_INFO.REGION_CODE == DICT_REGION.REGION_CODE).with_entities(
+            DICT_REGION.REGION_CODE,
+            LAND_SELL_INFO.PLAN_USE,
+            func.sum(LAND_SELL_INFO.TOTAL_AREA),
+            func.count(LAND_SELL_INFO.FID),
+
+        ).filter(and_(LAND_SELL_INFO.DATE_BEGIN >= date_begin, LAND_SELL_INFO.DATE_BEGIN <= date_end)
+                 ).group_by(DICT_REGION.REGION_CODE, LAND_SELL_INFO.PLAN_USE).all()
+        for i in result:
+            all_region_dict[i.REGION_CODE]['statistics']=all_region_dict[i.REGION_CODE]['statistics']
+    print(allRegion())
+    return_dict['return_info'] = allRegion()
     return json.dumps(return_dict, ensure_ascii=False)

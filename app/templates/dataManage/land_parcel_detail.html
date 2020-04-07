@@ -66,10 +66,11 @@
                                             <td :sytle="{vertical-align:'middle'}">{{ parcel_detail_list[i][0] }}</td>
                                             <td vertical-align="middle">{{ parcel_detail_list[i][1] }}</td>
                                             <td vertical-align="middle">{{ parcel_detail_list[i][2] }}</td>
-                                            <td>
+                                            <td><a href="{{ url_for('wechat.gaoDe',fid=parcel_detail_list[i][3]) }}">
                                                 <button type="button"
-                                                        class="btn btn-outline-primary waves-effect waves-light">暂未开放
-                                                </button>
+                                                        class="btn btn-outline-primary waves-effect waves-light"
+                                                >绘制图形
+                                                </button></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -285,7 +286,7 @@
 
 {% block script %}
     <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
     <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>
 
     <!-- simplebar js -->
@@ -384,7 +385,7 @@
                                 if (data.return_code == '200') {
                                     console.log('111')
                                     anim5_noti(value = '保存成功！即将刷新页面')
-                                    var t=setTimeout("location.reload()",5000);
+                                    var t = setTimeout("location.reload()", 5000);
                                     {#setTimeout('window.location.reload()', 5000);#}
 
                                 }
@@ -435,7 +436,7 @@
 
 
 
-{#    自定义js函数_end#}
+    {#    自定义js函数_end#}
     <script src="{{ url_for('static',filename='assets/js/popper.min.js') }}"></script>
 
     <script src="{{ url_for('static',filename='assets/js/bootstrap.min.js') }}"></script>

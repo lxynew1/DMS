@@ -48,4 +48,7 @@ def create_app(config_name='development'):
     from .wechat import wechat as wechat_blueprint
     app.register_blueprint(wechat_blueprint, url_prefix='/wechat')
 
+    from .fileManage import fileManage as fileManage_blueprint
+    app.register_blueprint(fileManage_blueprint, url_prefix='/fileManage')
+
     return app

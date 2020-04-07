@@ -158,7 +158,8 @@
             <div class="card-title text-uppercase">
                 <i aria-hidden="true" class="fa fa-map" style="color: #3b5998"></i>&ensp; 本月公告和成交时间表
             </div>
-{#            <button onclick="queryNoticeDealDetail('20200214')">hhh</button>#}
+            <p style="font-size: 12px;color: #cdcdcd;margin-top:12px">*提示：点击日期可查看公告和成交详情</p>
+            {#            <button onclick="queryNoticeDealDetail('20200214')">hhh</button>#}
 
             <div class="row">
                 <div class="col-sm-12"
@@ -290,7 +291,7 @@
                         option = {
                             title: {
                                 {#text: '重庆市土交信息地图',#}
-                                subtext: '*提示\n红色:主城有出让公告\n绿色:主城有成交\n蓝色:区县有出让公告\n黄色:区县有成交',
+                                {#subtext: '*提示\n红色:主城有出让公告\n绿色:主城有成交\n蓝色:区县有出让公告\n黄色:区县有成交',#}
                             },
                             tooltip: {
                                 trigger: 'item',
@@ -475,12 +476,36 @@
                                             src="{{ url_for('static',filename='echarts/chongqing.js') }}"></script>
                                     <!-- 引用自定义市县地图 -->
                                     <script type="text/javascript">
+                                        var data_ajax = new Array();
+                                        $.ajax({
+                                            type: "GET",
+                                            async: false,
+                                            url: "{{ url_for('wechat.mapDataNotice') }}",
+                                            data: {
+                                                date_begin: '2019-12-30',
+                                                date_end: '2020-12-30'
+                                            },
+                                            dataType: "json",
+                                            success:
+                                                function (data) {
+                                                    var return_info = data["return_info"]
+                                                    for (var key in return_info) {
+                                                        data_ajax.push(
+                                                            {
+                                                                name: return_info[key][0],
+                                                                value: return_info[key][1],
+                                                                value2: return_info[key][2]
+                                                            })
+                                                    }
+                                                }
+                                        });
+
                                         //初始化ECharts实例
                                         var myChart = echarts.init(document.getElementById('map'));
                                         var option = {
                                             title: {
                                                 {#text: '重庆市土交信息地图',#}
-                                                subtext: '统计时间：2020年1月-2020年2月',
+                                                subtext: '统计时间：2020年1月-2020年3月',
                                             },
 
                                             tooltip: {
@@ -488,7 +513,15 @@
                                                 formatter: function (params) {
                                                     var res = '';
                                                     res += params['data'].name + '</br>';
-                                                    {#res += '用户数' + ' : ' + params['data'].value2 + '</br>';#}
+                                                    if (params['data'].value2 > 0) {
+                                                        res += '公告数量：' + params['data'].value2 + '</br>';
+                                                        res += '公告面积(㎡)：' + params['data'].value + '</br>';
+                                                    }
+                                                    else {
+                                                        res += '公告数量：无' + '</br>';
+                                                        res += '公告面积：无' + '</br>';
+                                                    }
+
                                                     return res;
                                                 }
                                                 //formatter: '{b}<br/>{c}'
@@ -497,13 +530,13 @@
                                             visualMap: {
                                                 show: true,//色系条是否显示
                                                 min: 0,
-                                                max: 45000,//取其区间值就代表色系inRange中的一种颜色
+                                                max: 710000,//取其区间值就代表色系inRange中的一种颜色
                                                 right: 'right',
                                                 top: 'bottom',
                                                 text: ['高', '低'], // 文本，默认为数值文本
                                                 calculable: true,
                                                 inRange: {
-                                                    color: ['#42a8be', '#00a69c', '#95ea95'],//上色范围
+                                                    color: ['#c3fac3', '#8efc8e', '#50fa50', '#14fc14'],//上色范围
                                                 }
 
                                             },//给地图上色
@@ -526,7 +559,7 @@
                                                 itemStyle: {
                                                     normal: {
                                                         borderColor: '#fff',
-                                                        areaColor: '#FFFAFA',
+                                                        areaColor: '#f7faf7',
                                                         borderWidth: 2,
                                                     },//正常样式
                                                     emphasis: {
@@ -535,59 +568,7 @@
                                                         borderColor: 'yellow',
                                                     }//鼠标事件区块样式
                                                 },
-                                                data: [
-                                                    {
-                                                        name: '渝中区',
-                                                        value: 40500,
-                                                        value2: 1024,
-                                                        href: 'http://www.baidu.com'
-                                                    },
-                                                    {
-                                                        name: '万州区',
-                                                        value: 23000,
-                                                        value2: 1024,
-                                                        href: 'http://www.baidu.com'
-                                                    },
-                                                    {name: '涪陵区', value: 23000, value2: 1024},
-                                                    {name: '江津区', value: 23000, value2: 1024},
-                                                    {name: '合川区', value: 23000, value2: 1024},
-                                                    {name: '长寿区', value: 23000, value2: 100},
-                                                    {name: '南川区', value: 0, value2: 100},
-                                                    {name: '秀山土家族苗族自治县', value: 0, value2: 100},
-                                                    {name: '石柱土家族自治县', value: 0, value2: 100},
-                                                    {name: '酉阳土家族苗族自治县', value: 0, value2: 100},
-                                                    {name: '彭水苗族土家族自治县', value: 0, value2: 100},
-                                                    {name: '巫溪县', value: 0, value2: 100},
-                                                    {name: '巫山县', value: 0, value2: 100},
-                                                    {name: '奉节县', value: 0, value2: 100},
-                                                    {name: '云阳县', value: 0, value2: 100},
-                                                    {name: '开州区', value: 0, value2: 100},
-                                                    {name: '忠县', value: 0, value2: 100},
-                                                    {name: '武隆区', value: 0, value2: 100},
-                                                    {name: '垫江县', value: 0, value2: 100},
-                                                    {name: '丰都县', value: 0, value2: 100},
-                                                    {name: '城口县', value: 0, value2: 100},
-                                                    {name: '梁平区', value: 0, value2: 100},
-                                                    {name: '璧山区', value: 0, value2: 100},
-                                                    {name: '荣昌区', value: 0, value2: 100},
-                                                    {name: '大足区', value: 0, value2: 100},
-                                                    {name: '铜梁区', value: 0, value2: 100},
-                                                    {name: '潼南区', value: 0, value2: 100},
-                                                    {name: '綦江区', value: 0, value2: 100},
-                                                    {name: '长寿区', value: 0, value2: 100},
-                                                    {name: '黔江区', value: 23000, value2: 100},
-                                                    {name: '巴南区', value: 0, value2: 100},
-                                                    {name: '渝北区', value: 0, value2: 100},
-                                                    {name: '万盛区', value: 0, value2: 100},
-                                                    {name: '北碚区', value: 0, value2: 100},
-                                                    {name: '南岸区', value: 0, value2: 100},
-                                                    {name: '九龙坡区', value: 0, value2: 100},
-                                                    {name: '沙坪坝区', value: 0, value2: 100},
-                                                    {name: '江北区', value: 0, value2: 100},
-                                                    {name: '大渡口区', value: 0, value2: 100},
-                                                    {name: '渝中区', value: 23000, value2: 100},
-                                                    {name: '永川区', value: 23000, value2: 100},
-                                                ],//value的值是上面visualMap属性中设置的颜色色系区间的值，即0~45000
+                                                data: data_ajax,//value的值是上面visualMap属性中设置的颜色色系区间的值，即0~45000
                                                 label: {
                                                     normal: {
                                                         show: true,
@@ -653,17 +634,43 @@
                                      style="width: 100%;height: 450px;padding: 10px;border: 1px solid #e3e3e3;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);">
                                     <div class="china table_pro">
                                         <div class="title">
-                                            <span class="t_area">地区</span>
+                                            <span class="t_area">地区（用途）</span>
                                             <span class="t_confirm">公告</span>
                                             <span class="t_dead">成交</span>
                                             <span class="t_heal">平均地价</span>
                                         </div>
                                         <ul class="content">
                                             <li class="c_line">
-                                                <div class="line_first">
+                                                <div class="line_first" id="line_first_chongqing" onclick="unfold_table()">
                                                     <span class="c_area" style="text-align:center;">重庆市</span>
                                                     <span class="c_confirm">20623</span>
-                                                    <span class="c_dead">427</span>
+                                                    <span class="c_">427</span>
+                                                    <span class="c_heal">657</span>
+                                                </div>
+                                                <div class="line_hide" style="" id="line_hide_chongqing">
+                                                    <div class="hide_content">
+                                                        <span class="c_area" style="text-align:center;">R1</span>
+                                                        <span class="c_confirm">20623</span>
+                                                        <span class="c_dead">427</span>
+                                                        <span class="c_heal">657</span>
+                                                    </div>
+                                                    <div class="hide_content">
+                                                        <span class="c_area" style="text-align:center;">R2</span>
+                                                        <span class="c_confirm">20623</span>
+                                                        <span class="c_dead">427</span>
+                                                        <span class="c_heal">657</span>
+                                                    </div>
+                                                    <div class="hide_content">
+                                                        <span class="c_area" style="text-align:center;">重庆市</span>
+                                                        <span class="c_confirm">20623</span>
+                                                        <span class="c_dead">427</span>
+                                                        <span class="c_heal">657</span>
+                                                    </div>
+                                                </div>
+                                                <div class="line_first" id="line_first_chongqing" onclick="unfold_table()">
+                                                    <span class="c_area" style="text-align:center;">重庆市</span>
+                                                    <span class="c_confirm">20623</span>
+                                                    <span class="c_">427</span>
                                                     <span class="c_heal">657</span>
                                                 </div>
                                             </li>
@@ -1236,10 +1243,11 @@
                                     html += "<hr>"
                                     html += "<div>公告编号：" + return_info["notice"][i]["notice_num"] + "</div>"
                                     html += "<div>地块坐落：" + return_info["notice"][i]["land_location"] + "</div>"
-                                    html += "<div>地块面积：" + return_info["notice"][i]["total_area"] + "</div>"
+                                    html += "<div>地块面积：" + return_info["notice"][i]["total_area"] + "㎡</div>"
                                     html += "<div>规划用途：" + return_info["notice"][i]["plan_use"] + "</div>"
                                     html += "<div>所属区县：" + return_info["notice"][i]["region_name"] + "</div>"
                                     html += "<div>公告日期：" + return_info["notice"][i]["date_begin"] + "/" + return_info["notice"][i]["date_end"] + "</div>"
+                                    html += "<div>成交状态：" + return_info["notice"][i]["region_name"] + "</div>"
                                     console.log(html)
                                 }
                             }
@@ -1258,11 +1266,11 @@
                                     html += "<hr>"
                                     html += "<div>公告编号：" + return_info["deal"][i]["notice_num"] + "</div>"
                                     html += "<div>地块坐落：" + return_info["deal"][i]["land_location"] + "</div>"
-                                    html += "<div>地块面积：" + return_info["deal"][i]["total_area"] + "</div>"
+                                    html += "<div>地块面积：" + return_info["deal"][i]["total_area"] + "㎡</div>"
                                     html += "<div>规划用途：" + return_info["deal"][i]["plan_use"] + "</div>"
                                     html += "<div>所属区县：" + return_info["deal"][i]["region_name"] + "</div>"
                                     html += "<div>公告日期：" + return_info["deal"][i]["date_begin"] + "/" + return_info["deal"][i]["date_end"] + "</div>"
-
+                                    html += "<div>成交状态：" + return_info["notice"][i]["region_name"] + "</div>"
                                 }
 
 
@@ -1279,6 +1287,9 @@
                     }
                 }
         });
+    }
+    function unfold_table() {
+        $('#line_hide_chongqing').slideToggle(easing="linear");
     }
 </script>
 

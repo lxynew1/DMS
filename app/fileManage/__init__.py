@@ -5,6 +5,6 @@
 
 from flask import Blueprint
 
-wechat = Blueprint('wechat', __name__)
+fileManage = Blueprint('fileManage', __name__)
 
-from . import views,views_map
+from . import views

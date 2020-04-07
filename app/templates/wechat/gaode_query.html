@@ -1,0 +1,115 @@
+{#acea3c2ef8fb5f6e779b1ea33be368ab  107.943579, 30.131735#}
+{#可以添加一个自定义变量表示状态，在绘图完成后修改其值，进行其他操作时可以先验证其值#}
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <style>
+        html,
+        body,
+        #container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <title>地块图形绘制</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值&plugin=AMap.MouseTool"></script>
+    <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+    <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
+
+</head>
+<body>
+<div id="container"></div>
+<div class="input-card" style="width: 200px">
+    <input type="hidden" value="{{ parcel_fid }}"
+           id="parcel_fid">
+    <h4 style="margin-bottom: 10px; font-weight: 600">图层管理</h4>
+    <button class="btn" id="add-satellite-layer" style="margin-bottom: 5px">添加卫星图层</button>
+    <button class="btn" id="remove-satellite-layer" style="margin-bottom: 5px">删除卫星图层</button>
+
+
+</div>
+
+<script type="text/javascript">
+    //声明中心点坐标
+    var center = '';
+    var highlight_data = '';
+    var normal_data = '';
+
+    //异步加载数据,请求到数据，先不添加到界面
+    $.ajax({
+        type: "GET",
+        async: false,
+        url: "{{ url_for('wechat.apiMapGaodeParcel') }}",
+        data: {
+            notice_fid: '3825cfe2-72f7-11ea-a33d-005056bd55da',
+        },
+        dataType: "json",
+        success:
+            function (data) {
+                //取出数据高亮和普通的分别显示不同的样式
+                if (data.return_code == '200') {
+                    if (data.return_info['highlight'] != '') {
+                        center = data.return_info['highlight'][0][4]
+                        highlight_data = data.return_info['highlight']
+                        normal_data = data.return_info['normal']
+                    }
+                    else {
+                        center = [106.59080607352749, 29.558039232389678]
+                        normal_data = data.return_info['normal']
+                    }
+                }
+
+            }
+    })
+
+    //原代码
+    var map = new AMap.Map("container", {
+        center: center,
+        zoom: 13
+    });
+
+    // 构造官方卫星、路网图层
+    var satelliteLayer = new AMap.TileLayer.Satellite();
+
+    //批量添加图层
+    map.add([satelliteLayer]);
+
+    //添加异步数据到图层
+    for (i in highlight_data){
+        console.log(highlight_data)
+        var path = highlight_data[i][5]
+        console.log(path)
+        var polygon = new AMap.Polygon({
+                    path: path,
+                    strokeColor: "#3b5998",
+                    strokeWeight: 6,
+                    strokeOpacity: 0.2,
+                    fillOpacity: 0.4,
+                    fillColor: '#ef2e2e',
+                    zIndex: 50,
+                })
+                map.add(polygon)
+    }
+
+
+    //事件绑定
+    document.querySelector("#add-satellite-layer").onclick = function () {
+        map.add(satelliteLayer);
+    }
+    document.querySelector("#remove-satellite-layer").onclick = function () {
+        map.remove(satelliteLayer);
+    }
+
+
+    var mouseTool = new AMap.MouseTool(map)
+
+
+</script>
+</body>
+</html>
+
+

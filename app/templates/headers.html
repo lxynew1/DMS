@@ -12,7 +12,7 @@
         <!--favicon-->
         <link rel="icon" href="{{ url_for('static',filename='assets/images/favicon.ico') }}" type="image/x-icon">
         <!-- simplebar CSS-->
-        <link href="{{ url_for('static',filename='assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet"/>
+        <link href="{{ url_for('static',filename='assets/plugins/simplebar/css/simplebar.css') }}" rel="xia'zsheet"/>
         <!-- Bootstrap core CSS-->
         <link href="{{ url_for('static',filename='assets/css/bootstrap.min.css') }}" rel="stylesheet"/>
         <!-- animate CSS-->
@@ -90,8 +90,8 @@
                     <span>资源共享</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="sidebar-submenu">
-                    <li><a href="ui-typography.html"><i class="zmdi zmdi-long-arrow-right"></i> 软件下载 </a></li>
-{#                    <li><a href="ui-cards.html"><i class="zmdi zmdi-long-arrow-right"></i> Cards</a></li>#}
+                    <li><a href="{{ url_for('fileManage.downloadIndex') }}"><i class="zmdi zmdi-long-arrow-right"></i> 下载中心 </a></li>
+                    <li><a href="{{ url_for('fileManage.upload') }}"><i class="zmdi zmdi-long-arrow-right"></i> 上传</a></li>
 {#                    <li><a href="ui-buttons.html"><i class="zmdi zmdi-long-arrow-right"></i> Buttons</a></li>#}
 {#                    <li><a href="ui-nav-tabs.html"><i class="zmdi zmdi-long-arrow-right"></i> Nav Tabs</a></li>#}
 {#                    <li><a href="ui-accordions.html"><i class="zmdi zmdi-long-arrow-right"></i> Accordions</a></li>#}
@@ -253,7 +253,7 @@
                     <i class="fa fa-angle-left float-right"></i>
                 </a>
                 <ul class="sidebar-submenu">
-{#                    <li><a href="maps-google.html"><i class="zmdi zmdi-long-arrow-right"></i> Google Maps</a></li>#}
+                    <li><a href="{{ url_for('wechat.gaoDeQuery') }}"><i class="zmdi zmdi-long-arrow-right"></i> 地块图层 </a></li>
 {#                    <li><a href="maps-vector.html"><i class="zmdi zmdi-long-arrow-right"></i> Vector Maps</a></li>#}
                 </ul>
             </li>
