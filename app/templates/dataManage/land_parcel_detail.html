@@ -66,12 +66,27 @@
                                             <td :sytle="{vertical-align:'middle'}">{{ parcel_detail_list[i][0] }}</td>
                                             <td vertical-align="middle">{{ parcel_detail_list[i][1] }}</td>
                                             <td vertical-align="middle">{{ parcel_detail_list[i][2] }}</td>
-                                            <td><a href="{{ url_for('wechat.gaoDe',fid=parcel_detail_list[i][3]) }}">
-                                                <button type="button"
-                                                        class="btn btn-outline-primary waves-effect waves-light"
-                                                >绘制图形
-                                                </button></a>
-                                            </td>
+                                            {% if parcel_detail_list[i][4]==None %}
+                                                <td>
+                                                    <a href="{{ url_for('wechat.gaoDe',fid=parcel_detail_list[i][3]) }}">
+                                                        <button type="button"
+                                                                class="btn btn-outline-primary waves-effect waves-light"
+                                                        >绘制图形
+                                                        </button>
+                                                    </a>
+                                                </td>
+
+                                            {% else %}
+                                                <td><a href="#">
+                                                    <button type="button"
+                                                            class="btn btn-outline-primary waves-effect waves-light"
+                                                    >已有图形
+                                                    </button>
+                                                </a>
+                                                </td>
+
+
+                                            {% endif %}
                                         </tr>
                                     {% endfor %}
 

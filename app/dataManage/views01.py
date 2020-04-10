@@ -65,6 +65,7 @@ def objSearchValue(num: int, vlaue: str, data: List[str], obj):
                   <div class="dropdown-menu">
                     <a href="/datamanage/land_sell_deal?fid='''+obj.FID+'''"class="dropdown-item">成交录入</a>
                     <a href="/datamanage/land_parcel_detail?fid='''+obj.FID+'''" class="dropdown-item">地块详情</a>
+                    <a href="/wechat/map/gaode/query?notice_fid='''+obj.FID+'''" class="dropdown-item">地块图形</a>
                   </div>
                   ''',
                 # str(num) + " <a href='/datamanage/land_sell_deal?fid=" + obj.FID + "' target='blank' class='up btn btn-default btn-xs'><i class='fa fa-arrow-up'></i> 编辑</a>",

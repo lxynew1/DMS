@@ -14,18 +14,44 @@
             height: 100%;
         }
     </style>
-    <title>地块图形绘制</title>
+    <title>地块位置查看</title>
     <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
     <script src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值&plugin=AMap.MouseTool"></script>
     <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
     <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
+    <style>
+        html, body, #container {
+            height: 100%;
+            width: 100%;
+        }
 
+        .custom-input-card {
+            width: 18rem;
+        }
+
+        .custom-input-card .btn:last-child {
+            margin-left: 1rem;
+        }
+
+        .content-window-card {
+            position: relative;
+            width: 23rem;
+            padding: 0.75rem 0 0 1.25rem;
+            box-shadow: none;
+            bottom: 0;
+            left: 0;
+        }
+
+        .content-window-card p {
+            height: 2rem;
+        }
+    </style>
 </head>
 <body>
 <div id="container"></div>
 <div class="input-card" style="width: 200px">
-    <input type="hidden" value="{{ parcel_fid }}"
-           id="parcel_fid">
+    <input type="hidden" value="{{ notice_fid }}"
+           id="notice_fid">
     <h4 style="margin-bottom: 10px; font-weight: 600">图层管理</h4>
     <button class="btn" id="add-satellite-layer" style="margin-bottom: 5px">添加卫星图层</button>
     <button class="btn" id="remove-satellite-layer" style="margin-bottom: 5px">删除卫星图层</button>
@@ -34,10 +60,13 @@
 </div>
 
 <script type="text/javascript">
+    var notice_fid = $('#notice_fid').val()
+
     //声明中心点坐标
     var center = '';
     var highlight_data = '';
     var normal_data = '';
+
 
     //异步加载数据,请求到数据，先不添加到界面
     $.ajax({
@@ -45,7 +74,7 @@
         async: false,
         url: "{{ url_for('wechat.apiMapGaodeParcel') }}",
         data: {
-            notice_fid: '3825cfe2-72f7-11ea-a33d-005056bd55da',
+            notice_fid: notice_fid,
         },
         dataType: "json",
         success:
@@ -58,7 +87,8 @@
                         normal_data = data.return_info['normal']
                     }
                     else {
-                        center = [106.59080607352749, 29.558039232389678]
+                        alert('该公告没有找到对应的图形！请绘制')
+                        center = []
                         normal_data = data.return_info['normal']
                     }
                 }
@@ -69,7 +99,7 @@
     //原代码
     var map = new AMap.Map("container", {
         center: center,
-        zoom: 13
+        zoom: 17
     });
 
     // 构造官方卫星、路网图层
@@ -78,22 +108,80 @@
     //批量添加图层
     map.add([satelliteLayer]);
 
-    //添加异步数据到图层
-    for (i in highlight_data){
-        console.log(highlight_data)
-        var path = highlight_data[i][5]
+    map.setMapStyle('amap://styles/2e58bfec79135948719b671d9e9548e1');
+
+    //信息窗体
+    var infoWindow = new AMap.InfoWindow();
+
+    //2.普通数据
+    for (i in normal_data) {
+        console.log(normal_data)
+        var path = normal_data[i][5]
         console.log(path)
         var polygon = new AMap.Polygon({
-                    path: path,
-                    strokeColor: "#3b5998",
-                    strokeWeight: 6,
-                    strokeOpacity: 0.2,
-                    fillOpacity: 0.4,
-                    fillColor: '#ef2e2e',
-                    zIndex: 50,
-                })
-                map.add(polygon)
+            path: path,
+            strokeColor: "#3b5998",
+            strokeWeight: 6,
+            strokeOpacity: 0.2,
+            fillOpacity: 0.4,
+            fillColor: '#1791fc',
+            zIndex: 50,
+        })
+
+        polygon.setExtData(normal_data[i][4])
+        var info = [];
+        info.push("<div class='input-card content-window-card'><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div> ");
+        info.push("<div style=\"padding:7px 0px 0px 0px;\"><h4>赛信不动产资讯</h4>");
+        info.push("<p class='input-item'>公告编号：" + normal_data[i][0] + "</p>");
+        info.push("<p class='input-item'>地块编号：" + normal_data[i][1] + "</p>");
+        info.push("<p class='input-item'>用途：" + normal_data[i][2] + "</p>");
+        info.push("<p class='input-item'>地块面积：" + normal_data[i][3] + "平方米（㎡）</p></div></div>");
+        polygon.content = info.join("")
+        polygon.on('click', markerClick);
+        polygon.emit('click', {target: polygon});
+        map.add(polygon)
     }
+
+    //添加异步数据到图层
+    //1.高亮数据
+    for (i in highlight_data) {
+        var path = highlight_data[i][5]
+        var polygon = new AMap.Polygon({
+            path: path,
+            bubble:true,
+            strokeColor: "#3b5998",
+            strokeWeight: 6,
+            strokeOpacity: 0.2,
+            fillOpacity: 0.4,
+            fillColor: '#ef2e2e',
+            zIndex: 50,
+        })
+
+        polygon.setExtData(highlight_data[i][4])
+        var info = [];
+        info.push("<div class='input-card content-window-card'><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div> ");
+        info.push("<div style=\"padding:7px 0px 0px 0px;\"><h4>赛信不动产资讯</h4>");
+        info.push("<p class='input-item'>公告编号：" + highlight_data[i][0] + "</p>");
+        info.push("<p class='input-item'>地块编号：" + highlight_data[i][1] + "</p>");
+        info.push("<p class='input-item'>用途：" + highlight_data[i][2] + "</p>");
+        info.push("<p class='input-item'>地块面积：" + highlight_data[i][3] + "</p></div></div>");
+        polygon.content = info.join("")
+        polygon.on('click', markerClick);
+        polygon.emit('click', {target: polygon});
+        console.log()
+        map.add(polygon)
+    }
+
+
+    //信息窗体
+
+    function markerClick(e) {
+        infoWindow.setContent(e.target.content);
+        infoWindow.open(map, e.target.getExtData());
+    }
+
+    {#map.setFitView();#}
+    infoWindow.close()
 
 
     //事件绑定

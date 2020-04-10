@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 
 from app import db
 from . import datamanage
-from ..models import DICT_REGION, DICT_LAND_USE, LAND_SELL_INFO, LAND_PARCEL_DETAIL, ENTERPISE_INFO
+from ..models import DICT_REGION, DICT_LAND_USE, LAND_SELL_INFO, LAND_PARCEL_DETAIL, GEO_PARCEL
 
 
 # 土拍公告录入界面
@@ -153,15 +153,25 @@ def landParcelDetail():
         notice_no = LAND_SELL_INFO.query.filter(LAND_SELL_INFO.FID == land_sell_info_fid).first().NOTICE_NUM
     except:
         notice_no = "无"
-    r_parcel_detail = LAND_PARCEL_DETAIL.query.filter(LAND_PARCEL_DETAIL.PARENT_FID == land_sell_info_fid).all()
+    r_parcel_detail = LAND_PARCEL_DETAIL.query.outerjoin(GEO_PARCEL,
+                                                    LAND_PARCEL_DETAIL.FID == GEO_PARCEL.PARCEL_FID).with_entities(
+        LAND_PARCEL_DETAIL.PARCEL_NO,
+        LAND_PARCEL_DETAIL.TOTAL_AREA,
+        LAND_PARCEL_DETAIL.PLAN_USE,
+        LAND_PARCEL_DETAIL.FID,
+        GEO_PARCEL.FID
+        ).filter(
+        LAND_PARCEL_DETAIL.PARENT_FID == land_sell_info_fid).all()
     parcel_detail_list = []
     for i in r_parcel_detail:
-        one_parcel_list = [i.PARCEL_NO,
-                           i.TOTAL_AREA,
-                           i.PLAN_USE,
-                           i.FID]
+        print(i[0])
+        one_parcel_list = [i[0],
+                           i[1],
+                           i[2],
+                           i[3],
+                           i[4]]
         parcel_detail_list.append(one_parcel_list)
-    print(land_sell_info_fid)
+    print(parcel_detail_list)
     # 标准用途分类
     r_standard_use = DICT_LAND_USE.query.filter(DICT_LAND_USE.GRADE == 'CONSTRUCTION_USE_2').all()
     standard_use_dict = {}
@@ -235,8 +245,3 @@ def parcelNoIsRepetition():
         return_dict['return_info'] = '地块编号重复，请检查后输入！'
         return_dict['result'] = False
     return json.dumps(return_dict, ensure_ascii=False)
-
-
-
-
-

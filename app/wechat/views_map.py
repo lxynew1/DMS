@@ -116,7 +116,7 @@ def apiMapGaodeParcel():
         if notice_fid=='' or notice_fid==None:
             notice_fid='1'
         geo_json = {'highlight': '', 'normal': ''}
-
+        #获取需要高亮显示的数据
         result_highlight = GEO_PARCEL.query.join(
             LAND_PARCEL_DETAIL,
             GEO_PARCEL.PARCEL_FID == LAND_PARCEL_DETAIL.FID,
@@ -144,7 +144,7 @@ def apiMapGaodeParcel():
             ]
             result_highlight_list.append(highlight)
         geo_json['highlight'] = result_highlight_list
-
+        #获取其他普通数据
         result_normal = GEO_PARCEL.query.join(
             LAND_PARCEL_DETAIL,
             GEO_PARCEL.PARCEL_FID == LAND_PARCEL_DETAIL.FID,
@@ -160,6 +160,18 @@ def apiMapGaodeParcel():
             GEO_PARCEL.GEO_LIST
 
         ).filter(LAND_SELL_INFO.FID != notice_fid).all()
-        geo_json['normal'] = result_normal
+        result_normal_list = []
+        for i in result_normal:
+            normal = [
+                i[0],
+                i[1],
+                i[2],
+                i[3],
+                eval(i[4]),
+                eval(i[5]),
+            ]
+            result_normal_list.append(normal)
+        geo_json['normal'] = result_normal_list
+
         return_dict['return_info'] = geo_json
     return json.dumps(return_dict, ensure_ascii=False)
