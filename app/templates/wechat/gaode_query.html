@@ -16,7 +16,7 @@
     </style>
     <title>地块位置查看</title>
     <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
-    <script src="https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值&plugin=AMap.MouseTool"></script>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=acea3c2ef8fb5f6e779b1ea33be368ab&plugin=AMap.MouseTool"></script>
     <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
     <script src="{{ url_for('static',filename='assets/js/jquery.min.js') }}"></script>
     <style>
@@ -49,6 +49,15 @@
 </head>
 <body>
 <div id="container"></div>
+ <div class="info">
+    <div class="input-item">
+      <div class="input-item-prepend">
+        <span class="input-item-text" style="width:10rem;">请输入公告编号</span>
+      </div>
+      <input id='input' type="text" value='北京' >
+    </div>
+    <p><span id="input-info"></span></p>
+  </div>
 <div class="input-card" style="width: 200px">
     <input type="hidden" value="{{ notice_fid }}"
            id="notice_fid">
@@ -66,6 +75,7 @@
     var center = '';
     var highlight_data = '';
     var normal_data = '';
+    var zoom = '';
 
 
     //异步加载数据,请求到数据，先不添加到界面
@@ -85,11 +95,13 @@
                         center = data.return_info['highlight'][0][4]
                         highlight_data = data.return_info['highlight']
                         normal_data = data.return_info['normal']
+                        zoom=17
                     }
                     else {
                         alert('该公告没有找到对应的图形！请绘制')
-                        center = []
+                        center = [106.577053,29.557276]
                         normal_data = data.return_info['normal']
+                        zoom=10
                     }
                 }
 
@@ -99,16 +111,20 @@
     //原代码
     var map = new AMap.Map("container", {
         center: center,
-        zoom: 17
+        zoom: 17,
+        mapStyle:'amap://styles/5498668a794b8e78dfaac90cae7dd32c',
+        opacity:0.1
     });
 
     // 构造官方卫星、路网图层
-    var satelliteLayer = new AMap.TileLayer.Satellite();
+    var satelliteLayer = new AMap.TileLayer.Satellite({
+        opacity:0.7
+    });
+
 
     //批量添加图层
     map.add([satelliteLayer]);
 
-    map.setMapStyle('amap://styles/2e58bfec79135948719b671d9e9548e1');
 
     //信息窗体
     var infoWindow = new AMap.InfoWindow();
@@ -191,7 +207,7 @@
     document.querySelector("#remove-satellite-layer").onclick = function () {
         map.remove(satelliteLayer);
     }
-
+    console.log(map.getBounds())
 
     var mouseTool = new AMap.MouseTool(map)
 

@@ -51,4 +51,7 @@ def create_app(config_name='development'):
     from .fileManage import fileManage as fileManage_blueprint
     app.register_blueprint(fileManage_blueprint, url_prefix='/fileManage')
 
+    from .tools import tools as tools_blueprint
+    app.register_blueprint(tools_blueprint, url_prefix='/tools')
+
     return app

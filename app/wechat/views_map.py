@@ -8,7 +8,7 @@ from sqlalchemy import and_, func
 
 from app import db
 from . import wechat
-from ..global_fun import center_geolocation
+from ..global_fun import center_geolocation,get_centerpoint
 from ..models import DICT_REGION, LAND_SELL_INFO, GEO_PARCEL, LAND_PARCEL_DETAIL
 
 
@@ -71,11 +71,15 @@ def postParcelGeoString():
                 geo_list.append(tmp_list)
                 lng_list.append(tmp_list[0])
                 lat_list.append(tmp_list[1])
+            print(max(lat_list)+min(lat_list))
+            center_lat = (float(max(lat_list))+float(min(lat_list)))/2
+            center_lng= (float(min(lng_list))+float(max(lng_list)))/2
+            center_tuple = (center_lng,center_lat)
             geo_parcel = GEO_PARCEL(
                 FID=str(uuid1()),
                 PARCEL_FID=fid,
                 GEO_LIST=str(geo_list),
-                GEO_CENTER=str(list(center_geolocation(geo_list))),
+                GEO_CENTER=str(list(center_tuple)),
                 GEO_N=max(lat_list),
                 GEO_S=min(lat_list),
                 GEO_W=min(lng_list),
