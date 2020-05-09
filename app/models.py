@@ -127,7 +127,7 @@ class LAND_PARCEL_DETAIL(db.Model):
 class LAND_SELL_DEAL(db.Model):
     __tablename__ = 'LAND_SELL_DEAL'
     FID = db.Column(db.String(50), primary_key=True, comment='随机UUID')
-    PARENT_FID = db.Column(db.String(50), nullable=False, comment='公告编号ID')
+    PARENT_FID = db.Column(db.String(50), nullable=False,unique=True, comment='公告编号ID')
     DEAL_PRICE = db.Column(db.Float, nullable=False, comment='成交价（万元）')
     DEAL_ASSIGNMENT_METHOD = db.Column(db.String(50), nullable=False, comment='出让方式')
     DATE_DEAL = db.Column(db.String(50), nullable=False, comment='成交日期')

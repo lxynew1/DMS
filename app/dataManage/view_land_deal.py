@@ -76,12 +76,16 @@ def saveLandDeal():
             return_dict['result'] = False
             state = '0'
         if state == '1':
-            enterprise_fid_list = get_data.get("select_enterprise").split(';')[:-2]
-            print(enterprise_fid_list)
+
+            enterprise_fid_list = get_data.get("select_enterprise").split(';')
+            if len(enterprise_fid_list)==2:
+                enterprise_fid_list.pop()
+            else:
+                enterprise_fid_list=enterprise_fid_list[:-2]
             for i in range(len(enterprise_fid_list)):
                 r_sell_enterprise = R_SELLDEAL_ENTERPISE(
                     FID=str(uuid1()),
-                    DEAL_FID=land_sell_deal_fid,
+                    DEAL_FID=input_land_sell_info_fid,
                     ENTERPISE_FID=enterprise_fid_list[i],
                     CREATE_BY=current_user.id,
                     CREATE_TIME=datetime.datetime.now().strptime(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
