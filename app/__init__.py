@@ -54,4 +54,7 @@ def create_app(config_name='development'):
     from .tools import tools as tools_blueprint
     app.register_blueprint(tools_blueprint, url_prefix='/tools')
 
+    from .extend import extend
+    app.register_blueprint(extend, url_prefix='/extend')
+
     return app

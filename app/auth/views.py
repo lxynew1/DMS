@@ -29,7 +29,7 @@ def register():
 
         # 跳转到主页
         flash('注册成功！', 'massage')
-        return redirect(url_for('admin.home'))
+        return redirect(url_for('admin.hrefLib'))
     else:
         return render_template('auth/authentication-signup.html', form=form)
 

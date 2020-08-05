@@ -69,6 +69,7 @@ def saveLandDeal():
         try:
             db.session.add(land_sell_deal)
             state = '1'
+            print(state)
         except Exception as e:
             print(e)
             return_dict['return_code'] = '1000'
@@ -76,12 +77,17 @@ def saveLandDeal():
             return_dict['result'] = False
             state = '0'
         if state == '1':
-
+            print(get_data.get("select_enterprise"))
             enterprise_fid_list = get_data.get("select_enterprise").split(';')
+            print("分割")
+            print(enterprise_fid_list)
             if len(enterprise_fid_list)==2:
+                print("2wei")
+                print(enterprise_fid_list)
                 enterprise_fid_list.pop()
             else:
-                enterprise_fid_list=enterprise_fid_list[:-2]
+                enterprise_fid_list=enterprise_fid_list[:-1]
+            print(enterprise_fid_list)
             for i in range(len(enterprise_fid_list)):
                 r_sell_enterprise = R_SELLDEAL_ENTERPISE(
                     FID=str(uuid1()),
