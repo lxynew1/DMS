@@ -57,4 +57,7 @@ def create_app(config_name='development'):
     from .extend import extend
     app.register_blueprint(extend, url_prefix='/extend')
 
+    from .crawler import crawler
+    app.register_blueprint(crawler, url_prefix='/crawler')
+
     return app
